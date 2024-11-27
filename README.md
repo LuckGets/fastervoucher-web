@@ -1,50 +1,15 @@
-# React + TypeScript + Vite
+# Hello fellow developer!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+!NOTE
+If you are coming new to this project,
+First, Please take a look at [this document for the easy-to-follow path for setup the project](./docs/dev.md)
+before start developing. Otherwise, happy hacking!
 
-Currently, two official plugins are available:
+### Figma design
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can check our web design with this url. [Figma url](https://www.figma.com/design/L7VFn5qZN02V9zIVkZwoO0/%E0%B8%88%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%99%E0%B8%B2%E0%B8%A1?node-id=0-1&t=IAlxiv7DGWY6efx6-1)
 
-## Expanding the ESLint configuration
+### Server API
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+⚒️⚒️⚒️⚒️⚒️⚒️⚒️ In-progress ⚒️⚒️⚒️⚒️⚒️⚒️⚒️
+![Work In Progress Icon - (487x437) Png Clipart Download](https://www.clipartmax.com/png/full/265-2655834_work-in-progress-icon.png)

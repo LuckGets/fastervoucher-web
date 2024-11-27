@@ -17,7 +17,13 @@ export default tseslint.config(
       vitest.configs.recommended,
       prettier,
       reactPlugin.configs.flat.recommended,
+      reactPlugin.configs.flat["jsx-runtime"]
     ],
+    settings: {
+      react: {
+        version: "detect"
+      }
+    },
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -45,5 +51,10 @@ export default tseslint.config(
         },
       ],
     },
+    ignores: [
+      "package-lock.json",
+      "public",
+      "node_modules"
+    ]
   },
 );
