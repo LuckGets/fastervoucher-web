@@ -1,7 +1,7 @@
 const VoucherCost = () => {
   return (
     <div className="flex gap-4">
-      <div className="h-28 w-28 overflow-hidden rounded-lg">
+      <div className="h-28 w-28 overflow-hidden rounded-lg md:h-36 md:w-36">
         <img
           src="https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg"
           alt="Voucher"

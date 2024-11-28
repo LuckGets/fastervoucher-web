@@ -1,33 +1,46 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import GuestLayout from '../layouts/GuestLayout';
-import HomePage from '../pages/main/HomePage';
-import PageNotFound from '../pages/PageNotFound';
-import HistoryPage from '@/pages/main/HistoryPage';
-import UserPage from '@/pages/main/UserPage';
-import CartPage from '@/pages/main/CartPage';
-import Register from '@/pages/auth/Register';
-import Login from '@/pages/auth/Login';
+import { paths } from '@/config/path';
+
+const GuestLayout = lazy(() => import('../layouts/GuestLayout'));
+const HomePage = lazy(() => import('../pages/main/HomePage'));
+const HistoryPage = lazy(() => import('@/pages/main/HistoryPage'));
+const UserPage = lazy(() => import('@/pages/main/UserPage'));
+const CartPage = lazy(() => import('@/pages/main/CartPage'));
+const Register = lazy(() => import('@/pages/auth/Register'));
+const Login = lazy(() => import('@/pages/auth/Login'));
+const PageNotFound = lazy(() => import('../pages/PageNotFound'));
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <GuestLayout />,
+    path: paths.app.home.path,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <GuestLayout />
+      </Suspense>
+    ),
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'cart', element: <CartPage /> },
-      { path: 'history', element: <HistoryPage /> },
-      { path: 'user', element: <UserPage /> },
-      { path: 'register', element: <Register /> },
-      { path: 'login', element: <Login /> },
+      { path: paths.app.cart.path, element: <CartPage /> },
+      { path: paths.app.history.path, element: <HistoryPage /> },
+      { path: paths.app.user.path, element: <UserPage /> },
+      { path: paths.auth.register.path, element: <Register /> },
+      { path: paths.auth.login.path, element: <Login /> },
       { path: '*', element: <PageNotFound /> },
     ],
+  },
+  {
+    path: '*',
+    element: <PageNotFound />,
   },
 ]);
 
 export default function AppRouter() {
   return (
     <div>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </div>
   );
 }
