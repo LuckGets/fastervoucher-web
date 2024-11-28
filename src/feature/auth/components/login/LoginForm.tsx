@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
-const LoginInput = () => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     identifier: '',
@@ -52,4 +52,4 @@ const LoginInput = () => {
   );
 };
 
-export default LoginInput;
+export default LoginForm;

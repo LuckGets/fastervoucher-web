@@ -1,5 +1,5 @@
-import UserAvatar from '@/components/guest/user/UserAvatar';
-import UserList from '@/components/guest/user/UserList';
+import UserAvatar from '@/feature/user/components/UserAvatar';
+import UserList from '@/feature/user/UserList';
 
 const UserPage = () => {
   return (

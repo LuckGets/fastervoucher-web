@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import LoginInput from './LoginInput';
+import LoginForm from './LoginForm';
 import LoginGoogle from './LoginGoogle';
 
-const LoginForm = () => {
+const LoginWrapper = () => {
   return (
     <div className="mx-auto w-[22rem] rounded-3xl border bg-[#D9DFD7] p-4 shadow-xl md:w-[35rem]">
-      <LoginInput />
+      <LoginForm />
       <div className="mt-6 flex justify-center md:text-lg">
         <Link to="/forget-password">Forget Password</Link>
       </div>
@@ -22,4 +22,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginWrapper;

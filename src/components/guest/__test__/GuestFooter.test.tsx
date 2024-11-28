@@ -14,7 +14,6 @@ describe('Navigation bar', () => {
         <GuestFooter activePath={firstLinkName} />
       </BrowserRouter>,
     );
-    screen.logTestingPlaygroundURL();
     const firstLink = screen.getByRole('link', { name: /home/i });
     expect(firstLink).toBeDefined();
   });
