@@ -3,6 +3,7 @@ import { carouselImages } from '../../../utils/guest/carouselImg';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
@@ -15,8 +16,33 @@ const Carousel = () => {
     );
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStart === null) return;
+
+    const touchEnd = e.changedTouches[0].clientX;
+    const touchDifference = touchStart - touchEnd;
+
+    if (touchDifference > 50) {
+      nextImage();
+    }
+
+    if (touchDifference < -50) {
+      prevImage();
+    }
+
+    setTouchStart(null);
+  };
+
   return (
-    <div className="relative w-full pt-24">
+    <div
+      className="relative w-full pt-24"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="relative h-60 overflow-hidden md:h-96">
         <div className="relative duration-700 ease-in-out">
           <img
@@ -34,7 +60,7 @@ const Carousel = () => {
       >
         <span className="inline-flex h-10 w-10 items-center justify-center">
           <svg
-            className="h-4 w-4 text-white rtl:rotate-180 dark:text-gray-800"
+            className="h-4 w-4 text-white dark:text-gray-800 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -59,7 +85,7 @@ const Carousel = () => {
       >
         <span className="inline-flex h-10 w-10 items-center justify-center">
           <svg
-            className="h-4 w-4 text-white rtl:rotate-180 dark:text-gray-800"
+            className="h-4 w-4 text-white dark:text-gray-800 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
