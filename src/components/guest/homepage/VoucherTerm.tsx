@@ -11,7 +11,7 @@ const VoucherTerm = () => {
       </div>
       <div>
         <h1 className="text-sm font-semibold">เงื่อนไขและข้อกำหนด</h1>
-        <ul className="text-xs md:text-sm">
+        <ul className="list-inside list-disc text-xs md:text-sm">
           <li>
             บัตรกำนัล E-voucher ราคานี้รวมค่าบริการ 10% และภาษีมูลค่าเพิ่ม 7%
           </li>
@@ -41,7 +41,7 @@ const VoucherTerm = () => {
       </div>
       <div>
         <h1 className="text-sm font-semibold">รายละเอียด</h1>
-        <ul className="text-xs md:text-sm">
+        <ul className="list-inside list-disc text-xs md:text-sm">
           <li>
             The e-voucher includes a 10% service charge and a 7% government tax.
           </li>
