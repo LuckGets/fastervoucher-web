@@ -31,7 +31,9 @@ const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <PageNotFound />,
+    lazy: async () => {
+      return { Component: PageNotFound };
+    },
   },
 ]);
 
