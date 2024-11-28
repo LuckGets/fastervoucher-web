@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "preview": "vite preview",
     "test": "vitest",
+    "test-e2e": "pnpm exec playwright test",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -26,6 +27,7 @@
     "react-router-dom": "^7.0.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "voucher-web": "link:",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
   },
