@@ -1,14 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { footerLinks } from '../../utils/guest/footerLinks';
 
-const GuestFooter = () => {
-  const location = useLocation();
-  const pathname = location.pathname;
+type ComponentProps = {
+  activePath: string;
+};
 
+const GuestFooter = ({ activePath }: ComponentProps) => {
   return (
     <div className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-white">
       {footerLinks.map((i, index) => {
-        const isActive = pathname === i.href;
+        const isActive = activePath === i.href;
 
         return (
           <div
