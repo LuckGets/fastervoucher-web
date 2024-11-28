@@ -7,6 +7,7 @@ import prettier from 'eslint-config-prettier';
 import vitest from 'eslint-plugin-vitest';
 import testingLibrary from 'eslint-plugin-testing-library';
 import reactPlugin from 'eslint-plugin-react';
+import eslintPluginImportX from "eslint-plugin-import-x"
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -14,6 +15,8 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
+      eslintPluginImportX.flatConfigs.recommended,
+      eslintPluginImportX.flatConfigs.typescript,
       vitest.configs.recommended,
       prettier,
       reactPlugin.configs.flat.recommended,
