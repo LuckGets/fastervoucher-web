@@ -39,15 +39,15 @@ const Carousel = () => {
 
   return (
     <div
-      className="relative w-full pt-24"
+      className="relative w-full"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-60 overflow-hidden md:h-96">
+      <div className="relative h-60 overflow-hidden md:h-96 lg:h-[35rem]">
         <div className="relative duration-700 ease-in-out">
           <img
             src={carouselImages[currentIndex].src}
-            className="absolute block h-60 w-full object-cover"
+            className="absolute block h-60 w-full object-cover md:h-96 lg:h-[35rem]"
             alt={`Image ${currentIndex + 1}`}
           />
         </div>
@@ -55,7 +55,7 @@ const Carousel = () => {
 
       <button
         type="button"
-        className="group absolute left-0 top-56 z-30 flex h-12 w-12 -translate-y-1/2 transform cursor-pointer items-center justify-center focus:outline-none"
+        className="group absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 transform cursor-pointer items-center justify-center focus:outline-none"
         onClick={prevImage}
       >
         <span className="inline-flex h-10 w-10 items-center justify-center">
@@ -80,7 +80,7 @@ const Carousel = () => {
 
       <button
         type="button"
-        className="group absolute right-0 top-56 z-30 flex h-12 w-12 -translate-y-1/2 transform cursor-pointer items-center justify-center focus:outline-none"
+        className="group absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 transform cursor-pointer items-center justify-center focus:outline-none"
         onClick={nextImage}
       >
         <span className="inline-flex h-10 w-10 items-center justify-center">
