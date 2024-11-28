@@ -6,14 +6,14 @@ const GuestFooter = () => {
   const pathname = location.pathname;
 
   return (
-    <div className="fixed bottom-0 left-5 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-white">
+    <div className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-white">
       {footerLinks.map((i, index) => {
         const isActive = pathname === i.href;
 
         return (
           <div
             key={index}
-            className={`flex h-14 w-14 items-center justify-center rounded-full p-2 ${isActive ? 'bg-[#12412b]' : 'active:bg-[#12412b]'}`}
+            className={`flex h-14 w-14 items-center justify-center rounded-full p-2 ${isActive ? 'bg-[#00000051]' : 'active:bg-[#0000002e]'}`}
           >
             <Link to={i.href} className="flex flex-col items-center">
               <img
