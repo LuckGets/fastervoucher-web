@@ -14,15 +14,15 @@ const Voucher = () => {
           />
           <h1 className="mt-2 truncate">{i.name}</h1>
           <div className="flex items-center">
-            {i.promotion ? (
+            {!i.promotion ? (
+              <h2 className="text-xs text-gray-500">{i.price}</h2>
+            ) : (
               <>
                 <h2 className="text-xs text-gray-500 line-through">
                   {i.price}
                 </h2>
                 <span className="ml-2 text-xs text-red-500">{i.promotion}</span>
               </>
-            ) : (
-              <h2 className="text-xs text-gray-500 line-through">{i.price}</h2>
             )}
           </div>
         </div>

@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 it('should return hello world', () => {
   render(<App />);
 
-  const text = screen.getByText('Hello world');
+  const text = screen.getByText('Hello World');
 
   expect(text).toBeDefined();
 });
