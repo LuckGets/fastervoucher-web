@@ -1,11 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { footerLinks } from '../../utils/guest/footerLinks';
 import useCartStore from '@/stores/cart-store';
 
-const GuestFooter = () => {
+type ComponentProps = {
+  activePath: string;
+};
+
+const GuestFooter = ({ activePath }: ComponentProps) => {
   const { items } = useCartStore();
-  const location = useLocation();
-  const pathname = location.pathname;
 
   const cartHasItems = items.length > 0;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -13,7 +15,7 @@ const GuestFooter = () => {
   return (
     <div className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-white">
       {footerLinks.map((i, index) => {
-        const isActive = pathname === i.href;
+        const isActive = activePath === i.href;
 
         return (
           <div

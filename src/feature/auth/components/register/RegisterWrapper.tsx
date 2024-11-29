@@ -1,14 +1,18 @@
 import { Link } from 'react-router-dom';
-import RegisterInput from './RegisterInput';
+import RegisterForm from './RegisterForm';
+import { paths } from '@/config/path';
 
-const RegisterForm = () => {
+const RegisterWrapper = () => {
   return (
     <div className="mx-auto w-[22rem] rounded-3xl border bg-[#D9DFD7] p-4 shadow-xl md:w-[35rem]">
-      <RegisterInput />
+      <RegisterForm />
       <div className="mb-6 mt-6 flex justify-center md:text-lg">
         <span className="flex gap-1 text-[#787676]">
           Back to
-          <Link to="/login" className="font-semibold text-primary">
+          <Link
+            to={paths.auth.login.path}
+            className="font-semibold text-primary"
+          >
             login
           </Link>
         </span>
@@ -17,4 +21,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default RegisterWrapper;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
-const RegisterInput = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -54,10 +54,10 @@ const RegisterInput = () => {
         </button>
       </div>
       <button className="w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4">
-        Register
+        Create Account
       </button>
     </form>
   );
 };
 
-export default RegisterInput;
+export default RegisterForm;

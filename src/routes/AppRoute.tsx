@@ -3,13 +3,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { paths } from '@/config/path';
 
 const GuestLayout = lazy(() => import('../layouts/GuestLayout'));
-const HomePage = lazy(() => import('../pages/main/HomePage'));
-const HistoryPage = lazy(() => import('@/pages/main/HistoryPage'));
-const UserPage = lazy(() => import('@/pages/main/UserPage'));
-const CartPage = lazy(() => import('@/pages/main/CartPage'));
-const Register = lazy(() => import('@/pages/auth/Register'));
-const Login = lazy(() => import('@/pages/auth/Login'));
-const PageNotFound = lazy(() => import('../pages/PageNotFound'));
+const HomePage = lazy(() => import('@/feature/main/page/HomePage'));
+const HistoryPage = lazy(() => import('@/feature/main/page/HistoryPage'));
+const UserPage = lazy(() => import('@/feature/main/page/UserPage'));
+const CartPage = lazy(() => import('@/feature/main/page/CartPage'));
+const Register = lazy(() => import('@/feature/auth/page/Register'));
+const Login = lazy(() => import('@/feature/auth/page/Login'));
+const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
   {

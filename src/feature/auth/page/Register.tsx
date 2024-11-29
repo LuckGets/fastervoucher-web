@@ -1,9 +1,9 @@
-import RegisterForm from '@/components/auth/register/RegisterForm';
+import RegisterWrapper from '@/feature/auth/components/register/RegisterWrapper';
 
 const Register = () => {
   return (
     <div className="flex w-full items-center justify-center overflow-x-hidden px-4 py-8">
-      <RegisterForm />
+      <RegisterWrapper />
     </div>
   );
 };
