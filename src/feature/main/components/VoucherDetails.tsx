@@ -33,7 +33,9 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
       padding: '20px',
       customClass: {
         popup: 'small-popup',
+        confirmButton: 'custom-confirm-button',
       },
+      buttonsStyling: false,
       confirmButtonText: 'OK',
     }).then((result) => {
       if (result.isConfirmed) {

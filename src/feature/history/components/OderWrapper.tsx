@@ -19,6 +19,7 @@ const OderWrapper = () => {
                 {new Date(item.date).toLocaleTimeString([], {
                   hour: '2-digit',
                   minute: '2-digit',
+                  hour12: false,
                 })}
               </h1>
             </div>

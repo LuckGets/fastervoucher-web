@@ -53,7 +53,7 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
         {isEditing ? (
           <input
             type="text"
-            className="w-full rounded-full bg-[#D9D9D9] p-2 px-2 py-1 text-sm"
+            className="w-full rounded-full bg-[#D9D9D9] p-4 px-2 py-1"
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
           />

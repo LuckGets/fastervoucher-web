@@ -9,6 +9,7 @@ const UserPage = lazy(() => import('@/feature/main/page/UserPage'));
 const CartPage = lazy(() => import('@/feature/main/page/CartPage'));
 const Register = lazy(() => import('@/feature/auth/page/Register'));
 const Login = lazy(() => import('@/feature/auth/page/Login'));
+const VerifyEmail = lazy(() => import('@/feature/auth/page/VerifyEmail'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: paths.main.user.path, element: <UserPage /> },
       { path: paths.auth.register.path, element: <Register /> },
       { path: paths.auth.login.path, element: <Login /> },
+      { path: paths.auth.verifyEmail.path, element: <VerifyEmail /> },
       { path: '*', element: <PageNotFound /> },
     ],
   },
