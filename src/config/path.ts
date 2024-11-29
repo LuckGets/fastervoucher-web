@@ -1,5 +1,5 @@
 export const paths = {
-  app: {
+  main: {
     home: {
       label: 'Home',
       path: '/',

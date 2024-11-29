@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 describe('Navigation bar', () => {
   test('it should render all the links inside home page', () => {
     // Get all the path in app page.
-    const appPathArr = Object.entries(paths.app);
+    const appPathArr = Object.entries(paths.main);
     render(
       <BrowserRouter>
         <GuestFooter activePath={appPathArr[0][1].path} />

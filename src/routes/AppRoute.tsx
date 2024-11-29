@@ -13,7 +13,7 @@ const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
   {
-    path: paths.app.home.path,
+    path: paths.main.home.path,
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <GuestLayout />
@@ -21,9 +21,9 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <HomePage /> },
-      { path: paths.app.cart.path, element: <CartPage /> },
-      { path: paths.app.history.path, element: <HistoryPage /> },
-      { path: paths.app.user.path, element: <UserPage /> },
+      { path: paths.main.cart.path, element: <CartPage /> },
+      { path: paths.main.history.path, element: <HistoryPage /> },
+      { path: paths.main.user.path, element: <UserPage /> },
       { path: paths.auth.register.path, element: <Register /> },
       { path: paths.auth.login.path, element: <Login /> },
       { path: '*', element: <PageNotFound /> },
