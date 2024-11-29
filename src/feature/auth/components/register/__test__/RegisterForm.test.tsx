@@ -48,5 +48,5 @@ describe('Register form', () => {
     });
   });
 
-  describe('Phone number input box', () => {});
+  describe.todo('Phone number input box');
 });

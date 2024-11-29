@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach } from 'vitest';
 import { screen, render, cleanup } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,18 +11,12 @@ const passwordPlaceholderText = 'Password';
 
 describe('Login Form', () => {
   let screenContainer: HTMLElement;
-  beforeAll(() => {
-    const { container } = render(
-      <BrowserRouter>
-        <LoginForm />
-      </BrowserRouter>,
-    );
-    screenContainer = container;
-  });
-
-  afterEach(() => {
-    cleanup();
-  });
+  const { container } = render(
+    <BrowserRouter>
+      <LoginForm />
+    </BrowserRouter>,
+  );
+  screenContainer = container;
 
   it('renders a form', () => {
     expect(screenContainer.querySelector(`div > form`)).toBeInTheDocument();
@@ -36,6 +30,12 @@ describe('Login Form', () => {
     const mockUserKeyboard = 'john';
     let loginInput: QueryElement;
     beforeEach(() => {
+      cleanup();
+      render(
+        <BrowserRouter>
+          <LoginForm />
+        </BrowserRouter>,
+      );
       loginInput = screen.getByPlaceholderText(identifierPlaceholderText);
     });
     it(`should render an input which contain ${identifierPlaceholderText} placeholder text`, () => {
