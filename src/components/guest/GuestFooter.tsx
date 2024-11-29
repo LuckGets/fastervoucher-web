@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { footerLinks } from '../../utils/guest/footerLinks';
+import { footerLinks } from '../../utils/main/footerLinks';
 import useCartStore from '@/stores/cart-store';
 
 type ComponentProps = {
@@ -13,7 +13,7 @@ const GuestFooter = ({ activePath }: ComponentProps) => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-white">
+    <div className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl bg-[#006838] text-textWhite">
       {footerLinks.map((i, index) => {
         const isActive = activePath === i.href;
 

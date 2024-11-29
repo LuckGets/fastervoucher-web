@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import LoginGoogle from './LoginGoogle';
+import { paths } from '@/config/path';
 
 const LoginWrapper = () => {
   return (
@@ -13,7 +14,10 @@ const LoginWrapper = () => {
       <div className="mb-6 mt-6 flex justify-center md:text-lg">
         <span className="flex gap-1 text-[#787676]">
           Create Account
-          <Link to="/register" className="font-semibold text-primary">
+          <Link
+            to={paths.auth.register.path}
+            className="font-semibold text-primary"
+          >
             register
           </Link>
         </span>

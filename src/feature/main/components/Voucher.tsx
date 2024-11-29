@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { vouchers } from '../../../utils/guest/vouchers';
+import { vouchers } from '../../../utils/main/vouchers';
 import VoucherDetails from './VoucherDetails';
 
 interface VoucherProps {
