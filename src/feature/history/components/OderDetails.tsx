@@ -10,6 +10,7 @@ interface Voucher {
 
 interface OrderDetailProps {
   orderDetail: {
+    id: number;
     src: string;
     name: string;
     restaurant: string;
@@ -21,7 +22,7 @@ interface OrderDetailProps {
 }
 
 const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
-  const [open, setOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const truncateText = (text: string, length: number) => {
     if (text.length > length) {
@@ -30,14 +31,14 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
     return text;
   };
 
-  const handleOnClick = () => {
-    setOpen(!open);
+  const handleOnClick = (id: number) => {
+    setOpenIndex(openIndex === id ? null : id);
   };
 
   return (
     <>
       <div
-        onClick={handleOnClick}
+        onClick={() => handleOnClick(orderDetail.id)}
         className="z-20 flex w-full cursor-pointer items-center space-x-4 rounded-2xl bg-[#E1E1E1] p-3"
       >
         <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl">
@@ -64,10 +65,10 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
           </div>
         </div>
       </div>
-      {open && (
+      {openIndex === orderDetail.id && (
         <VoucherTicket
           vouchers={orderDetail.vouchers}
-          freeVouchers={orderDetail.freeVoucher} // Passing free vouchers
+          freeVouchers={orderDetail.freeVoucher}
         />
       )}
     </>

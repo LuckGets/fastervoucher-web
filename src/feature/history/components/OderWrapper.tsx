@@ -1,10 +1,10 @@
 import { CalendarDays, Clock3 } from 'lucide-react';
 import { orderLists } from '@/utils/main/orderLists';
-import OderDetails from './OderDetails';
+import OrderDetails from './OderDetails';
 
 const OderWrapper = () => {
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-4">
       {orderLists.map((item, index) => (
         <div key={index}>
           <div className="flex items-center justify-between text-xs text-basicGray">
@@ -25,7 +25,7 @@ const OderWrapper = () => {
           </div>
 
           {item.OrderDetails.map((detail, detailIndex) => (
-            <OderDetails key={detailIndex} orderDetail={detail} />
+            <OrderDetails key={detailIndex} orderDetail={detail} />
           ))}
         </div>
       ))}
