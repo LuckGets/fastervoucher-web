@@ -17,6 +17,18 @@ export default {
 					DEFAULT: '#006838',
 					foreground: '#F7F3ED',
 				},
+				text: {
+					DEFAULT: '#3F3F3F',
+					foreground: '#F7F3ED',
+				},
+				basicGray: {
+					DEFAULT: '#888888',
+					foreground: '#F7F3ED',
+				},
+				textWhite: {
+					DEFAULT: '#F7F3ED',
+					foreground: '#F7F3ED',
+				},
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {

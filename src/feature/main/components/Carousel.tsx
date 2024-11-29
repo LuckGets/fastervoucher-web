@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { carouselImages } from '../../../utils/guest/carouselImg';
+import { carouselImages } from '../../../utils/main/carouselImg';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

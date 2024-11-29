@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { carouselImages } from '@/utils/guest/carouselImg';
+import { carouselImages } from '@/utils/main/carouselImg';
 
 const MainCarousel = () => {
   return (

@@ -16,7 +16,7 @@ const CartItems = () => {
       ) : (
         <ul className="mt-4 space-y-6">
           {items.map((item) => (
-            <li key={item.id} className="flex items-center gap-6 border-b pb-4">
+            <li key={item.id} className="flex items-center gap-4 border-b pb-4">
               <div className="h-24 w-24 overflow-hidden rounded-lg border">
                 <img
                   src={item.src}
@@ -24,7 +24,7 @@ const CartItems = () => {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex flex-1 flex-col justify-between">
                 <h2 className="text-sm font-semibold md:text-base">
                   {item.name}
                 </h2>
@@ -35,7 +35,7 @@ const CartItems = () => {
                   THB {item.price} NET
                 </p>
               </div>
-              <div className="flex flex-col items-center gap-10">
+              <div className="flex flex-col items-center gap-4">
                 <button
                   className="self-end text-gray-500 transition hover:text-red-500"
                   onClick={() => removeFromCart(item.id)}
@@ -44,14 +44,14 @@ const CartItems = () => {
                 </button>
                 <div className="flex items-center gap-4">
                   <button
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300"
+                    className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300 md:h-7 md:w-7"
                     onClick={() => decrease(item.id)}
                   >
                     -
                   </button>
                   <span className="text-base font-medium">{item.quantity}</span>
                   <button
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300"
+                    className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300 md:h-7 md:w-7"
                     onClick={() => increase(item.id)}
                   >
                     +
