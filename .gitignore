@@ -29,6 +29,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Test snapshot
+**/__snapshots__
+
 *storybook.log
 /test-results/
 /playwright-report/

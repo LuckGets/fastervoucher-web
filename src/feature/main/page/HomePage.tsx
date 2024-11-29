@@ -1,5 +1,5 @@
-import Voucher from '@/components/guest/homepage/Voucher';
-import Carousel from '../../components/guest/homepage/Carousel';
+import Carousel from '@/feature/main/components/Carousel';
+import Voucher from '@/feature/main/components/Voucher';
 
 const HomePage = () => {
   return (

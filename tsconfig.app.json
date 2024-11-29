@@ -7,6 +7,9 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    // type for test
+    "types": ["@testing-library/jest-dom"],
+
     /* Path for shadcnUI */
     "baseUrl": ".",
     "paths": {

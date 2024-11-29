@@ -1,4 +1,4 @@
-import CartItems from '@/components/cart/CartItems';
+import CartItems from '@/feature/cart/components/CartItems';
 
 const CartPage = () => {
   return (

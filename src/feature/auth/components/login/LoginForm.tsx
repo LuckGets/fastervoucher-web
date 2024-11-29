@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
-const LoginInput = () => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     identifier: '',
@@ -19,7 +19,7 @@ const LoginInput = () => {
       <input
         type="text"
         className="w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl"
-        placeholder="Email or Phone"
+        placeholder="Email or phone"
         name="identifier"
         value={form.identifier}
         onChange={hdlOnChange}
@@ -52,4 +52,4 @@ const LoginInput = () => {
   );
 };
 
-export default LoginInput;
+export default LoginForm;
