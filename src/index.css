@@ -75,3 +75,18 @@
   padding: 15px;
   border-radius: 8px;
 }
+
+.custom-confirm-button {
+  background-color: #006838;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-confirm-button:hover {
+  background-color: #0000003e;
+}

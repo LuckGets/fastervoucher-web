@@ -27,6 +27,10 @@ export const paths = {
       label: 'Register',
       path: '/auth/register',
     },
+    verifyEmail: {
+      label: 'Verify Email',
+      path: '/auth/verify-email',
+    },
   },
 
   user: {
