@@ -7,14 +7,14 @@ import { BrowserRouter } from 'react-router-dom';
 describe('Navigation bar', () => {
   test('it should render all the links inside home page', () => {
     // Get all the path in app page.
-    const homePathsArr = Object.keys(paths.app);
-    const firstLinkName = homePathsArr[0];
+    const appPathArr = Object.entries(paths.app);
     render(
       <BrowserRouter>
-        <GuestFooter activePath={firstLinkName} />
+        <GuestFooter activePath={appPathArr[0][1].path} />
       </BrowserRouter>,
     );
-    const firstLink = screen.getByRole('link', { name: /home/i });
-    expect(firstLink).toBeDefined();
+    appPathArr.forEach((item) => {
+      expect(screen.getByText(item[1].label)).toBeInTheDocument();
+    });
   });
 });

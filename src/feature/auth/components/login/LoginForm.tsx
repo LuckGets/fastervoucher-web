@@ -19,7 +19,7 @@ const LoginForm = () => {
       <input
         type="text"
         className="w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl"
-        placeholder="Email or Phone"
+        placeholder="Email or phone"
         name="identifier"
         value={form.identifier}
         onChange={hdlOnChange}
