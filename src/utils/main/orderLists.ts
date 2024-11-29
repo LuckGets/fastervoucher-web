@@ -6,6 +6,7 @@ interface Voucher {
 }
 
 interface OrderDetail {
+  id: number;
   src: string;
   name: string;
   restaurant: string;
@@ -27,6 +28,7 @@ export const orderLists: OrderListItem[] = [
     date: '2024-11-19 23:59:59',
     OrderDetails: [
       {
+        id: 12,
         src: 'https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg',
         name: 'Premium Sushi & Seafood Buffet Dinner',
         restaurant: 'The Emerald Coffee Shop',
@@ -65,6 +67,7 @@ export const orderLists: OrderListItem[] = [
     date: '2024-10-20 23:59:59',
     OrderDetails: [
       {
+        id: 13,
         src: 'https://scontent.fbkk5-7.fna.fbcdn.net/v/t1.6435-9/52980043_603300676797601_1693792066246541312_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cf85f3&_nc_ohc=PXT7OHoGEHgQ7kNvgHKW0Lf&_nc_zt=23&_nc_ht=scontent.fbkk5-7.fna&_nc_gid=A8qsz90gRkMUIreCXR8wlGP&oh=00_AYCeOxirU8OYlV6NfNGJSL6-GqX7Oxhz_2a-FTmbhD6P6Q&oe=67711FB1',
         name: 'All You can eat dim sum lunch',
         restaurant: 'Yok Chinese Restaurant',
