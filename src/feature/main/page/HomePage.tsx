@@ -1,4 +1,4 @@
-import Carousel from '@/feature/main/components/Voucher';
+import Carousel from '@/feature/main/components/Carousel';
 import Voucher from '@/feature/main/components/Voucher';
 
 const HomePage = () => {

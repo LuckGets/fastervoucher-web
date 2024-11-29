@@ -1,9 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import RegisterForm from '../RegisterForm';
-import { beforeEach } from 'node:test';
+
 import userEvent from '@testing-library/user-event';
-import { QueryElement } from '@/testing/test-util';
 
 describe('Register form', () => {
   // render for the pre-screen test.
@@ -29,7 +28,7 @@ describe('Register form', () => {
 
     beforeEach(() => {
       cleanup();
-      const { container } = render(<RegisterForm />);
+      render(<RegisterForm />);
     });
 
     it('should have an input contain "Email" placeholder text', () => {
