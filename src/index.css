@@ -69,3 +69,9 @@
 * {
   font-family: 'Kanit', sans-serif;
 }
+
+.swal2-popup.small-popup {
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 8px;
+}

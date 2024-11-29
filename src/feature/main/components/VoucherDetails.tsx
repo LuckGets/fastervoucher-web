@@ -2,6 +2,9 @@ import { ShoppingCart, X } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherTerm from './VoucherTerm';
 import useCartStore from '@/stores/cart-store';
+import Swal from 'sweetalert2'; // เพิ่มการ import SweetAlert2
+import { paths } from '@/config/path';
+import { useNavigate } from 'react-router-dom';
 
 interface VoucherDetailsProps {
   onClose: () => void;
@@ -9,6 +12,7 @@ interface VoucherDetailsProps {
 
 const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
   const addToCart = useCartStore((state) => state.addToCart);
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
     const voucher = {
@@ -20,7 +24,22 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
       src: 'https://scontent.fbkk6-1.fna.fbcdn.net/v/t1.6435-9/52980043_603300676797601_1693792066246541312_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cf85f3&_nc_ohc=gmlopdawGwgQ7kNvgFCZcqD&_nc_zt=23&_nc_ht=scontent.fbkk6-1.fna&_nc_gid=APGVyPusSIruhviBrR7OYHK&oh=00_AYDSiDwo2YTxzfJg65113NiIz0ISuksUxf18zZoQWQenTQ&oe=6770AF31',
     };
     addToCart(voucher);
-    alert('Added to cart!');
+
+    Swal.fire({
+      title: 'Added to cart!',
+      text: `Voucher '${voucher.name}' has been added to your cart.`,
+      icon: 'success',
+      width: '80%',
+      padding: '20px',
+      customClass: {
+        popup: 'small-popup',
+      },
+      confirmButtonText: 'OK',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(paths.main.cart.path);
+      }
+    });
   };
 
   return (

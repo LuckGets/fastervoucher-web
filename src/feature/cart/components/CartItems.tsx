@@ -44,14 +44,14 @@ const CartItems = () => {
                 </button>
                 <div className="flex items-center gap-4">
                   <button
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-[#888888] transition hover:bg-gray-300"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300"
                     onClick={() => decrease(item.id)}
                   >
                     -
                   </button>
                   <span className="text-base font-medium">{item.quantity}</span>
                   <button
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-[#888888] transition hover:bg-gray-300"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-lg text-[#888888] transition hover:bg-gray-300"
                     onClick={() => increase(item.id)}
                   >
                     +
