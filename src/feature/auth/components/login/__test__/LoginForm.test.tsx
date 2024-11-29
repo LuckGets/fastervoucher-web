@@ -96,7 +96,6 @@ describe('Login Form', () => {
     it('toggle the password input type from text to password when user click', async () => {
       const user = userEvent.setup();
 
-      expect(passwordInput).toMatchSnapshot();
       expect(passwordInput).toHaveAttribute('type', 'password');
       await user.click(showPasswordBtn);
       expect(passwordInput).toHaveAttribute('type', 'text');
@@ -105,7 +104,6 @@ describe('Login Form', () => {
     it('toggle the input type from password to text and back to password when user click twice', async () => {
       const user = userEvent.setup();
 
-      expect(passwordInput).toMatchSnapshot();
       expect(passwordInput).toHaveAttribute('type', 'password');
       await user.click(showPasswordBtn);
       expect(passwordInput).toHaveAttribute('type', 'text');

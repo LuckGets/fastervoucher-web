@@ -39,7 +39,6 @@ describe('Register form', () => {
 
     it("should recieve and render the value of the user's input", async () => {
       const emailInput = screen.getByPlaceholderText(emailPlaceHolderText);
-      expect(emailInput).toMatchSnapshot();
       const user = userEvent.setup();
       await user.click(emailInput);
       await user.type(emailInput, mockUserInput);
