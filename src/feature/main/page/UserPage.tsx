@@ -5,7 +5,7 @@ import { userInfo } from '@/utils/user/userinfo';
 const UserPage = () => {
   return (
     <div className="flex w-screen flex-col items-center px-14 text-[#3F3F3F] md:px-8 lg:px-16">
-      <div className="flex w-full max-w-4xl flex-col items-center">
+      <div className="mt-4 flex w-full max-w-4xl flex-col items-center">
         <UserAvatar />
         <h1 className="mt-6 text-xl font-semibold md:text-3xl">
           {userInfo.name}

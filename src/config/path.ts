@@ -31,6 +31,14 @@ export const paths = {
       label: 'Verify Email',
       path: '/auth/verify-email',
     },
+    forgetPassword: {
+      label: 'Forget Password',
+      path: '/auth/forget-password',
+    },
+    resetPassword: {
+      label: 'Reset Password',
+      path: '/auth/reset-password',
+    },
   },
 
   user: {
