@@ -3,6 +3,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 
 interface Errors {
+  email?: string;
   name?: string;
   phone?: string;
   password?: string;
@@ -50,10 +51,10 @@ const RegisterForm = () => {
     >
       <input
         type="text"
-        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.name ? 'border border-error' : ''}`}
-        placeholder="Name"
-        name="name"
-        value={form.name}
+        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.email ? 'border border-error' : ''}`}
+        placeholder="Email"
+        name="email"
+        value={form.email}
         onChange={(e) => handleInputChange(e, setForm, form)}
       />
 
