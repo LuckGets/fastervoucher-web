@@ -9,8 +9,9 @@ const VerifyEmail = () => {
       </h1>
       <div className="mb-6 text-center text-sm text-gray-500">
         <p>An OTP has been sent to your email address</p>
-        <p className="font-semibold">{userInfo.email}</p>
-        <p>Please check your inbox.</p>
+        <p className="font-semibold">
+          {userInfo.email} <p>Please check your inbox.</p>
+        </p>
       </div>
       <Verify />
     </div>

@@ -1,10 +1,11 @@
 import Voucher from '@/feature/main/components/Voucher';
-import MainCarousel from '../components/MainCarousel';
+// import MainCarousel from '../components/MainCarousel';
+import CarouselV2 from '../components/CarouselV2';
 
 const HomePage = () => {
   return (
     <div>
-      <MainCarousel />
+      <CarouselV2 />
       <Voucher />
     </div>
   );

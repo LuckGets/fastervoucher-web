@@ -59,7 +59,7 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
             </h1>
           </div>
 
-          <div className="flex flex-col items-end gap-1 text-xs text-[#3F3F3F]">
+          <div className="flex flex-col items-end gap-4 text-xs text-[#3F3F3F]">
             <p>X {orderDetail.quantity}</p>
             {orderDetail.free && <p>Free {orderDetail.free}</p>}
           </div>

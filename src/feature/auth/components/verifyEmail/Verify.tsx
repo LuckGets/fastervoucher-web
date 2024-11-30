@@ -49,7 +49,7 @@ const Verify = () => {
       </div>
       <button
         onClick={handleSubmit}
-        className="rounded-md bg-primary px-6 py-2 text-lg text-white hover:bg-opacity-90 focus:outline-none"
+        className="rounded-full bg-primary px-6 py-2 text-lg text-white hover:bg-opacity-90 focus:outline-none"
       >
         Confirm
       </button>

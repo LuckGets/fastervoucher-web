@@ -7,7 +7,7 @@ const OderWrapper = () => {
     <div className="flex w-full flex-col gap-4">
       {orderLists.map((item, index) => (
         <div key={index}>
-          <div className="flex items-center justify-between text-xs text-basicGray">
+          <div className="flex items-center justify-between px-3 text-xs text-basicGray">
             <h1>OrderID: {item.orderId}</h1>
             <div className="flex items-center gap-2">
               <h1 className="flex items-center gap-1">
