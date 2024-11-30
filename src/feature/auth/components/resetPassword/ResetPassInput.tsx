@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 interface Errors {
   name?: string;
@@ -9,7 +9,7 @@ interface Errors {
   confirmPassword?: string;
 }
 
-const RegisterForm = () => {
+const ResetPassInput = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
@@ -17,25 +17,21 @@ const RegisterForm = () => {
 
   const validateForm = () => {
     const newErrors: Errors = {};
-    if (!form.name) newErrors.name = 'Name is required';
-    if (!form.phone) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\d{10}$/.test(form.phone)) {
-      newErrors.phone = 'Phone number must be a 10-digit number';
-    }
     if (!form.password) {
       newErrors.password = 'Password is required';
     } else if (form.password.length < 6 && !(form.password.length > 20)) {
       newErrors.password = 'Password must be at least 6-20 characters';
     }
-    if (form.password !== form.confirmPassword)
+    if (form.password !== form.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
     return newErrors;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
+    console.log('Validation Errors:', validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form submitted', form);
     } else {
@@ -45,31 +41,13 @@ const RegisterForm = () => {
 
   return (
     <form
-      className="mt-4 flex flex-col items-center gap-4"
       onSubmit={handleSubmit}
+      className="flex w-full max-w-md flex-col items-center gap-4 px-6"
     >
-      <input
-        type="text"
-        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.name ? 'border border-error' : ''}`}
-        placeholder="Name"
-        name="name"
-        value={form.name}
-        onChange={(e) => handleInputChange(e, setForm, form)}
-      />
-
-      <input
-        type="text"
-        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.phone ? 'border border-error' : ''}`}
-        placeholder="Phone number"
-        name="phone"
-        value={form.phone}
-        onChange={(e) => handleInputChange(e, setForm, form)}
-      />
-
-      <div className="relative w-[80%]">
+      <div className="relative w-full">
         <input
           type={showPassword ? 'text' : 'password'}
-          className={`w-full rounded-full p-2 pr-10 text-center md:p-4 md:text-xl ${errors.password ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 text-center md:p-4 md:text-xl ${errors.password ? 'border-2 border-error' : ''}`}
           placeholder="Password"
           name="password"
           value={form.password}
@@ -88,10 +66,10 @@ const RegisterForm = () => {
         </button>
       </div>
 
-      <div className="relative w-[80%]">
+      <div className="relative w-full">
         <input
           type={showConfirmPassword ? 'text' : 'password'}
-          className={`w-full rounded-full p-2 pr-10 text-center md:p-4 md:text-xl ${errors.confirmPassword ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 text-center md:p-4 md:text-xl ${errors.confirmPassword ? 'border-2 border-error' : ''}`}
           placeholder="Confirm Password"
           name="confirmPassword"
           value={form.confirmPassword}
@@ -109,26 +87,20 @@ const RegisterForm = () => {
           )}
         </button>
       </div>
-      {errors.name ||
-      errors.phone ||
-      errors.password ||
-      errors.confirmPassword ? (
-        <span className="text-xs text-[#F87171]">
-          {errors.name ||
-            errors.phone ||
-            errors.password ||
-            errors.confirmPassword}
-        </span>
-      ) : null}
+      {(errors.password || errors.confirmPassword) && (
+        <div className="text-sm text-error">
+          {errors.password || errors.confirmPassword}
+        </div>
+      )}
 
       <button
         type="submit"
-        className="mt-4 w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4"
+        className="mt-4 w-full rounded-full bg-primary p-2 text-lg text-white md:p-4"
       >
-        Create Account
+        Confirm
       </button>
     </form>
   );
 };
 
-export default RegisterForm;
+export default ResetPassInput;

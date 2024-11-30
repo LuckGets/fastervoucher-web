@@ -1,37 +1,57 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Partial<Form>>({});
+  const [errors, setErrors] = useState({
     identifier: '',
     password: '',
   });
 
-  const hdlOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const validateForm = () => {
+    const newErrors = { identifier: '', password: '' };
+    if (!form.identifier) {
+      newErrors.identifier = 'Email or phone is required';
+    }
+    if (!form.password) {
+      newErrors.password = 'Password is required';
+    }
+    setErrors(newErrors);
+    return Object.values(newErrors).every((error) => error === '');
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Form submitted successfully:', form);
+    } else {
+      console.log('Form has errors');
+    }
+  };
+
   return (
-    <form className="mt-4 flex flex-col items-center gap-4">
+    <form
+      className="mt-4 flex flex-col items-center gap-4"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
-        className="w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl"
+        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.identifier && 'border border-[#F87171]'}`}
         placeholder="Email or phone"
         name="identifier"
         value={form.identifier}
-        onChange={hdlOnChange}
+        onChange={(e) => handleInputChange(e, setForm, form)}
       />
       <div className="relative w-[80%]">
         <input
           type={showPassword ? 'text' : 'password'}
-          className="w-full rounded-full p-2 pr-10 text-center md:p-4 md:text-xl"
+          className={`w-full rounded-full p-2 pr-10 text-center md:p-4 md:text-xl ${errors.password && 'border border-[#F87171]'}`}
           placeholder="Password"
           name="password"
           value={form.password}
-          onChange={hdlOnChange}
+          onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button
           type="button"
@@ -45,6 +65,13 @@ const LoginForm = () => {
           )}
         </button>
       </div>
+
+      {(errors.identifier || errors.password) && (
+        <span className="text-xs text-[#F87171]">
+          {errors.identifier || errors.password}
+        </span>
+      )}
+
       <button className="w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4 md:text-xl">
         Login
       </button>

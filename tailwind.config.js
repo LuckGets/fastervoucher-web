@@ -1,3 +1,5 @@
+import { DEFAULT_CIPHERS } from 'tls';
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: ["class"],
@@ -27,6 +29,10 @@ export default {
 				},
 				textWhite: {
 					DEFAULT: '#F7F3ED',
+					foreground: '#F7F3ED',
+				},
+				error: {
+					DEFAULT: '#F87171',
 					foreground: '#F7F3ED',
 				},
 				background: 'hsl(var(--background))',
