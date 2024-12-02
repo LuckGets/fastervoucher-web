@@ -46,8 +46,8 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative mx-4 flex max-h-[80vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-white shadow-lg">
-        <div className="sticky top-0 z-10 flex justify-end bg-white p-4">
+      <div className="relative mx-4 flex max-h-[80vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED] shadow-lg">
+        <div className="sticky top-0 z-10 flex justify-end bg-[#F7F3ED] p-4">
           <button
             className="text-xl font-bold text-gray-500 hover:text-gray-700"
             onClick={onClose}
@@ -56,12 +56,12 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="px-6">
           <VoucherCost />
           <VoucherTerm />
         </div>
 
-        <div className="sticky bottom-0 w-full bg-white p-4 shadow-lg">
+        <div className="sticky bottom-0 w-full bg-[#F7F3ED] p-4 shadow-lg">
           <button
             className="flex w-full items-center justify-center gap-4 rounded-lg bg-primary p-2 text-white"
             onClick={handleAddToCart}
