@@ -1,4 +1,5 @@
 export interface Form {
+  fullName?: string;
   identifier?: string;
   email?: string;
   name?: string;

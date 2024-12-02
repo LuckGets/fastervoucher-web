@@ -12,7 +12,7 @@ describe('Register form', () => {
   });
 
   it('should render 4 type of input', () => {
-    expect(container.querySelectorAll('input').length).toEqual(4);
+    expect(container.querySelectorAll('input').length).toEqual(5);
   });
 
   it('should render create account button', () => {

@@ -4,6 +4,7 @@ import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 import SubmitButton from '@/components/SubmitButton';
 
 interface Errors {
+  fullName?: string;
   email?: string;
   name?: string;
   phone?: string;
@@ -19,7 +20,7 @@ const RegisterForm = () => {
 
   const validateForm = () => {
     const newErrors: Errors = {};
-    if (!form.name) newErrors.name = 'Name is required';
+    if (!form.fullName) newErrors.fullName = 'Name is required';
     if (!form.phone) {
       newErrors.phone = 'Phone number is required';
     } else if (!/^\d{10}$/.test(form.phone)) {
@@ -50,6 +51,14 @@ const RegisterForm = () => {
       className="mt-4 flex flex-col items-center gap-4"
       onSubmit={handleSubmit}
     >
+      <input
+        type="text"
+        className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.email ? 'border border-error' : ''}`}
+        placeholder="Full Name"
+        name="fullName"
+        value={form.fullName}
+        onChange={(e) => handleInputChange(e, setForm, form)}
+      />
       <input
         type="text"
         className={`w-[80%] rounded-full p-2 text-center md:p-4 md:text-xl ${errors.email ? 'border border-error' : ''}`}
