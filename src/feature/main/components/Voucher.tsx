@@ -20,7 +20,7 @@ const Voucher = () => {
   };
 
   return (
-    <div className="mb-14 grid w-full grid-cols-2 gap-4 p-6 md:grid-cols-3 lg:grid-cols-5">
+    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
       {vouchers.map((i: VoucherProps, index: number) => (
         <div
           key={index}
