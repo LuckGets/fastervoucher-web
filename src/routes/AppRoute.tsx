@@ -13,6 +13,7 @@ const Login = lazy(() => import('@/feature/auth/page/Login'));
 const VerifyEmail = lazy(() => import('@/feature/auth/page/VerifyEmail'));
 const ForgetPassword = lazy(() => import('@/feature/auth/page/ForgetPassword'));
 const ResetPassWord = lazy(() => import('@/feature/auth/page/ResetPassWord'));
+const EditProfile = lazy(() => import('@/pages/user/EditProfile'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: paths.main.cart.path, element: <CartPage /> },
       { path: paths.main.history.path, element: <HistoryPage /> },
       { path: paths.main.user.path, element: <UserPage /> },
+      { path: paths.user.edit.path, element: <EditProfile /> },
       { path: paths.auth.register.path, element: <Register /> },
       { path: paths.auth.login.path, element: <Login /> },
       { path: paths.auth.verifyEmail.path, element: <VerifyEmail /> },

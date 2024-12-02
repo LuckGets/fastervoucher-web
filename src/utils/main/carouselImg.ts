@@ -4,8 +4,17 @@ export interface Image {
 
 export const carouselImages: Image[] = [
   {
-    src: 'https://scontent.fbkk5-4.fna.fbcdn.net/v/t39.30808-6/465009127_566522269076587_1911697713460991320_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=O0peSd7rEucQ7kNvgGNdMoO&_nc_zt=23&_nc_ht=scontent.fbkk5-4.fna&_nc_gid=AX0_wUmFojadX582pFqCk_D&oh=00_AYDCDq10F34MKeG6ZxabqWoqLHi5s7YdI2G13GvInz-HRg&oe=674D339A',
+    src: 'https://placeholder.pics/svg/x240',
   },
   { src: 'https://i.imgur.com/UelGops.jpeg' },
   { src: 'https://i.imgur.com/hw3L8oP.jpeg' },
+];
+
+export const voucherImages: Image[] = [
+  {
+    src: 'https://scontent.fbkk6-1.fna.fbcdn.net/v/t1.6435-9/52980043_603300676797601_1693792066246541312_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cf85f3&_nc_ohc=gmlopdawGwgQ7kNvgFCZcqD&_nc_zt=23&_nc_ht=scontent.fbkk6-1.fna&_nc_gid=APGVyPusSIruhviBrR7OYHK&oh=00_AYDSiDwo2YTxzfJg65113NiIz0ISuksUxf18zZoQWQenTQ&oe=6770AF31',
+  },
+  {
+    src: 'https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg',
+  },
 ];
