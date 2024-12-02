@@ -28,10 +28,13 @@ const UserList = () => {
         </div>
       )} */}
 
-      <button className="flex w-full gap-2 rounded-full p-4 py-3 active:bg-[#00000038]">
+      <Link
+        to={paths.user.changePassword.path}
+        className="flex w-full gap-2 rounded-full p-4 py-3 active:bg-[#00000038]"
+      >
         <Key />
         <p>Change Password</p>
-      </button>
+      </Link>
       <button className="flex w-full gap-2 rounded-full p-4 py-3 active:bg-[#00000038]">
         <LogOut />
         <p>Logout</p>

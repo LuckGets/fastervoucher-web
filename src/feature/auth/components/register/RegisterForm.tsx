@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
+import SubmitButton from '@/components/SubmitButton';
 
 interface Errors {
   email?: string;
@@ -121,13 +122,10 @@ const RegisterForm = () => {
             errors.confirmPassword}
         </span>
       ) : null}
-
-      <button
-        type="submit"
+      <SubmitButton
+        text="Create Account"
         className="mt-4 w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4"
-      >
-        Create Account
-      </button>
+      />
     </form>
   );
 };
