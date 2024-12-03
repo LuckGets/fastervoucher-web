@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { vouchers } from '../../../utils/main/vouchers';
-import { motion } from 'framer-motion';
 import VoucherDetails from './VoucherDetails';
 
 interface VoucherProps {
@@ -21,7 +20,7 @@ const Voucher = () => {
   };
 
   return (
-    <motion.div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
+    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
       {vouchers.map((i: VoucherProps, index: number) => (
         <div
           key={index}
@@ -53,7 +52,7 @@ const Voucher = () => {
         </div>
       ))}
       {isModalOpen && <VoucherDetails onClose={closeModal} />}
-    </motion.div>
+    </div>
   );
 };
 
