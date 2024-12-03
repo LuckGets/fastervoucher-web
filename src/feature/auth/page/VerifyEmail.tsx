@@ -1,20 +1,29 @@
 import { userInfo } from '@/utils/user/userinfo';
 import Verify from '../components/verifyEmail/Verify';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const VerifyEmail = () => {
   return (
-    <div className="flex w-screen flex-col items-center justify-center">
-      <h1 className="mb-4 mt-6 text-2xl font-semibold text-basicGray">
-        Verify Email
-      </h1>
-      <div className="mb-6 text-center text-sm text-gray-500">
-        <p>An OTP has been sent to your email address</p>
-        <p className="font-semibold">
-          {userInfo.email} <p>Please check your inbox.</p>
-        </p>
-      </div>
-      <Verify />
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -10, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="flex w-screen flex-col items-center justify-center"
+      >
+        <h1 className="mb-4 mt-6 text-2xl font-semibold text-basicGray">
+          Verify Email
+        </h1>
+        <div className="mb-6 text-center text-sm text-gray-500">
+          <p>An OTP has been sent to your email address</p>
+          <p className="font-semibold">
+            {userInfo.email} <p>Please check your inbox.</p>
+          </p>
+        </div>
+        <Verify />
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

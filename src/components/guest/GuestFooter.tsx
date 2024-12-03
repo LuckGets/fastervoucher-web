@@ -23,13 +23,7 @@ const GuestFooter = ({ activePath }: ComponentProps) => {
             className={`relative flex h-14 w-14 items-center justify-center rounded-full p-2 ${isActive ? 'bg-[#00000051]' : 'active:bg-[#0000002e]'}`}
           >
             <Link to={i.href} className="flex flex-col items-center">
-              <img
-                src={i.src}
-                alt={i.label}
-                width={30}
-                height={30}
-                className={isActive ? 'text-white' : ''}
-              />
+              <i.icon className="h-7 w-7" />
               <p className="text-xs">{i.label}</p>
             </Link>
 

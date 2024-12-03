@@ -1,6 +1,7 @@
 import { CalendarDays, Clock3 } from 'lucide-react';
 import { useState } from 'react';
 import VoucherModal from './VoucherModal';
+import { motion, Variants } from 'framer-motion';
 
 interface Voucher {
   no: string;
@@ -10,11 +11,25 @@ interface Voucher {
 }
 
 interface VoucherWrapperProps {
+  openIndex: number | null;
   vouchers: Voucher[];
   freeVouchers?: Voucher[];
 }
 
-const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
+const itemVariants: Variants = {
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 300, damping: 24 },
+  },
+  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+};
+
+const VoucherTicket = ({
+  openIndex,
+  vouchers,
+  freeVouchers,
+}: VoucherWrapperProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
 
@@ -30,10 +45,36 @@ const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
   };
 
   return (
-    <div className="relative z-10 -mt-10 rounded-2xl border border-t-0 p-4">
+    <motion.div
+      className="relative z-10 -mt-10 rounded-2xl border border-t-0 p-4"
+      variants={{
+        open: {
+          clipPath: 'inset(0% 0% 0% 0% round 10px)',
+          transition: {
+            type: 'spring',
+            bounce: 0,
+            duration: 0.7,
+            delayChildren: 0.3,
+            staggerChildren: 0.05,
+          },
+        },
+        closed: {
+          clipPath: 'inset(10% 50% 90% 50% round 10px)',
+          transition: {
+            type: 'spring',
+            bounce: 0,
+            duration: 0.3,
+          },
+        },
+      }}
+      initial="closed"
+      animate={openIndex !== null ? 'open' : 'closed'}
+      style={{ pointerEvents: openIndex ? 'auto' : 'none' }}
+    >
       <div className="mt-10">
         {vouchers.map((voucher, index) => (
-          <div
+          <motion.div
+            variants={itemVariants}
             key={index}
             className={`mb-4 flex justify-between border-b-2 p-2 text-xs`}
           >
@@ -65,7 +106,7 @@ const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => handleOnClick(voucher)} // Pass the voucher to the handler
+                  onClick={() => handleOnClick(voucher)}
                   className={`rounded-full px-2 py-1 text-xs ${isExpired(voucher.expireDate) ? 'border bg-transparent text-gray-500' : 'bg-primary text-white'}`}
                   disabled={isExpired(voucher.expireDate)}
                 >
@@ -73,11 +114,12 @@ const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
                 </button>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
 
         {freeVouchers?.map((voucher, index) => (
-          <div
+          <motion.div
+            variants={itemVariants}
             key={`free-${index}`}
             className={`flex justify-between p-2 text-xs ${index !== freeVouchers.length - 1 ? 'border-b-2' : ''}`}
           >
@@ -115,7 +157,7 @@ const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
                 </button>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       {openModal && selectedVoucher && (
@@ -124,7 +166,7 @@ const VoucherTicket = ({ vouchers, freeVouchers }: VoucherWrapperProps) => {
           onClose={() => setOpenModal(false)}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 

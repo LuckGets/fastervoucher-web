@@ -11,7 +11,7 @@ describe('Register form', () => {
     expect(container.querySelector('form')).toBeInTheDocument();
   });
 
-  it('should render 4 type of input', () => {
+  it('should render 5 type of input', () => {
     expect(container.querySelectorAll('input').length).toEqual(5);
   });
 
@@ -37,7 +37,7 @@ describe('Register form', () => {
       ).toBeInTheDocument();
     });
 
-    it("should recieve and render the value of the user's input", async () => {
+    it("should receive and render the value of the user's input", async () => {
       const emailInput = screen.getByPlaceholderText(emailPlaceHolderText);
       const user = userEvent.setup();
       await user.click(emailInput);

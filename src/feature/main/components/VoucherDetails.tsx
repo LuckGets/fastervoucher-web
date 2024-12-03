@@ -45,8 +45,8 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative mx-4 flex max-h-[80vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED] shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+      <div className="relative mx-4 flex max-h-[80vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED]">
         <div className="sticky top-0 z-10 flex justify-end bg-[#F7F3ED] p-4">
           <button
             className="text-xl font-bold text-gray-500 hover:text-gray-700"

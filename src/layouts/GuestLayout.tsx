@@ -5,7 +5,7 @@ import GuestFooter from '../components/guest/GuestFooter';
 const GuestLayout = () => {
   const { pathname } = useLocation();
   return (
-    <div className="flex min-h-screen flex-col items-center bg-white text-black">
+    <div className="flex min-h-screen flex-col items-center bg-[#F7F3ED] text-text">
       <Header />
       <main className="flex-grow">
         <Outlet />
