@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import VoucherTicket from './VoucherTicket';
+import { motion } from 'framer-motion';
 
 interface Voucher {
   no: string;
@@ -37,7 +38,8 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
 
   return (
     <>
-      <div
+      <motion.div
+        whileTap={{ scale: 0.97 }}
         onClick={() => handleOnClick(orderDetail.id)}
         className="z-20 flex w-full cursor-pointer items-center space-x-4 rounded-2xl bg-[#E1E1E1] p-3"
       >
@@ -58,15 +60,15 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
               {truncateText(orderDetail.restaurant, 25)}
             </h1>
           </div>
-
           <div className="flex flex-col items-end gap-4 text-xs text-[#3F3F3F]">
             <p>X {orderDetail.quantity}</p>
             {orderDetail.free && <p>Free {orderDetail.free}</p>}
           </div>
         </div>
-      </div>
+      </motion.div>
       {openIndex === orderDetail.id && (
         <VoucherTicket
+          openIndex={openIndex}
           vouchers={orderDetail.vouchers}
           freeVouchers={orderDetail.freeVoucher}
         />
