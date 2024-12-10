@@ -45,11 +45,38 @@ export const paths = {
     path: '/user',
     edit: {
       label: 'Edit Profile',
-      path: '/edit-profile',
+      path: '/user/edit-profile',
     },
     changePassword: {
       label: 'Change Password',
-      path: '/change-password',
+      path: '/user/change-password',
+    },
+  },
+
+  redeem: {
+    path: '/redeem',
+  },
+  admin: {
+    path: '/admin',
+    dashboard: {
+      label: 'Dashboard',
+      path: '/admin/dashboard',
+    },
+    manage: {
+      label: 'Manage Order',
+      path: '/admin/manage',
+    },
+    affiliate: {
+      label: 'Affiliate Program',
+      path: '/admin/affiliate',
+    },
+    voucher: {
+      label: 'Manage Voucher',
+      path: '/admin/voucher',
+    },
+    setting: {
+      label: 'Setting Store',
+      path: '/admin/setting',
     },
   },
 } as const;
