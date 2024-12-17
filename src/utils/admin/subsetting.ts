@@ -26,7 +26,7 @@ export const subSetting: subSetting[] = [
   },
   {
     path: '#',
-    label: 'Category',
+    label: 'Hotel Restaurant',
   },
   {
     path: '#',

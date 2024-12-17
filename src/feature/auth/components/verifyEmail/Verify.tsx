@@ -1,7 +1,13 @@
+import useSettingStore from '@/stores/setting-store';
 import { useState } from 'react';
 
 const Verify = () => {
+  const { color } = useSettingStore();
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
+
+  const bgColor = color
+    ? { backgroundColor: color }
+    : { backgroundColor: '#D1D5DB' };
 
   const handleChange = (element: HTMLInputElement, index: number) => {
     const value = element.value.replace(/[^0-9]/g, '');
@@ -48,8 +54,9 @@ const Verify = () => {
         ))}
       </div>
       <button
+        style={bgColor}
         onClick={handleSubmit}
-        className="rounded-full bg-primary px-6 py-2 text-lg text-white hover:bg-opacity-90 focus:outline-none"
+        className="rounded-full px-6 py-2 text-lg text-white hover:bg-opacity-90 focus:outline-none"
       >
         Confirm
       </button>

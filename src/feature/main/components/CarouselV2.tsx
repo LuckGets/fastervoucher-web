@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { carouselImages } from '@/utils/main/carouselImg';
 import { ChevronRight } from 'lucide-react';
+import useSettingStore from '@/stores/setting-store';
 
 const variants = {
   enter: (direction: number) => {
@@ -32,8 +32,9 @@ const swipePower = (offset: number, velocity: number) => {
 
 const CarouselV2 = () => {
   const [[page, direction], setPage] = useState([0, 0]);
+  const initialImages = useSettingStore((state) => state.carouselImages);
 
-  const imageIndex = wrap(0, carouselImages.length, page);
+  const imageIndex = wrap(0, initialImages.length, page);
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
@@ -45,7 +46,7 @@ const CarouselV2 = () => {
         <div className="relative h-60 overflow-hidden md:h-96 lg:h-[35rem]">
           <motion.img
             key={page}
-            src={carouselImages[imageIndex].src}
+            src={initialImages[imageIndex].src}
             custom={direction}
             variants={variants}
             initial="enter"

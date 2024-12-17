@@ -4,7 +4,7 @@ export interface Image {
 
 export const carouselImages: Image[] = [
   {
-    src: 'https://placeholder.pics/svg/x240',
+    src: 'https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg',
   },
   { src: 'https://i.imgur.com/UelGops.jpeg' },
   { src: 'https://i.imgur.com/hw3L8oP.jpeg' },
