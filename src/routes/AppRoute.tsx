@@ -20,6 +20,7 @@ const RedeemVoucher = lazy(() => import('@/feature/redeem/page/RedeemVoucher'));
 const ChangePassword = lazy(() => import('@/pages/user/ChangePassword'));
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const LoginAdmin = lazy(() => import('@/pages/admin/LoginAdmin'));
+const Setting = lazy(() => import('@/pages/admin/Setting'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LoginAdmin /> },
       { path: paths.admin.dashboard.path, element: <Dashboard /> },
+      { path: paths.admin.setting.path, element: <Setting /> },
       { path: '*', element: <PageNotFound /> },
     ],
   },

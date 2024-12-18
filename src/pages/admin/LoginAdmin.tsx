@@ -1,4 +1,4 @@
-import LoginAdminWrapper from './components/LoginWrapper';
+import LoginAdminWrapper from './components/login/LoginWrapper';
 
 const LoginAdmin = () => {
   return (

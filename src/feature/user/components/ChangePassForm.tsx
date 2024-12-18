@@ -19,9 +19,9 @@ const ChangePassForm = () => {
   const validateForm = () => {
     const newErrors: Errors = {};
     if (!(form.currentPassword && form.newPassword && form.confirmPassword)) {
-      newErrors.currentPassword = 'All fields is required';
-    } else if (form.newPassword.length < 6 && !(form.newPassword.length > 20)) {
-      newErrors.newPassword = 'Password must be at least 6-20 characters';
+      newErrors.currentPassword = 'All fields are required';
+    } else if (form.newPassword.length < 6 || form.newPassword.length > 20) {
+      newErrors.newPassword = 'Password must be between 6-20 characters';
     }
     if (form.newPassword !== form.confirmPassword)
       newErrors.confirmPassword = 'Passwords do not match';
@@ -38,6 +38,9 @@ const ChangePassForm = () => {
     }
   };
 
+  const isFormValid =
+    form.currentPassword && form.newPassword && form.confirmPassword;
+
   return (
     <form
       className="mt-4 flex flex-col items-center gap-4"
@@ -49,7 +52,7 @@ const ChangePassForm = () => {
           className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.currentPassword ? 'border border-error' : ''}`}
           placeholder="Current Password"
           name="currentPassword"
-          value={form.currentPassword}
+          value={form.currentPassword || ''}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button
@@ -64,13 +67,16 @@ const ChangePassForm = () => {
           )}
         </button>
       </div>
+      {errors.currentPassword && (
+        <p className="text-error">{errors.currentPassword}</p>
+      )}
       <div className="relative w-[80%]">
         <input
           type={showNewPassword ? 'text' : 'password'}
           className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.newPassword ? 'border border-error' : ''}`}
           placeholder="New Password"
           name="newPassword"
-          value={form.newPassword}
+          value={form.newPassword || ''}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button
@@ -85,13 +91,14 @@ const ChangePassForm = () => {
           )}
         </button>
       </div>
+      {errors.newPassword && <p className="text-error">{errors.newPassword}</p>}
       <div className="relative w-[80%]">
         <input
           type={showConfirmPassword ? 'text' : 'password'}
           className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.confirmPassword ? 'border border-error' : ''}`}
           placeholder="Confirm Password"
           name="confirmPassword"
-          value={form.confirmPassword}
+          value={form.confirmPassword || ''}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button
@@ -106,9 +113,13 @@ const ChangePassForm = () => {
           )}
         </button>
       </div>
+      {errors.confirmPassword && (
+        <p className="text-error">{errors.confirmPassword}</p>
+      )}
       <SubmitButton
-        className="mt-4 w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4"
+        className="mt-4 w-[80%] rounded-full p-2 text-lg text-white md:p-4"
         text="Change Password"
+        disabled={!isFormValid}
       />
     </form>
   );

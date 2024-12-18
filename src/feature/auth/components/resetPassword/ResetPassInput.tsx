@@ -1,3 +1,4 @@
+import useSettingStore from '@/stores/setting-store';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
@@ -10,10 +11,15 @@ interface Errors {
 }
 
 const ResetPassInput = () => {
+  const { color } = useSettingStore();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [form, setForm] = useState<Partial<Form>>({});
+
+  const bgColor = color
+    ? { backgroundColor: color }
+    : { backgroundColor: '#D1D5DB' };
 
   const validateForm = () => {
     const newErrors: Errors = {};
@@ -94,8 +100,9 @@ const ResetPassInput = () => {
       )}
 
       <button
+        style={bgColor}
         type="submit"
-        className="mt-4 w-full rounded-full bg-primary p-2 text-lg text-white md:p-4"
+        className="mt-4 w-full rounded-full p-2 text-lg text-white md:p-4"
       >
         Confirm
       </button>

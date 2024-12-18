@@ -5,14 +5,20 @@ import useCartStore from '@/stores/cart-store';
 import Swal from 'sweetalert2'; // เพิ่มการ import SweetAlert2
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
+import useSettingStore from '@/stores/setting-store';
 
 interface VoucherDetailsProps {
   onClose: () => void;
 }
 
 const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
+  const { color } = useSettingStore();
   const addToCart = useCartStore((state) => state.addToCart);
   const navigate = useNavigate();
+
+  const bgColor = color
+    ? { backgroundColor: color }
+    : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {
     const voucher = {
@@ -46,7 +52,7 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative mx-4 flex max-h-[80vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED]">
+      <div className="relative mx-4 flex max-h-[90vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED]">
         <div className="sticky top-0 z-10 flex justify-end bg-[#F7F3ED] p-4">
           <button
             className="text-xl font-bold text-gray-500 hover:text-gray-700"
@@ -63,7 +69,8 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
 
         <div className="sticky bottom-0 w-full bg-[#F7F3ED] p-4 shadow-lg">
           <button
-            className="flex w-full items-center justify-center gap-4 rounded-lg bg-primary p-2 text-white"
+            style={bgColor}
+            className="flex w-full items-center justify-center gap-4 rounded-lg p-2 text-white"
             onClick={handleAddToCart}
           >
             <ShoppingCart />

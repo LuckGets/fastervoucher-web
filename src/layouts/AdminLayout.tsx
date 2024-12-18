@@ -12,7 +12,7 @@ const AdminLayout = () => {
       <div className="flex w-full flex-grow">
         <Sidebar activePath={pathname} />
 
-        <main className="ml-[18%] mt-[96px] h-[calc(100vh-96px)] w-full overflow-y-auto">
+        <main className="mt-[96px] h-screen w-full md:ml-[18%] md:h-[calc(100vh-96px)] md:overflow-y-auto">
           <Outlet />
         </main>
       </div>

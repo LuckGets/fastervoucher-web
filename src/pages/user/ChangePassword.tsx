@@ -47,7 +47,7 @@ const ChangePassword = () => {
           <ChangePassForm />
         </div>
         {isTallScreen && (
-          <div className="fixed bottom-5 right-28 mb-24 mt-14">
+          <div className="fixed bottom-5 right-28 mb-24 mt-14 md:hidden">
             <Link
               to={paths.main.user.path}
               className="flex h-14 w-48 items-center justify-center gap-2 rounded-full bg-[#D9DFD7] p-2"

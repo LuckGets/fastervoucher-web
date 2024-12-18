@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { voucherImages } from '@/utils/main/carouselImg';
 import { ChevronRight } from 'lucide-react';
+import useSettingStore from '@/stores/setting-store';
 
 const variants = {
   enter: (direction: number) => {
@@ -30,31 +30,29 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-const VoucherCarousel = () => {
+const Carousel = () => {
   const [[page, direction], setPage] = useState([0, 0]);
+  const initialImages = useSettingStore((state) => state.carouselImages);
 
-  const imageIndex = wrap(0, voucherImages.length, page);
+  const imageIndex = wrap(0, initialImages.length, page);
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
 
   return (
-    <div className="relative w-full md:h-[15rem] md:w-[30rem]">
+    <div className="relative w-full">
       <AnimatePresence initial={false} custom={direction}>
-        <div
-          className="relative w-full overflow-hidden"
-          style={{ paddingTop: '56.25%' }}
-        >
+        <div className="relative h-60 overflow-hidden">
           <motion.img
             key={page}
-            src={voucherImages[imageIndex].src}
+            src={initialImages[imageIndex].src}
             custom={direction}
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute left-0 top-0 h-full w-full object-cover"
+            className="absolute block h-60 w-full object-cover"
             transition={{
               x: { type: 'spring', stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
@@ -64,30 +62,31 @@ const VoucherCarousel = () => {
             dragElastic={1}
             onDragEnd={(e, { offset, velocity }) => {
               const swipe = swipePower(offset.x, velocity.x);
-              console.log('e :>> ', e);
+
               if (swipe < -swipeConfidenceThreshold) {
                 paginate(1);
               } else if (swipe > swipeConfidenceThreshold) {
                 paginate(-1);
               }
+              console.log(e);
+            }}
+            style={{
+              display: 'block',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
             }}
           />
         </div>
       </AnimatePresence>
-      <div
-        className="absolute left-4 top-1/2 -translate-y-1/2 transform cursor-pointer"
-        onClick={() => paginate(-1)}
-      >
-        <ChevronRight className="rotate-180 transform text-[#D9D9D9]" />
+      <div className="next" onClick={() => paginate(1)}>
+        <ChevronRight />
       </div>
-      <div
-        className="absolute right-4 top-1/2 -translate-y-1/2 transform cursor-pointer"
-        onClick={() => paginate(1)}
-      >
-        <ChevronRight className="text-[#D9D9D9]" />
+      <div className="prev" onClick={() => paginate(-1)}>
+        <ChevronRight />
       </div>
     </div>
   );
 };
 
-export default VoucherCarousel;
+export default Carousel;

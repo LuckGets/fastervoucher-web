@@ -1,13 +1,19 @@
 import { paths } from '@/config/path';
+import useSettingStore from '@/stores/setting-store';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const ForgetPassInput = () => {
+  const { color } = useSettingStore();
   const [form, setForm] = useState<Partial<Form>>({});
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const bgColor = color
+    ? { backgroundColor: color }
+    : { backgroundColor: '#D1D5DB' };
 
   const handleSubmit = async () => {
     if (!form.email) {
@@ -45,7 +51,8 @@ const ForgetPassInput = () => {
       />
       {error && <p className="text-error">{error}</p>}
       <button
-        className="w-[80%] rounded-full bg-primary p-2 text-lg text-white md:p-4 md:text-xl"
+        style={bgColor}
+        className="w-[80%] rounded-full p-2 text-lg text-white md:p-4 md:text-xl"
         onClick={handleSubmit}
       >
         Send OTP
