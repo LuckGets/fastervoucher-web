@@ -62,7 +62,11 @@ const VoucherTicket = ({
           <motion.div
             variants={itemVariants}
             key={index}
-            className={`mb-4 flex justify-between border-b-2 p-2 text-xs`}
+            className={`mb-4 flex justify-between p-2 text-xs ${
+              index !== vouchers.length - 1 || freeVouchers?.length
+                ? 'border-b-2'
+                : ''
+            }`}
           >
             <div className="flex flex-col gap-1">
               <p>
@@ -76,7 +80,7 @@ const VoucherTicket = ({
                   <h1 className="flex items-center gap-1">
                     <CalendarDays className="w-4" />
                     {voucher.useDate
-                      ? new Date(voucher.useDate).toLocaleDateString()
+                      ? new Date(voucher.useDate).toLocaleDateString('en-GB')
                       : 'N/A'}
                   </h1>
                   <h1 className="flex items-center gap-1">
@@ -93,7 +97,11 @@ const VoucherTicket = ({
               ) : (
                 <button
                   onClick={() => handleOnClick(voucher)}
-                  className={`rounded-full px-2 py-1 text-xs ${isExpired(voucher.expireDate) ? 'border bg-transparent text-gray-500' : 'bg-primary text-white'}`}
+                  className={`rounded-full px-2 py-1 text-xs ${
+                    isExpired(voucher.expireDate)
+                      ? 'border bg-transparent text-gray-500'
+                      : 'bg-primary text-white'
+                  }`}
                   disabled={isExpired(voucher.expireDate)}
                 >
                   {isExpired(voucher.expireDate) ? 'Expired' : 'Use Voucher'}
@@ -119,7 +127,7 @@ const VoucherTicket = ({
                   <h1 className="flex items-center gap-1">
                     <CalendarDays className="w-4" />
                     {voucher.useDate
-                      ? new Date(voucher.useDate).toLocaleDateString()
+                      ? new Date(voucher.useDate).toLocaleDateString('en-GB')
                       : 'N/A'}
                   </h1>
                   <h1 className="flex items-center gap-1">

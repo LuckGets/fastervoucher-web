@@ -7,12 +7,11 @@ const AdminLayout = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="flex max-h-screen flex-col overflow-x-hidden bg-[#F7F3ED] text-text">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-[#F7F3ED] text-text">
       <Header />
       <div className="flex w-full flex-grow">
         <Sidebar activePath={pathname} />
-
-        <main className="mt-[96px] h-screen w-full md:ml-[18%] md:h-[calc(100vh-96px)] md:overflow-y-auto">
+        <main className="mt-[96px] w-full md:mx-12">
           <Outlet />
         </main>
       </div>

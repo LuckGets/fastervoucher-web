@@ -5,35 +5,35 @@ interface subSetting {
 
 export const subSetting: subSetting[] = [
   {
-    path: '#',
+    path: '#Email-for-login',
     label: 'Email for login',
   },
   {
-    path: '#',
+    path: '#Voucher-delivery-email',
     label: 'Voucher delivery email',
   },
   {
-    path: '#',
+    path: '#Store-Name',
     label: 'Store Name',
   },
   {
-    path: '#',
+    path: '#Logo',
     label: 'Logo',
   },
   {
-    path: '#',
+    path: '#Cover-photo',
     label: 'Cover photo',
   },
   {
-    path: '#',
+    path: '#Hotel-Restaurant',
     label: 'Hotel Restaurant',
   },
   {
-    path: '#',
+    path: '#Line-Shopping',
     label: 'Line Shopping',
   },
   {
-    path: '#',
+    path: '#Shopee',
     label: 'Shopee',
   },
 ];

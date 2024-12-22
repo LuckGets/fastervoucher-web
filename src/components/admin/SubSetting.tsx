@@ -7,7 +7,7 @@ const SubSetting = () => {
       {subSetting.map((i, index) => (
         <Link
           key={index}
-          to="/admin/setting/#"
+          to={`setting${i.path}`}
           className="rounded-lg px-10 py-2 hover:bg-[#D9D9D9]"
         >
           {i.label}

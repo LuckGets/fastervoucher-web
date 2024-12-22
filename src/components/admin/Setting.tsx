@@ -48,7 +48,7 @@ const Setting = ({
 
       <div
         className={`transition-max-height w-[90%] overflow-y-auto duration-300 ease-in-out ${
-          settingOpen ? 'max-h-48' : 'max-h-0'
+          settingOpen ? '' : 'max-h-0'
         }`}
       >
         <SubSetting />

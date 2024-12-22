@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import EmailInfo from './EmailInfo';
 import ChangePassword from '@/pages/admin/components/setting/email/ChangPassword';
+import { subSetting } from '@/utils/admin/subsetting';
 
 const VoucherEmail = () => {
   const [changeOpen, setChangeOpen] = useState(false);
@@ -10,7 +11,10 @@ const VoucherEmail = () => {
   };
 
   return (
-    <div className="w-[90%] rounded-2xl border border-[#888888] p-6 px-8">
+    <div
+      id={subSetting[1].label}
+      className="w-[90%] rounded-2xl border border-[#888888] p-6 px-8"
+    >
       <EmailInfo
         userInfo={{
           info: 'info@emerald.com',

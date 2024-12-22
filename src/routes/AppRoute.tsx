@@ -21,6 +21,7 @@ const ChangePassword = lazy(() => import('@/pages/user/ChangePassword'));
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const LoginAdmin = lazy(() => import('@/pages/admin/LoginAdmin'));
 const Setting = lazy(() => import('@/pages/admin/Setting'));
+const ManageOrder = lazy(() => import('@/pages/admin/ManageOrder'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
       { index: true, element: <LoginAdmin /> },
       { path: paths.admin.dashboard.path, element: <Dashboard /> },
       { path: paths.admin.setting.path, element: <Setting /> },
+      { path: paths.admin.manage.path, element: <ManageOrder /> },
       { path: '*', element: <PageNotFound /> },
     ],
   },
