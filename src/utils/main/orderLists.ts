@@ -12,6 +12,7 @@ interface OrderDetail {
   restaurant: string;
   quantity: number;
   free?: number;
+  channels: string;
   vouchers: Voucher[];
   freeVoucher?: Voucher[];
 }
@@ -34,6 +35,7 @@ export const orderLists: OrderListItem[] = [
         restaurant: 'The Emerald Coffee Shop',
         quantity: 3,
         free: 1,
+        channels: 'Line Shopping',
         vouchers: [
           {
             no: 'e2024BDN-079',
@@ -49,7 +51,7 @@ export const orderLists: OrderListItem[] = [
           {
             no: 'e2024BDN-081',
             isUse: false,
-            expireDate: '2023-12-31 23:59:59',
+            expireDate: '2025-12-31 23:59:59',
           },
         ],
         freeVoucher: [
@@ -72,6 +74,7 @@ export const orderLists: OrderListItem[] = [
         name: 'All You can eat dim sum lunch',
         restaurant: 'Yok Chinese Restaurant',
         quantity: 2,
+        channels: 'Shopee',
         vouchers: [
           {
             no: 'e2024BDN-060',

@@ -15,9 +15,8 @@ const Header: React.FC = () => {
           </div>
         </div>
       )}
-
       {location.pathname === '/' && (
-        <div className="z-40 flex h-24 w-[100vh] justify-between overflow-x-hidden bg-[#F7F3ED] px-8 py-2">
+        <div className="z-40 flex h-24 w-full justify-between overflow-x-hidden bg-[#F7F3ED] px-8 py-2">
           <div className="flex w-full items-center gap-3">
             <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#D9D9D9]">
               <img

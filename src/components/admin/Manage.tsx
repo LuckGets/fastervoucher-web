@@ -47,8 +47,8 @@ const Manage = ({
       </div>
 
       <div
-        className={`transition-max-height w-[80%] overflow-hidden duration-300 ease-in-out ${
-          manageOpen ? 'max-h-40' : 'max-h-0'
+        className={`transition-max-height w-[90%] overflow-y-auto duration-300 ease-in-out ${
+          manageOpen ? '' : 'max-h-0'
         }`}
       >
         <SubManage />

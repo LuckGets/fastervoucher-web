@@ -26,7 +26,7 @@ const Sidebar = ({ activePath }: ComponentProps) => {
 
   return (
     <div
-      className={`${activePath === paths.admin.path ? 'hidden' : 'fixed'} left-4 top-16 mt-6 flex h-[calc(100vh-160px)] w-[15%] flex-shrink-0 flex-col items-center overflow-auto rounded-lg border border-basicGray bg-[#F7F3ED]`}
+      className={`${activePath === paths.admin.path ? 'hidden' : ''} left-4 ml-5 mt-20 flex w-[15%] flex-shrink-0 flex-col items-center overflow-auto rounded-lg border border-basicGray bg-[#F7F3ED]`}
     >
       {sideBarList.map((i, index) => {
         const isActive = activePath === i.path;

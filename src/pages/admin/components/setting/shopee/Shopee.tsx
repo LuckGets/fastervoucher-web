@@ -1,9 +1,10 @@
+import { subSetting } from '@/utils/admin/subsetting';
 import InfoInput from '../line/InfoInput';
 import KeyInfo from '../line/KeyInfo';
 
 const Shopee = () => {
   return (
-    <div className="mb-24 w-full">
+    <div id={subSetting[7].label} className="mb-24 w-full">
       <div className="flex w-[95%] items-center gap-2 rounded-full bg-[#EE4D2D] p-1 text-textWhite">
         <div className="ml-2 flex h-4 w-4 items-center justify-center object-contain">
           <img src="https://i.imgur.com/FmFIqHp.png" alt="line" />
