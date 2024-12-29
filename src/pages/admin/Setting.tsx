@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Email from './components/setting/email/Email';
 import Example from './components/setting/example/Example';
 import Store from './components/setting/store/Store';
@@ -6,21 +7,31 @@ import CoverPhoto from './components/setting/coverphoto/CoverPhoto';
 import Restaurant from './components/setting/restaurant/Restaurant';
 import LineShop from './components/setting/line/LineShop';
 import Shopee from './components/setting/shopee/Shopee';
-import { useEffect } from 'react';
+import ScrollTop from '@/components/ScrollTop';
 
 const Setting = () => {
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
       }
-    }
-  }, [window.location.hash]);
+    };
+
+    handleHashChange();
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   return (
     <div>
@@ -34,9 +45,6 @@ const Setting = () => {
           </div>
           <div id="Store-Name">
             <Store />
-          </div>
-          <div id="Logo">
-            <CoverPhoto />
           </div>
           <div id="Cover-photo">
             <CoverPhoto />
@@ -57,6 +65,7 @@ const Setting = () => {
           <Shopee />
         </div>
       </div>
+      <ScrollTop />
     </div>
   );
 };

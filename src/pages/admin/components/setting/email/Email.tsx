@@ -2,9 +2,11 @@ import { useState } from 'react';
 import EmailInfo from './EmailInfo';
 import ChangePassword from '@/pages/admin/components/setting/email/ChangPassword';
 import { subSetting } from '@/utils/admin/subsetting';
+import useSettingStore from '@/stores/setting-store';
 
 const Email = () => {
   const [changeOpen, setChangeOpen] = useState(false);
+  const { emailForLogin } = useSettingStore();
 
   const handleOnClick = () => {
     setChangeOpen(!changeOpen);
@@ -17,8 +19,9 @@ const Email = () => {
     >
       <EmailInfo
         userInfo={{
-          info: 'info@emerald.com',
+          info: emailForLogin,
           label: 'Email ที่ใช้เข้าสู่ระบบ',
+          key: 'emailForLogin',
         }}
       />
       <h1

@@ -2,20 +2,20 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface CartItem {
-  id: string;
+  id: number;
   name: string;
   restaurant: string;
   price: number;
   quantity: number;
-  src: string;
+  src?: string;
 }
 
 interface CartState {
   items: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: string) => void;
-  increase: (id: string) => void;
-  decrease: (id: string) => void;
+  removeFromCart: (id: number) => void;
+  increase: (id: number) => void;
+  decrease: (id: number) => void;
 }
 
 const useCartStore = create<CartState>()(

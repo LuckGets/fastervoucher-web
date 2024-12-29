@@ -2,7 +2,8 @@ import useSettingStore from '@/stores/setting-store';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const logoImage = useSettingStore((state) => state.logoImage);
+  const { name, logoImage } = useSettingStore();
+
   return (
     <div className="fixed z-50 flex h-16 w-screen justify-center border-basicGray bg-[#F7F3ED] px-10 py-2 md:justify-between md:border-b">
       <div className="flex items-center justify-center gap-5">
@@ -13,9 +14,7 @@ const Header = () => {
             className="h-full w-full object-scale-down"
           />
         </div>
-        <h1 className="hidden text-xl font-semibold md:block">
-          The Emerald Hotel
-        </h1>
+        <h1 className="hidden text-xl font-semibold md:block">{name}</h1>
       </div>
       <div className="hidden items-center gap-6 text-lg md:flex">
         <Link to="/manual">Manual</Link>

@@ -74,6 +74,10 @@ export const paths = {
       label: 'Manage Voucher',
       path: '/admin/voucher',
     },
+    voucherSetting: {
+      label: 'Voucher Setting',
+      path: '/admin/voucher/:id',
+    },
     setting: {
       label: 'Setting Store',
       path: '/admin/setting',

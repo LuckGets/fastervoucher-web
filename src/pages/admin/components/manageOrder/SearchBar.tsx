@@ -2,7 +2,11 @@ import useSettingStore from '@/stores/setting-store';
 import { ChevronDown, Search } from 'lucide-react';
 import { useState } from 'react';
 
-const SearchBar = () => {
+const SearchBar = ({
+  onSearch,
+}: {
+  onSearch: (searchTerm: string) => void;
+}) => {
   const restaurant = useSettingStore((state) => state.restaurant);
   const color = useSettingStore((state) => state.color);
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,6 +17,18 @@ const SearchBar = () => {
     setSelectedRestaurant('');
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value === '') {
+      setSelectedRestaurant('');
+    }
+  };
+
+  const handleSearchClick = () => {
+    onSearch(searchTerm);
+  };
+
   return (
     <div className="mb-6 mr-10 space-y-4">
       <div className="flex gap-4">
@@ -21,10 +37,13 @@ const SearchBar = () => {
             type="text"
             placeholder="voucher No. / orderID / name / email / phone number"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
             className={`w-[50%] rounded-full border bg-[#E1E1E1] p-2 pl-3 focus:outline-none focus:ring-2 focus:ring-[${color}]`}
           />
-          <button className="flex rounded-full bg-[#E1E1E1] px-6 py-2 text-text hover:bg-[#a3a3a3a0]">
+          <button
+            onClick={handleSearchClick}
+            className="flex rounded-full bg-[#E1E1E1] px-6 py-2 text-text hover:bg-[#a3a3a3a0]"
+          >
             <Search />
             <h1>search</h1>
           </button>

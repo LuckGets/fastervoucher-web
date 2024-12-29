@@ -30,7 +30,7 @@ const InfoInput = ({ inFo }: InfoProps) => {
   return (
     <div>
       <div className="flex items-center gap-4">
-        <h1>{label}</h1>
+        <h1 className="mb-2">{label}</h1>
         {!isEditing && (
           <button onClick={handleEdit} className="ml-2">
             <span className="flex items-center gap-1 text-basicGray">
