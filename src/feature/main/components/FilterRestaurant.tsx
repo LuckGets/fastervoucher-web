@@ -1,25 +1,31 @@
-import { useState } from 'react';
 import useSettingStore from '@/stores/setting-store';
 
-const FilterRestaurant = () => {
+interface FilterRestaurantProps {
+  selectedRestaurant: string | null;
+  setSelectedRestaurant: (restaurant: string | null) => void;
+}
+
+const FilterRestaurant = ({
+  selectedRestaurant,
+  setSelectedRestaurant,
+}: FilterRestaurantProps) => {
   const restaurant = useSettingStore((state) => state.restaurant);
   const color = useSettingStore((state) => state.color);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const bgColor = color ? color : '#D1D5DB';
 
-  const handleActive = (index: number) => {
-    setActiveIndex(index);
+  const handleActive = (restaurantName: string | null) => {
+    setSelectedRestaurant(restaurantName);
   };
 
   return (
     <div className="my-4 flex items-center justify-center gap-2 px-4 text-xs text-text">
       <div
         className={`flex h-10 items-center justify-center rounded-3xl bg-[#D9D9D9] px-2 ${
-          activeIndex === -1 ? 'text-textWhite' : ''
+          selectedRestaurant === null ? 'text-textWhite' : ''
         }`}
-        style={activeIndex === -1 ? { backgroundColor: bgColor } : {}}
-        onClick={() => handleActive(-1)}
+        style={selectedRestaurant === null ? { backgroundColor: bgColor } : {}}
+        onClick={() => handleActive(null)}
       >
         <button>All</button>
       </div>
@@ -27,10 +33,12 @@ const FilterRestaurant = () => {
         <div
           key={index}
           className={`flex h-10 items-center justify-center rounded-full bg-[#D9D9D9] px-2 ${
-            activeIndex === index ? 'text-textWhite' : ''
+            selectedRestaurant === item.name ? 'text-textWhite' : ''
           }`}
-          style={activeIndex === index ? { backgroundColor: bgColor } : {}}
-          onClick={() => handleActive(index)}
+          style={
+            selectedRestaurant === item.name ? { backgroundColor: bgColor } : {}
+          }
+          onClick={() => handleActive(item.name)}
         >
           <button>{item.name}</button>
         </div>

@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
+import useSettingStore, { SettingState } from '@/stores/setting-store';
 
 interface ProfileInfoProps {
   userInfo: {
     info: string;
     label: string;
+    key: keyof SettingState;
   };
 }
 
 const EmailInfo = ({ userInfo }: ProfileInfoProps) => {
-  const { info, label } = userInfo;
+  const { label, info, key } = userInfo;
+  const settingStore = useSettingStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [newValue, setNewValue] = useState(info);
+  const [newValue, setNewValue] = useState<string>(info);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -19,7 +22,14 @@ const EmailInfo = ({ userInfo }: ProfileInfoProps) => {
 
   const handleSave = () => {
     setIsEditing(false);
-    console.log('Saved Value:', newValue);
+    if (newValue !== info) {
+      try {
+        settingStore.updateField(key, newValue);
+        console.log(`Updated ${key}:`, newValue);
+      } catch (error) {
+        console.error(`Error updating ${key}:`, error);
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -30,7 +40,7 @@ const EmailInfo = ({ userInfo }: ProfileInfoProps) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1>{label}</h1>
+        <h1 className="mb-2">{label}</h1>
         {!isEditing && (
           <button onClick={handleEdit} className="ml-2">
             <span className="flex items-center gap-1 text-basicGray">

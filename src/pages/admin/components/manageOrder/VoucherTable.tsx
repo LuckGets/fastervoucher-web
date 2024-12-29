@@ -1,8 +1,10 @@
+import { useFilterStore } from '@/stores/filter-store';
 import { orderLists } from '@/utils/main/orderLists';
 import { CalendarDays, Clock, UserRound } from 'lucide-react';
 import { useState } from 'react';
 
-const VoucherTable = () => {
+const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
+  const { selectedChannel } = useFilterStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
@@ -12,17 +14,31 @@ const VoucherTable = () => {
     return expirationDate < currentDate;
   };
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(orderLists.length / itemsPerPage);
+  const filteredData = selectedChannel
+    ? orderLists.filter((item) =>
+        item.OrderDetails.some((detail) => detail.channels === selectedChannel),
+      )
+    : orderLists;
 
-  // Get the current page's orders
+  const searchFilteredData = filteredData.filter((item) =>
+    item.OrderDetails.some((detail) =>
+      detail.vouchers.some(
+        (voucher) =>
+          voucher.no.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          detail.customer.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    ),
+  );
+
+  const totalPages = Math.ceil(searchFilteredData.length / itemsPerPage);
+
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return orderLists.slice(startIndex, endIndex);
+    return searchFilteredData.slice(startIndex, endIndex);
   };
 
-  // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -40,26 +56,26 @@ const VoucherTable = () => {
                 Voucher no.
               </th>
               <th className="ml-14 flex flex-grow gap-1 py-3 text-center font-normal">
-                <CalendarDays />
-                Date
+                <CalendarDays /> Date
               </th>
               <th className="flex-grow py-3 text-center font-normal">
                 Promotion
               </th>
               <th className="ml-12 flex flex-grow-[1.5] gap-1 py-3 text-center font-normal">
-                <UserRound />
-                Name
+                <UserRound /> Name
               </th>
               <th className="ml-12 flex flex-grow gap-1 py-3 text-center font-normal">
-                <CalendarDays />
-                Expired
+                <CalendarDays /> Expired
               </th>
               <th className="flex-grow py-3 text-center font-normal">Status</th>
             </tr>
           </thead>
           <tbody className="mt-4 grid grid-cols-1 gap-4">
             {getCurrentPageData().map((item) =>
-              item.OrderDetails.map((detail) => (
+              item.OrderDetails.filter(
+                (detail) =>
+                  !selectedChannel || detail.channels === selectedChannel,
+              ).map((detail) => (
                 <>
                   {detail.vouchers.map((voucher) => (
                     <tr
@@ -86,7 +102,7 @@ const VoucherTable = () => {
                         {voucher.no}
                       </td>
                       <td className="flex-grow text-center">
-                        <div className="">
+                        <div className="flex flex-col">
                           <h1>
                             {new Date(item.date).toLocaleDateString('en-GB')}
                           </h1>
@@ -110,10 +126,10 @@ const VoucherTable = () => {
                         </div>
                       </td>
                       <td className="flex-grow-[1.5] text-center">
-                        Thaweevit kittanmeteeee
+                        {detail.customer}
                       </td>
                       <td className="flex-grow text-center">
-                        <h4 className="">
+                        <h4>
                           {new Date(voucher.expireDate).toLocaleDateString(
                             'en-GB',
                           )}
@@ -135,7 +151,7 @@ const VoucherTable = () => {
                       <td className="flex flex-grow justify-center">
                         {voucher.isUse ? (
                           <div className="flex flex-col items-center gap-2">
-                            <h1 className="">
+                            <h1>
                               {voucher.useDate
                                 ? new Date(voucher.useDate).toLocaleDateString(
                                     'en-GB',

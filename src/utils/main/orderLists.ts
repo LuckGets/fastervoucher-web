@@ -15,6 +15,7 @@ interface OrderDetail {
   channels: string;
   vouchers: Voucher[];
   freeVoucher?: Voucher[];
+  customer: string;
 }
 
 interface OrderListItem {
@@ -36,6 +37,7 @@ export const orderLists: OrderListItem[] = [
         quantity: 3,
         free: 1,
         channels: 'Line Shopping',
+        customer: ' Thaweevit kittanmeteeee',
         vouchers: [
           {
             no: 'e2024BDN-079',
@@ -75,6 +77,7 @@ export const orderLists: OrderListItem[] = [
         restaurant: 'Yok Chinese Restaurant',
         quantity: 2,
         channels: 'Shopee',
+        customer: 'Sasita Srisura',
         vouchers: [
           {
             no: 'e2024BDN-060',

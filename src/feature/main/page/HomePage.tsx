@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import Voucher from '@/feature/main/components/Voucher';
-// import MainCarousel from '../components/MainCarousel';
 import CarouselV2 from '../components/CarouselV2';
 import FilterRestaurant from '../components/FilterRestaurant';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const HomePage = () => {
+  const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
+    null,
+  );
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -14,8 +18,11 @@ const HomePage = () => {
         transition={{ duration: 0.2 }}
       >
         <CarouselV2 />
-        <FilterRestaurant />
-        <Voucher />
+        <FilterRestaurant
+          selectedRestaurant={selectedRestaurant}
+          setSelectedRestaurant={setSelectedRestaurant}
+        />
+        <Voucher selectedRestaurant={selectedRestaurant} />
       </motion.div>
     </AnimatePresence>
   );

@@ -2,16 +2,18 @@ import { ShoppingCart, X } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherTerm from './VoucherTerm';
 import useCartStore from '@/stores/cart-store';
-import Swal from 'sweetalert2'; // เพิ่มการ import SweetAlert2
+import Swal from 'sweetalert2';
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
 import useSettingStore from '@/stores/setting-store';
+import { voucher } from '@/stores/voucher-store';
 
 interface VoucherDetailsProps {
+  voucher: voucher;
   onClose: () => void;
 }
 
-const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
+const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
   const { color } = useSettingStore();
   const addToCart = useCartStore((state) => state.addToCart);
   const navigate = useNavigate();
@@ -21,15 +23,11 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
     : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {
-    const voucher = {
-      id: 'voucher-002',
-      name: 'All You can eat dim sum lunch',
-      restaurant: 'Yok Chinese Restaurant',
-      price: 1199,
+    const cartItem = {
+      ...voucher,
       quantity: 1,
-      src: 'https://scontent.fbkk6-1.fna.fbcdn.net/v/t1.6435-9/52980043_603300676797601_1693792066246541312_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cf85f3&_nc_ohc=gmlopdawGwgQ7kNvgFCZcqD&_nc_zt=23&_nc_ht=scontent.fbkk6-1.fna&_nc_gid=APGVyPusSIruhviBrR7OYHK&oh=00_AYDSiDwo2YTxzfJg65113NiIz0ISuksUxf18zZoQWQenTQ&oe=6770AF31',
     };
-    addToCart(voucher);
+    addToCart(cartItem);
 
     Swal.fire({
       title: 'Added to cart!',
@@ -63,8 +61,8 @@ const VoucherDetails = ({ onClose }: VoucherDetailsProps) => {
         </div>
 
         <div className="px-6">
-          <VoucherCost />
-          <VoucherTerm />
+          <VoucherCost id={voucher.id} />
+          <VoucherTerm voucher={voucher} />
         </div>
 
         <div className="sticky bottom-0 w-full bg-[#F7F3ED] p-4 shadow-lg">
