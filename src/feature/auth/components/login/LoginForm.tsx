@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 import SubmitButton from '@/components/SubmitButton';
+import useAuthStore from '@/stores/auth-store';
+import type { LoginForm } from '@/api/auth/types/login-form.types';
 
 const LoginForm = () => {
+  const { actionLogin, errorLogin } = useAuthStore();
+
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<Partial<Form>>({});
   const [errors, setErrors] = useState({
@@ -23,10 +27,15 @@ const LoginForm = () => {
     return Object.values(newErrors).every((error) => error === '');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
       console.log('Form submitted successfully:', form);
+      try {
+        await actionLogin(form as LoginForm);
+      } catch (err) {
+        console.log('Login error:', err);
+      }
     } else {
       console.log('Form has errors');
     }
@@ -71,6 +80,10 @@ const LoginForm = () => {
         <span className="text-xs text-[#F87171]">
           {errors.identifier || errors.password}
         </span>
+      )}
+
+      {errorLogin && (
+        <span className="text-xs text-[#F87171]">{errorLogin}</span>
       )}
 
       <SubmitButton

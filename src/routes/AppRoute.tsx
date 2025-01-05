@@ -1,5 +1,9 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 import { paths } from '@/config/path';
 import Loading from '@/components/Loading';
 
@@ -24,7 +28,6 @@ const Setting = lazy(() => import('@/pages/admin/Setting'));
 const ManageOrder = lazy(() => import('@/pages/admin/ManageOrder'));
 const ManageVoucher = lazy(() => import('@/pages/admin/ManageVoucher'));
 const VoucherSetting = lazy(() => import('@/pages/admin/VoucherSetting'));
-const PageNotFound = lazy(() => import('./PageNotFound'));
 
 const router = createBrowserRouter([
   {
@@ -47,7 +50,6 @@ const router = createBrowserRouter([
       { path: paths.auth.verifyEmail.path, element: <VerifyEmail /> },
       { path: paths.auth.forgetPassword.path, element: <ForgetPassword /> },
       { path: paths.auth.resetPassword.path, element: <ResetPassWord /> },
-      { path: '*', element: <PageNotFound /> },
     ],
   },
   {
@@ -57,10 +59,7 @@ const router = createBrowserRouter([
         <RedeemLayout />
       </Suspense>
     ),
-    children: [
-      { index: true, element: <RedeemVoucher /> },
-      { path: '*', element: <PageNotFound /> },
-    ],
+    children: [{ index: true, element: <RedeemVoucher /> }],
   },
   {
     path: paths.admin.path,
@@ -76,14 +75,11 @@ const router = createBrowserRouter([
       { path: paths.admin.manage.path, element: <ManageOrder /> },
       { path: paths.admin.voucher.path, element: <ManageVoucher /> },
       { path: paths.admin.voucherSetting.path, element: <VoucherSetting /> },
-      { path: '*', element: <PageNotFound /> },
     ],
   },
   {
     path: '*',
-    lazy: async () => {
-      return { Component: PageNotFound };
-    },
+    element: <Navigate to="/" replace />,
   },
 ]);
 
