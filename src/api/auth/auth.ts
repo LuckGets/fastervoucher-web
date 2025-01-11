@@ -6,3 +6,5 @@ export const register = (form: RegisterForm) =>
   axios.post('/auth/register', form);
 
 export const login = (form: LoginForm) => axios.post('/auth/login', form);
+
+export const logout = () => axios.get('/auth/logout');

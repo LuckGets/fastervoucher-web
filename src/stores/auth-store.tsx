@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { login, register } from '../api/auth/auth';
+import { login, logout, register } from '../api/auth/auth';
 import { LoginForm } from '@/api/auth/types/login-form.types';
 import { RegisterForm } from '@/api/auth/types/register-form.types';
 import { AxiosError } from 'axios';
@@ -19,13 +19,13 @@ export interface AuthState {
   errorRegister?: string;
   actionLogin: (form: LoginForm) => Promise<LoginResponse>;
   actionRegister: (form: RegisterForm) => Promise<RegisterResponse>;
+  actionLogout: () => Promise<void>;
 }
 
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: '',
-      user: undefined,
       errorLogin: undefined,
       errorRegister: undefined,
 
@@ -41,9 +41,7 @@ const useAuthStore = create<AuthState>()(
           }
 
           console.log('Access Token:', accessToken);
-          set({
-            accessToken,
-          });
+          set({ accessToken });
 
           return result.data as LoginResponse;
         } catch (error) {
@@ -64,6 +62,18 @@ const useAuthStore = create<AuthState>()(
         set({ errorRegister: '' });
         try {
           const result = await register(form);
+          const accessToken = result?.data?.data?.accessToken;
+
+          if (!accessToken) {
+            console.error(
+              'Access Token not found during register:',
+              result.data,
+            );
+            throw new Error('Access Token is undefined');
+          }
+
+          set({ accessToken });
+
           return result.data as RegisterResponse;
         } catch (error) {
           const err = error as AxiosError<{ message: string | string[] }>;
@@ -79,6 +89,17 @@ const useAuthStore = create<AuthState>()(
             set({ errorRegister: 'An unexpected error occurred' });
           }
           throw err;
+        }
+      },
+
+      actionLogout: async () => {
+        set({ errorLogin: '', errorRegister: '' });
+        try {
+          await logout();
+          set({ accessToken: '' });
+        } catch (error) {
+          console.error('Logout failed:', error);
+          throw error;
         }
       },
     }),

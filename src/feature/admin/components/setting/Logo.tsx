@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
-import useSettingStore from '../../../../../stores/setting-store';
+import useSettingStore from '@/stores/setting-store';
 
 const Logo = () => {
-  const logoImage = useSettingStore((state) => state.logoImage);
-  const setSelectedImage = useSettingStore((state) => state.setSelectedImage);
+  const { logoImage } = useSettingStore();
+  const { setSelectedImage } = useSettingStore();
   const [tempImage, setTempImage] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 

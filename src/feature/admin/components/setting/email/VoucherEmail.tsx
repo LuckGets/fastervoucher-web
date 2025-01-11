@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import EmailInfo from './EmailInfo';
-import ChangePassword from '@/pages/admin/components/setting/email/ChangPassword';
 import { subSetting } from '@/utils/admin/subsetting';
 import useSettingStore from '@/stores/setting-store';
+import ChangePassword from './ChangPassword';
 
-const Email = () => {
+const VoucherEmail = () => {
   const [changeOpen, setChangeOpen] = useState(false);
-  const { emailForLogin } = useSettingStore();
+  const { emailForSend } = useSettingStore();
 
   const handleOnClick = () => {
     setChangeOpen(!changeOpen);
@@ -14,25 +14,25 @@ const Email = () => {
 
   return (
     <div
-      id={subSetting[0].label}
+      id={subSetting[1].label}
       className="w-[90%] rounded-2xl border border-[#888888] p-6 px-8"
     >
       <EmailInfo
         userInfo={{
-          info: emailForLogin,
-          label: 'Email ที่ใช้เข้าสู่ระบบ',
-          key: 'emailForLogin',
+          info: emailForSend,
+          label: 'Email ที่ใช้ส่งให้ลูกค้า',
+          key: 'emailForSend',
         }}
       />
       <h1
         className="mt-2 cursor-pointer text-sm text-basicGray"
         onClick={handleOnClick}
       >
-        Change Password
+        Password
       </h1>
       {changeOpen && <ChangePassword setChangeOpen={setChangeOpen} />}
     </div>
   );
 };
 
-export default Email;
+export default VoucherEmail;

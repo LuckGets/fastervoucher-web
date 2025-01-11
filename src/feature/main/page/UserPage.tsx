@@ -1,9 +1,26 @@
+import { useEffect } from 'react';
 import UserAvatar from '@/feature/user/components/UserAvatar';
 import UserList from '@/feature/user/components/UserList';
+import useAuthStore from '@/stores/auth-store';
 import { userInfo } from '@/utils/user/userinfo';
 import { motion, AnimatePresence } from 'framer-motion';
+import { paths } from '@/config/path';
+import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
+  const { accessToken } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate(`${paths.auth.login.path}`);
+    }
+  }, [accessToken, navigate]);
+
+  if (!accessToken) {
+    return null;
+  }
+
   return (
     <AnimatePresence mode="wait">
       <motion.div

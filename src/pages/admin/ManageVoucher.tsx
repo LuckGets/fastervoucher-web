@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import SearchVoucher from './components/manageVoucher/SearchVoucher';
-import Voucher from './components/manageVoucher/Voucher';
+
+import Voucher from '../../feature/admin/components/manageVoucher/Voucher';
+import SearchVoucher from '@/feature/admin/components/manageVoucher/SearchVoucher';
 
 const ManageVoucher = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState('');

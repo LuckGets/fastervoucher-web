@@ -21,7 +21,7 @@ const GuestFooter = ({ activePath }: ComponentProps) => {
   return (
     <div
       style={bgColor}
-      className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl text-textWhite"
+      className="fixed bottom-0 z-10 mb-5 flex h-16 w-[90%] items-center justify-around rounded-xl text-textWhite lg:hidden"
     >
       {footerLinks.map((i, index) => {
         const isActive = activePath === i.href;

@@ -1,15 +1,15 @@
 import ScrollTop from '@/components/ScrollTop';
-import VoucherName from './components/manageVoucher/voucherName/VoucherName';
-import VoucherRestaurant from './components/manageVoucher/voucherRestaurant/VoucherRestaurant';
-import VoucherMeal from './components/manageVoucher/meal/VoucherMeal';
-import VoucherPrice from './components/manageVoucher/price/VoucherPrice';
-import VoucherDate from './components/manageVoucher/date/VoucherDate';
-import CreateDiscount from './components/manageVoucher/discount/CreateDiscount';
-import CoverPhoto from './components/manageVoucher/coverphoto/CoverPhoto';
-import VoucherPhoto from './components/manageVoucher/voucherphoto/VoucherPhoto';
-import VoucherExample from './components/manageVoucher/example/VoucherExample';
-import VoucherDetails from './components/manageVoucher/details/VoucherDetails';
-import VoucherTerm from './components/manageVoucher/termCondition/VoucherTerm';
+import VoucherName from '../../feature/admin/components/manageVoucher/voucherName/VoucherName';
+import VoucherRestaurant from '../../feature/admin/components/manageVoucher/voucherRestaurant/VoucherRestaurant';
+import VoucherMeal from '../../feature/admin/components/manageVoucher/meal/VoucherMeal';
+import VoucherPrice from '../../feature/admin/components/manageVoucher/price/VoucherPrice';
+import VoucherDate from '../../feature/admin/components/manageVoucher/date/VoucherDate';
+import CreateDiscount from '../../feature/admin/components/manageVoucher/discount/CreateDiscount';
+import CoverPhoto from '@/feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
+import VoucherPhoto from '@/feature/admin/components/manageVoucher/voucherphoto/VoucherPhoto';
+import VoucherExample from '@/feature/admin/components/manageVoucher/example/VoucherExample';
+import VoucherDetails from '@/feature/admin/components/manageVoucher/details/VoucherDetails';
+import VoucherTerm from '@/feature/admin/components/manageVoucher/termCondition/VoucherTerm';
 
 const VoucherSetting = () => {
   return (

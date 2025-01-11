@@ -1,7 +1,7 @@
 import useSettingStore from '@/stores/setting-store';
-import EmailInfo from '../email/EmailInfo';
 import Color from './Color';
 import Logo from './Logo';
+import EmailInfo from './email/EmailInfo';
 
 const Store = () => {
   const { name } = useSettingStore();

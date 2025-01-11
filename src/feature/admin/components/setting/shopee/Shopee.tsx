@@ -1,6 +1,6 @@
 import { subSetting } from '@/utils/admin/subsetting';
-import InfoInput from '../line/InfoInput';
-import KeyInfo from '../line/KeyInfo';
+import InfoInput from '../../../../../feature/admin/components/setting/line/InfoInput';
+import KeyInfo from '../../../../../feature/admin/components/setting/line/KeyInfo';
 
 const Shopee = () => {
   return (
