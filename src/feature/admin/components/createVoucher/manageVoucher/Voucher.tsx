@@ -10,12 +10,9 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
   const { vouchers } = useVoucherStore();
   const navigate = useNavigate();
 
-  const filteredVouchers = vouchers.filter((voucher) => {
-    console.log('Filtering:', voucher.restaurant, selectedRestaurant);
-    return selectedRestaurant
-      ? voucher.restaurant?.toLowerCase() === selectedRestaurant.toLowerCase()
-      : true;
-  });
+  const filteredVouchers = selectedRestaurant
+    ? vouchers.filter((voucher) => voucher.restaurant === selectedRestaurant)
+    : vouchers;
 
   const handleVoucherClick = (id: number) => {
     navigate(`${id}`);
@@ -26,8 +23,8 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
       {filteredVouchers.map((i) => (
         <div
           key={i.id}
-          onClick={() => handleVoucherClick(i.id)}
           className="rounded-xl p-2 active:bg-[#0000003a]"
+          onClick={() => handleVoucherClick(i.id)}
         >
           <img
             src={i.src}

@@ -1,9 +1,18 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { Plus, X, ChevronDown } from 'lucide-react';
 import useVoucherStore from '@/stores/voucher-store';
 import { useParams } from 'react-router-dom';
 
-const SelectRestaurant = () => {
+interface SelectRestaurantProps {
+  restaurant: string;
+  onSelectRestaurant: (field: string, value: string) => void;
+}
+
+const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
+  restaurant,
+  onSelectRestaurant,
+}) => {
   const { id } = useParams<{ id: string }>();
   const voucherId = parseInt(id || '0');
   const { vouchers, updateVoucher, restaurants, setRestaurant } =
@@ -15,7 +24,7 @@ const SelectRestaurant = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
-    voucher ? voucher.restaurant : null,
+    restaurant || null,
   );
 
   const handleAddRestaurant = () => {
@@ -32,11 +41,8 @@ const SelectRestaurant = () => {
 
   const handleSelectRestaurant = (name: string) => {
     setSelectedRestaurant(name);
+    onSelectRestaurant('restaurant', name);
     setIsDropdownOpen(false);
-
-    if (voucher) {
-      updateVoucher(voucher.id, { restaurant: name });
-    }
   };
 
   return (
@@ -74,7 +80,7 @@ const SelectRestaurant = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative flex w-[30%] flex-col items-center gap-3 rounded-lg bg-[#F7F3ED] px-10 py-14 shadow-lg">
             <button
               className="absolute right-2 top-2 text-gray-400 hover:text-black"

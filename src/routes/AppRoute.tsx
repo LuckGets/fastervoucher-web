@@ -27,7 +27,9 @@ const LoginAdmin = lazy(() => import('@/pages/admin/LoginAdmin'));
 const Setting = lazy(() => import('@/pages/admin/Setting'));
 const ManageOrder = lazy(() => import('@/pages/admin/ManageOrder'));
 const ManageVoucher = lazy(() => import('@/pages/admin/ManageVoucher'));
+const CreateVoucher = lazy(() => import('@/pages/admin/CreateVoucher'));
 const VoucherSetting = lazy(() => import('@/pages/admin/VoucherSetting'));
+const Affiliate = lazy(() => import('@/pages/admin/Affiliate'));
 
 const router = createBrowserRouter([
   {
@@ -71,10 +73,12 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LoginAdmin /> },
       { path: paths.admin.dashboard.path, element: <Dashboard /> },
-      { path: paths.admin.setting.path, element: <Setting /> },
       { path: paths.admin.manage.path, element: <ManageOrder /> },
+      { path: paths.admin.affiliate.path, element: <Affiliate /> },
       { path: paths.admin.voucher.path, element: <ManageVoucher /> },
+      { path: paths.admin.createVoucher.path, element: <CreateVoucher /> },
       { path: paths.admin.voucherSetting.path, element: <VoucherSetting /> },
+      { path: paths.admin.setting.path, element: <Setting /> },
     ],
   },
   {

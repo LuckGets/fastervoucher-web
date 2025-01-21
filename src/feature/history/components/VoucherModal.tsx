@@ -44,7 +44,7 @@ const VoucherModal = ({ voucher, onClose }: VoucherModalProps) => {
           <div className="h-56 w-56">
             <img src={Qr} alt="Qr-code" />
             {isExpired(voucher.expireDate) && (
-              <div className="absolute left-[3rem] top-[20rem] rounded-xl border border-[#F87171] bg-[#F7F3ED] px-16 py-3 text-[#F87171] shadow-md md:left-[7.5rem] md:top-[19rem]">
+              <div className="absolute left-10 top-[20rem] rounded-xl border border-[#F87171] bg-[#F7F3ED] px-16 py-3 text-[#F87171] shadow-md md:left-[7.5rem] md:top-[19rem]">
                 <h1 className="text-xl">voucher expired</h1>
               </div>
             )}

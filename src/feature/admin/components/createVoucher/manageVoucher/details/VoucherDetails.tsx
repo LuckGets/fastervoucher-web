@@ -1,27 +1,18 @@
-import useVoucherStore from '@/stores/voucher-store';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+interface VoucherDetailsProps {
+  detailsTh: string | undefined;
+  detailsEng: string | undefined;
+  onChange: (field: 'detailsTh' | 'detailsEng', value: string) => void;
+}
 
-const VoucherDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
-
-  const [detailsTh, setDetailsTh] = useState(voucher?.detailsTh || '');
-  const [detailsEng, setDetailsEng] = useState(voucher?.detailsEng || '');
-
-  if (!voucher) {
-    return <p>Voucher not found!</p>;
-  }
-
-  const handleSave = () => {
-    updateVoucher(voucherId, { detailsTh, detailsEng });
-  };
-
+const VoucherDetails: React.FC<VoucherDetailsProps> = ({
+  detailsTh,
+  detailsEng,
+  onChange,
+}) => {
   const handleClear = () => {
-    setDetailsTh('');
-    setDetailsEng('');
+    onChange('detailsTh', '');
+    onChange('detailsEng', '');
   };
 
   return (
@@ -34,7 +25,7 @@ const VoucherDetails = () => {
           className="w-full rounded-xl border bg-[#E1E1E1] p-2"
           rows={4}
           value={detailsTh}
-          onChange={(e) => setDetailsTh(e.target.value)}
+          onChange={(e) => onChange('detailsTh', e.target.value)}
         />
       </div>
 
@@ -44,14 +35,16 @@ const VoucherDetails = () => {
           className="w-full rounded-xl border bg-[#E1E1E1] p-2"
           rows={4}
           value={detailsEng}
-          onChange={(e) => setDetailsEng(e.target.value)}
+          onChange={(e) => onChange('detailsEng', e.target.value)}
         />
       </div>
 
       <div className="flex justify-end gap-2">
         <button
           className="rounded-xl bg-[#2BB673] px-4 py-2 text-white hover:bg-[#26a065]"
-          onClick={handleSave}
+          onClick={() =>
+            alert('Save functionality should be handled by parent')
+          }
         >
           Save
         </button>

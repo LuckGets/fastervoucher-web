@@ -7,6 +7,7 @@ import type { RegisterForm } from '@/api/auth/types/register-form.types';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { paths } from '@/config/path';
 
 interface Errors {
   fullname?: string;
@@ -71,7 +72,7 @@ const RegisterForm = () => {
             confirmButton: 'custom-confirm-button',
           },
         }).then(() => {
-          navigate('/auth/login');
+          navigate(`${paths.auth.login.path}`);
         });
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
