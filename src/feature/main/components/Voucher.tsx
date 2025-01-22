@@ -32,8 +32,7 @@ const Voucher = ({ selectedRestaurant }: Props) => {
 
   useEffect(() => {
     actionGetVouchers();
-    console.log(vouchers);
-  }, [vouchers]);
+  }, [actionGetVouchers]);
 
   const filteredVouchers = vouchers.filter((voucher) =>
     selectedRestaurant ? voucher.restaurant === selectedRestaurant : true,

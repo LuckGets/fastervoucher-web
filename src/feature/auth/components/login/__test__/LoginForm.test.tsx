@@ -10,13 +10,11 @@ const identifierPlaceholderText = 'Email or phone';
 const passwordPlaceholderText = 'Password';
 
 describe('Login Form', () => {
-  let screenContainer: HTMLElement;
-  const { container } = render(
+  const { container: screenContainer } = render(
     <BrowserRouter>
       <LoginForm />
     </BrowserRouter>,
   );
-  screenContainer = container;
 
   it('renders a form', () => {
     expect(screenContainer.querySelector(`div > form`)).toBeInTheDocument();
