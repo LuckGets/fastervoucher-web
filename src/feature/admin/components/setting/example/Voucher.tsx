@@ -5,7 +5,7 @@ const Voucher = () => {
 
   return (
     <div className="grid w-full grid-cols-2 gap-4 px-6">
-      {vouchers.map((voucher, index) => (
+      {vouchers.slice(0, 4).map((voucher, index) => (
         <div key={index} className="rounded-xl p-2">
           <img
             src={voucher.src}
@@ -34,4 +34,5 @@ const Voucher = () => {
     </div>
   );
 };
+
 export default Voucher;
