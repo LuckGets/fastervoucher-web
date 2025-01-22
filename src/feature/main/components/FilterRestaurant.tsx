@@ -19,9 +19,10 @@ const FilterRestaurant = ({
   };
 
   return (
-    <div className="my-4 flex items-center justify-center gap-2 px-4 text-xs text-text">
+    <div className="my-4 flex flex-shrink flex-wrap items-center justify-center gap-2 px-4 text-xs lg:justify-start lg:gap-4 lg:px-10 lg:text-sm">
+      {/* Button for "All" */}
       <div
-        className={`flex h-10 items-center justify-center rounded-3xl bg-[#D9D9D9] px-2 ${
+        className={`flex h-10 min-w-[60px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 lg:min-w-[80px] ${
           selectedRestaurant === null ? 'text-textWhite' : ''
         }`}
         style={selectedRestaurant === null ? { backgroundColor: bgColor } : {}}
@@ -29,10 +30,12 @@ const FilterRestaurant = ({
       >
         <button>All</button>
       </div>
+
+      {/* Buttons for Restaurants */}
       {restaurant.map((item, index) => (
         <div
           key={index}
-          className={`flex h-10 items-center justify-center rounded-full bg-[#D9D9D9] px-2 ${
+          className={`flex h-10 min-w-[80px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 ${
             selectedRestaurant === item.name ? 'text-textWhite' : ''
           }`}
           style={

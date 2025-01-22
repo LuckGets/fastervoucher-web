@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import Email from './components/setting/email/Email';
-import Example from './components/setting/example/Example';
-import Store from './components/setting/store/Store';
-import VoucherEmail from './components/setting/email/VoucherEmail';
-import CoverPhoto from './components/setting/coverphoto/CoverPhoto';
-import Restaurant from './components/setting/restaurant/Restaurant';
-import LineShop from './components/setting/line/LineShop';
-import Shopee from './components/setting/shopee/Shopee';
+import Example from '../../feature/admin/components/setting/example/Example';
+import Store from '../../feature/admin/components/setting/Store';
+import CoverPhoto from '../../feature/admin/components/setting/coverphoto/CoverPhoto';
+import Restaurant from '../../feature/admin/components/setting/restaurant/Restaurant';
+import LineShop from '../../feature/admin/components/setting/line/LineShop';
 import ScrollTop from '@/components/ScrollTop';
+import VoucherEmail from '@/feature/admin/components/setting/email/VoucherEmail';
+import Shopee from '@/feature/admin/components/setting/shopee/Shopee';
+import Email from '@/feature/admin/components/setting/email/Email';
 
 const Setting = () => {
   useEffect(() => {

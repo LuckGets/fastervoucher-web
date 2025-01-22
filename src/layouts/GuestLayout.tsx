@@ -7,7 +7,7 @@ const GuestLayout = () => {
   return (
     <div className="flex min-h-screen flex-col items-center bg-[#F7F3ED] text-text">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow lg:mt-24">
         <Outlet />
       </main>
       <GuestFooter activePath={pathname} />

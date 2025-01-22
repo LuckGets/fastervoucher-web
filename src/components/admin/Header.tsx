@@ -18,7 +18,13 @@ const Header = () => {
       </div>
       <div className="hidden items-center gap-6 text-lg md:flex">
         <Link to="/manual">Manual</Link>
-        <Link to="/contact">Contact Us</Link>
+        <a
+          href="https://voucherfaster.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Contact Us
+        </a>
       </div>
     </div>
   );

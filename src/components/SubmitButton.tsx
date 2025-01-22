@@ -9,14 +9,19 @@ interface SubmitButtonProps {
 const SubmitButton = ({ className, text, disabled }: SubmitButtonProps) => {
   const { color } = useSettingStore();
 
-  const bgColor = color
-    ? { backgroundColor: color }
-    : { backgroundColor: '#D1D5DB' };
+  const bgColor = disabled
+    ? { backgroundColor: '#D9D9D9' }
+    : color
+      ? { backgroundColor: color }
+      : { backgroundColor: '#D1D5DB' };
+
   return (
     <button
       type="submit"
       style={bgColor}
-      className={`${className} ${disabled ? 'cursor-not-allowed bg-[#D9D9D9] text-text' : ''} capitalize`}
+      className={`${className} ${
+        disabled ? 'cursor-not-allowed text-text' : ''
+      } capitalize`}
       disabled={disabled}
     >
       {text}

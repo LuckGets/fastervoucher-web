@@ -19,7 +19,7 @@ const Loading = () => {
   }, []);
 
   return (
-    <div className="my-20 flex w-screen items-center justify-center bg-[#F7F3ED]">
+    <div className="flex w-screen items-center justify-center bg-[#F7F3ED] py-20">
       <div className="grid grid-cols-1 justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
         <div className="flex items-center space-x-4">
           <Skeleton className="h-12 w-12 rounded-full" />

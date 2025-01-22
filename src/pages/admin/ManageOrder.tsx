@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import SearchBar from './components/manageOrder/SearchBar';
-import VoucherTable from './components/manageOrder/VoucherTable';
+import SearchBar from '../../feature/admin/components/manageOrder/SearchBar';
+import VoucherTable from '../../feature/admin/components/manageOrder/VoucherTable';
 
 const ManageOrder = () => {
   const [searchTerm, setSearchTerm] = useState('');

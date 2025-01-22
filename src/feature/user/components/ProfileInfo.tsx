@@ -1,29 +1,53 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
+import useAccountStore, { Account } from '@/stores/account-store';
+import useAuthStore from '@/stores/auth-store';
 
 interface ProfileInfoProps {
   userInfo: {
-    info: string;
-    label: string;
+    info: string | null;
+    label: string | null;
+    field: keyof Account;
   };
 }
 
 const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
-  const { info, label } = userInfo;
+  const { info, label, field } = userInfo;
+  const { accountInfo, actionEditInfo } = useAccountStore();
+  const { accessToken } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [newValue, setNewValue] = useState(info);
+  const [newValue, setNewValue] = useState<string>(info ?? '');
+  const [loading, setLoading] = useState(false);
+
+  const accountId = accountInfo?.id || '';
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    console.log('Saved Value:', newValue);
+  const handleSave = async () => {
+    if (loading) return;
+    if (newValue !== undefined && newValue !== null && newValue !== info) {
+      setLoading(true);
+      try {
+        await actionEditInfo(
+          [{ field, value: newValue }],
+          accountId,
+          accessToken as string,
+        );
+        setIsEditing(false);
+      } catch (error) {
+        console.error('Failed to save changes:', error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      console.warn('No valid data to save');
+    }
   };
 
   const handleCancel = () => {
-    setNewValue(info);
+    setNewValue(info ?? '');
     setIsEditing(false);
   };
 
@@ -54,8 +78,13 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
           <input
             type="text"
             className="w-full rounded-full bg-[#D9D9D9] p-4 px-2 py-1"
-            value={newValue}
-            onChange={(e) => setNewValue(e.target.value)}
+            value={newValue ?? ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value) {
+                setNewValue(value);
+              }
+            }}
           />
         ) : (
           <h1 className="font-semibold">{newValue}</h1>
@@ -64,6 +93,9 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
           <button onClick={handleEdit} className="ml-2">
             <Pencil className="h-5 w-5 text-basicGray" />
           </button>
+        )}
+        {loading && (
+          <span className="ml-2 text-sm text-gray-500">Saving...</span>
         )}
       </div>
     </div>

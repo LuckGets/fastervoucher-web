@@ -1,8 +1,9 @@
-import { userInfo } from '@/utils/user/userinfo';
 import Verify from '../components/verifyEmail/Verify';
 import { motion, AnimatePresence } from 'framer-motion';
+import useAccountStore from '@/stores/account-store';
 
 const VerifyEmail = () => {
+  const { accountInfo } = useAccountStore();
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -18,7 +19,7 @@ const VerifyEmail = () => {
         <div className="mb-6 text-center text-sm text-gray-500">
           <p>An OTP has been sent to your email address</p>
           <p className="font-semibold">
-            {userInfo.email} <p>Please check your inbox.</p>
+            {accountInfo?.email} <p>Please check your inbox.</p>
           </p>
         </div>
         <Verify />

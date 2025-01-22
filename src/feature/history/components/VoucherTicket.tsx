@@ -2,7 +2,6 @@ import { CalendarDays, Clock3 } from 'lucide-react';
 import { useState } from 'react';
 import VoucherModal from './VoucherModal';
 import { motion, Variants } from 'framer-motion';
-import useSettingStore from '@/stores/setting-store';
 
 interface Voucher {
   no: string;
@@ -31,13 +30,8 @@ const VoucherTicket = ({
   vouchers,
   freeVouchers,
 }: VoucherWrapperProps) => {
-  const { color } = useSettingStore();
   const [openModal, setOpenModal] = useState(false);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
-
-  const bgColor = color
-    ? { backgroundColor: color }
-    : { backgroundColor: '#D1D5DB' };
 
   const isExpired = (expireDate: string) => {
     const currentDate = new Date();
@@ -102,7 +96,6 @@ const VoucherTicket = ({
                       ? 'border bg-transparent text-gray-500'
                       : 'bg-primary text-white'
                   }`}
-                  disabled={isExpired(voucher.expireDate)}
                 >
                   {isExpired(voucher.expireDate) ? 'Expired' : 'Use Voucher'}
                 </button>
@@ -144,9 +137,11 @@ const VoucherTicket = ({
               ) : (
                 <button
                   onClick={() => handleOnClick(voucher)}
-                  style={bgColor}
-                  className={`rounded-full px-2 py-1 text-xs ${isExpired(voucher.expireDate) ? 'bg-[#E1E1E1] text-gray-500' : 'text-white'}`}
-                  disabled={isExpired(voucher.expireDate)}
+                  className={`rounded-full px-2 py-1 text-xs ${
+                    isExpired(voucher.expireDate)
+                      ? 'border bg-transparent text-gray-500'
+                      : 'bg-primary text-white'
+                  }`}
                 >
                   {isExpired(voucher.expireDate) ? 'Expired' : 'Use Voucher'}
                 </button>

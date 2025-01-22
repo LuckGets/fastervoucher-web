@@ -1,11 +1,11 @@
 export interface Form {
-  fullName?: string;
+  fullname?: string;
   identifier?: string;
   email?: string;
   name?: string;
   phone?: string;
   password?: string;
-  currentPassword?: string;
+  oldPassword?: string;
   newPassword?: string;
   confirmPassword?: string;
 }

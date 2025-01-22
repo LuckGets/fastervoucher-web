@@ -1,3 +1,5 @@
+import { getVouchers } from '@/api/voucher/voucher';
+import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -6,18 +8,23 @@ interface Image {
   src: string;
 }
 
-interface promotion {
+interface Promotion {
   name: string;
   price: number;
   startDate: string;
   endDate: string;
 }
 
-export interface voucher {
+export interface Voucher {
   id: number;
   name: string;
   price: number;
-  promotion?: promotion[];
+  stockAmount?: number;
+  saleStartDate?: string;
+  saleEndDate?: string;
+  useDateStart?: string;
+  useDateEnd?: string;
+  promotion?: Promotion[];
   restaurant: string;
   meal: string;
   passcode?: string;
@@ -39,14 +46,18 @@ export interface Condition {
 }
 
 interface SettingState {
-  vouchers: voucher[];
-  restaurant: Restaurant[];
-  meal: Restaurant[];
+  vouchers: Voucher[];
+  restaurants: Restaurant[];
+  meals: Restaurant[];
+  actionGetVouchers: () => void;
   setRestaurant: (restaurant: Restaurant[]) => void;
   setMeal: (meal: Restaurant[]) => void;
-  addVoucher: (voucher: voucher) => void;
-  updateVoucher: (id: number, updatedVoucher: Partial<voucher>) => void;
+  addVoucher: (voucher: Voucher) => void;
+  updateVoucher: (id: number, updatedVoucher: Partial<Voucher>) => void;
   removeVoucher: (id: number) => void;
+  createVoucher: (newVoucher: Omit<Voucher, 'id'>) => void;
+  filteredVouchers: Voucher[];
+  filterVouchers: (searchTerm: string) => void;
 }
 
 const useVoucherStore = create<SettingState>()(
@@ -57,6 +68,7 @@ const useVoucherStore = create<SettingState>()(
           id: 1,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 1000,
           promotion: [
             {
               name: 'ไทยเที่ยวไทยครั้งที่ 77',
@@ -159,6 +171,7 @@ const useVoucherStore = create<SettingState>()(
           id: 2,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 1000,
           restaurant: 'Coffee Shop',
           meal: 'dinner',
           src: 'https://i.imgur.com/41ygasy.png',
@@ -168,6 +181,7 @@ const useVoucherStore = create<SettingState>()(
           id: 3,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 10,
           restaurant: 'Yok Chinese Restaurant',
           meal: 'dinner',
           passcode: 'saddxc',
@@ -177,6 +191,7 @@ const useVoucherStore = create<SettingState>()(
         {
           id: 4,
           name: 'Premium Sushi & Seafood Buffet Dinner',
+          stockAmount: 9,
           price: 1800,
           promotion: [
             {
@@ -191,17 +206,34 @@ const useVoucherStore = create<SettingState>()(
           src: 'https://i.imgur.com/DmSDV96.png',
         },
       ],
-      restaurant: [
+      restaurants: [
         { name: 'Coffee Shop' },
         { name: 'Yok Chinese Restaurant' },
         { name: 'Health club' },
       ],
-      meal: [{ name: 'lunch' }, { name: 'dinner' }, { name: 'brunch' }],
-      setRestaurant: (restaurant: Restaurant[]) => set({ restaurant }),
-      setMeal: (meal: Restaurant[]) => set({ meal }),
-      addVoucher: (voucher: voucher) =>
+      meals: [{ name: 'lunch' }, { name: 'dinner' }, { name: 'brunch' }],
+      actionGetVouchers: async () => {
+        try {
+          const result = await getVouchers();
+          const data = result?.data?.data;
+
+          if (data) {
+            set({ vouchers: data });
+          } else {
+            console.log('ไม่สามารถดึงข้อมูลได้ ใช้ข้อมูลเดิม');
+            set({ vouchers: useVoucherStore.getState().vouchers });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.log('actionGetVouchers error:', err);
+          set({ vouchers: useVoucherStore.getState().vouchers });
+        }
+      },
+      setRestaurant: (restaurants: Restaurant[]) => set({ restaurants }),
+      setMeal: (meals: Restaurant[]) => set({ meals }),
+      addVoucher: (voucher: Voucher) =>
         set((state) => ({ vouchers: [...state.vouchers, voucher] })),
-      updateVoucher: (id: number, updatedVoucher: Partial<voucher>) =>
+      updateVoucher: (id: number, updatedVoucher: Partial<Voucher>) =>
         set((state) => ({
           vouchers: state.vouchers.map((v) => {
             if (v.id === id) {
@@ -218,6 +250,25 @@ const useVoucherStore = create<SettingState>()(
         set((state) => ({
           vouchers: state.vouchers.filter((v) => v.id !== id),
         })),
+      createVoucher: (newVoucher: Omit<Voucher, 'id'>) =>
+        set((state) => {
+          const newId = Math.max(0, ...state.vouchers.map((v) => v.id)) + 1;
+          const voucherWithId = { id: newId, ...newVoucher };
+          return { vouchers: [...state.vouchers, voucherWithId] };
+        }),
+      filteredVouchers: [],
+      filterVouchers: (searchTerm) => {
+        set((state) => {
+          const filtered = state.vouchers.filter(
+            (voucher: Voucher) =>
+              voucher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              voucher.restaurant
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()),
+          );
+          return { filteredVouchers: filtered };
+        });
+      },
     }),
 
     {

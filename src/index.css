@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -78,9 +79,10 @@
 
 .custom-confirm-button {
   background-color: #006838;
+  width: 260px;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
