@@ -2,20 +2,33 @@ import { useEffect } from 'react';
 import UserAvatar from '@/feature/user/components/UserAvatar';
 import UserList from '@/feature/user/components/UserList';
 import useAuthStore from '@/stores/auth-store';
-import { userInfo } from '@/utils/user/userinfo';
 import { motion, AnimatePresence } from 'framer-motion';
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
+import useAccountStore from '@/stores/account-store';
 
 const UserPage = () => {
+  const { accountInfo, actionGetMe } = useAccountStore();
   const { accessToken } = useAuthStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
-      navigate(`${paths.auth.login.path}`);
-    }
-  }, [accessToken, navigate]);
+    const fetchData = async () => {
+      try {
+        await actionGetMe(accessToken as string);
+      } catch (error) {
+        console.log('error details :>> ', error);
+      }
+
+      if (!accessToken) {
+        navigate(paths.auth.login.path);
+      }
+    };
+
+    fetchData();
+  }, [accessToken, actionGetMe, navigate]);
+
+  console.log('accountInfo :>> ', accountInfo);
 
   if (!accessToken) {
     return null;
@@ -33,10 +46,10 @@ const UserPage = () => {
         <div className="mt-4 flex w-full max-w-4xl flex-col items-center">
           <UserAvatar />
           <h1 className="mt-6 text-xl font-semibold md:text-3xl">
-            {userInfo.name}
+            {accountInfo?.fullname}
           </h1>
           <h2 className="text-sm font-semibold text-[#888888] md:text-lg">
-            {userInfo.email}
+            {accountInfo?.email}
           </h2>
         </div>
         <div className="mt-4 flex w-full max-w-4xl justify-start">

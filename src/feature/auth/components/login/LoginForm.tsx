@@ -9,12 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 const LoginForm = () => {
-  const { actionLogin } = useAuthStore();
+  const { actionLogin, actionRefreshToken } = useAuthStore();
 
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState<Partial<Form>>({});
+  const [form, setForm] = useState<Partial<Form>>({
+    identifier: '',
+    password: '',
+  });
   const [errors, setErrors] = useState({
     identifier: '',
     password: '',
@@ -48,7 +51,8 @@ const LoginForm = () => {
             popup: 'small-popup',
             confirmButton: 'custom-confirm-button',
           },
-        }).then(() => {
+        }).then(async () => {
+          await actionRefreshToken();
           navigate('/');
         });
       } catch (error) {

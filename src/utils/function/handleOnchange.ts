@@ -5,7 +5,7 @@ export interface Form {
   name?: string;
   phone?: string;
   password?: string;
-  currentPassword?: string;
+  oldPassword?: string;
   newPassword?: string;
   confirmPassword?: string;
 }

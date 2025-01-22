@@ -1,3 +1,5 @@
+import { getVouchers } from '@/api/voucher/voucher';
+import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -17,6 +19,7 @@ export interface Voucher {
   id: number;
   name: string;
   price: number;
+  stockAmount?: number;
   saleStartDate?: string;
   saleEndDate?: string;
   useDateStart?: string;
@@ -46,6 +49,7 @@ interface SettingState {
   vouchers: Voucher[];
   restaurants: Restaurant[];
   meals: Restaurant[];
+  actionGetVouchers: () => void;
   setRestaurant: (restaurant: Restaurant[]) => void;
   setMeal: (meal: Restaurant[]) => void;
   addVoucher: (voucher: Voucher) => void;
@@ -64,6 +68,7 @@ const useVoucherStore = create<SettingState>()(
           id: 1,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 1000,
           promotion: [
             {
               name: 'ไทยเที่ยวไทยครั้งที่ 77',
@@ -166,6 +171,7 @@ const useVoucherStore = create<SettingState>()(
           id: 2,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 1000,
           restaurant: 'Coffee Shop',
           meal: 'dinner',
           src: 'https://i.imgur.com/41ygasy.png',
@@ -175,6 +181,7 @@ const useVoucherStore = create<SettingState>()(
           id: 3,
           name: 'Premium Sushi & Seafood Buffet Dinner',
           price: 1800,
+          stockAmount: 10,
           restaurant: 'Yok Chinese Restaurant',
           meal: 'dinner',
           passcode: 'saddxc',
@@ -184,6 +191,7 @@ const useVoucherStore = create<SettingState>()(
         {
           id: 4,
           name: 'Premium Sushi & Seafood Buffet Dinner',
+          stockAmount: 9,
           price: 1800,
           promotion: [
             {
@@ -204,6 +212,23 @@ const useVoucherStore = create<SettingState>()(
         { name: 'Health club' },
       ],
       meals: [{ name: 'lunch' }, { name: 'dinner' }, { name: 'brunch' }],
+      actionGetVouchers: async () => {
+        try {
+          const result = await getVouchers();
+          const data = result?.data?.data;
+
+          if (data) {
+            set({ vouchers: data });
+          } else {
+            console.log('ไม่สามารถดึงข้อมูลได้ ใช้ข้อมูลเดิม');
+            set({ vouchers: useVoucherStore.getState().vouchers });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.log('actionGetVouchers error:', err);
+          set({ vouchers: useVoucherStore.getState().vouchers });
+        }
+      },
       setRestaurant: (restaurants: Restaurant[]) => set({ restaurants }),
       setMeal: (meals: Restaurant[]) => set({ meals }),
       addVoucher: (voucher: Voucher) =>

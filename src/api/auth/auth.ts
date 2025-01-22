@@ -7,4 +7,12 @@ export const register = (form: RegisterForm) =>
 
 export const login = (form: LoginForm) => axios.post('/auth/login', form);
 
+export const refresh = (refreshToken: string) =>
+  axios.get('/auth/refresh', {
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+    withCredentials: true,
+  });
+
 export const logout = () => axios.get('/auth/logout');

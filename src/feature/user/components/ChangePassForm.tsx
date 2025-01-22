@@ -1,45 +1,71 @@
 import SubmitButton from '@/components/SubmitButton';
+import useAccountStore from '@/stores/account-store';
+import useAuthStore from '@/stores/auth-store';
 import { Form, handleInputChange } from '@/utils/function/handleOnchange';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
 interface Errors {
-  currentPassword?: string;
+  oldPassword?: string;
   newPassword?: string;
   confirmPassword?: string;
 }
 
 const ChangePassForm = () => {
+  const { accessToken } = useAuthStore();
+  const { accountInfo, actionChangePassword } = useAccountStore();
   const [form, setForm] = useState<Partial<Form>>({});
   const [errors, setErrors] = useState<Errors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const accountId = accountInfo?.id || '';
+
   const validateForm = () => {
     const newErrors: Errors = {};
-    if (!(form.currentPassword && form.newPassword && form.confirmPassword)) {
-      newErrors.currentPassword = 'All fields are required';
-    } else if (form.newPassword.length < 6 || form.newPassword.length > 20) {
+    if (!(form.oldPassword && form.newPassword && form.confirmPassword)) {
+      newErrors.oldPassword = 'All fields are required';
+    } else if (
+      form.newPassword &&
+      (form.newPassword.length < 6 || form.newPassword.length > 20)
+    ) {
       newErrors.newPassword = 'Password must be between 6-20 characters';
     }
-    if (form.newPassword !== form.confirmPassword)
+    if (form.newPassword !== form.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted', form);
+      const formData = {
+        oldPassword: form.oldPassword || '',
+        newPassword: form.newPassword || '',
+        confirmPassword: form.confirmPassword || '',
+      };
+
+      try {
+        await actionChangePassword(formData, accountId, accessToken || '');
+        console.log(
+          'ChangePasswordData :>> ',
+          form.oldPassword,
+          form.newPassword,
+          form.confirmPassword,
+        );
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       setErrors(validationErrors);
     }
   };
 
   const isFormValid =
-    form.currentPassword && form.newPassword && form.confirmPassword;
+    form.oldPassword && form.newPassword && form.confirmPassword;
 
   return (
     <form
@@ -49,10 +75,10 @@ const ChangePassForm = () => {
       <div className="relative w-[80%]">
         <input
           type={showPassword ? 'text' : 'password'}
-          className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.currentPassword ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.oldPassword ? 'border border-error' : ''}`}
           placeholder="Current Password"
-          name="currentPassword"
-          value={form.currentPassword || ''}
+          name="oldPassword"
+          value={form.oldPassword || ''}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button
@@ -67,9 +93,7 @@ const ChangePassForm = () => {
           )}
         </button>
       </div>
-      {errors.currentPassword && (
-        <p className="text-error">{errors.currentPassword}</p>
-      )}
+      {errors.oldPassword && <p className="text-error">{errors.oldPassword}</p>}
       <div className="relative w-[80%]">
         <input
           type={showNewPassword ? 'text' : 'password'}

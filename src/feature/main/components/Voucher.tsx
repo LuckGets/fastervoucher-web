@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VoucherDetails from './VoucherDetails';
 import useVoucherStore from '@/stores/voucher-store';
 
@@ -24,11 +24,15 @@ interface VoucherProps {
 }
 
 const Voucher = ({ selectedRestaurant }: Props) => {
-  const { vouchers } = useVoucherStore();
+  const { vouchers, actionGetVouchers } = useVoucherStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedVoucher, setSelectedVoucher] = useState<VoucherProps | null>(
     null,
   );
+
+  useEffect(() => {
+    actionGetVouchers();
+  }, [vouchers]);
 
   const filteredVouchers = vouchers.filter((voucher) =>
     selectedRestaurant ? voucher.restaurant === selectedRestaurant : true,
@@ -53,15 +57,13 @@ const Voucher = ({ selectedRestaurant }: Props) => {
           className="cursor-pointer rounded-xl p-2 active:bg-[#0000003a]"
         >
           <img
-            src={voucher.src}
+            src={voucher.src || '/placeholder-image.png'}
             alt={voucher.name}
-            width={250}
-            height={250}
             className="w-full rounded-2xl object-cover"
           />
           <h1 className="mt-2 truncate text-sm md:text-lg">{voucher.name}</h1>
           <div className="flex items-center">
-            {!voucher.promotion || voucher.promotion.length === 0 ? (
+            {!voucher.promotion?.length ? (
               <h2 className="text-xs text-gray-500 md:text-sm">
                 THB {voucher.price} ++
               </h2>
@@ -76,6 +78,11 @@ const Voucher = ({ selectedRestaurant }: Props) => {
               </>
             )}
           </div>
+          {voucher.stockAmount !== undefined && voucher.stockAmount < 20 && (
+            <p className="mt-2 text-[10px] text-red-500 md:text-xs">
+              Only {voucher.stockAmount} left!
+            </p>
+          )}
         </div>
       ))}
       {isModalOpen && selectedVoucher && (

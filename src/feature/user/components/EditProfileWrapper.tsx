@@ -1,19 +1,33 @@
+import useAccountStore from '@/stores/account-store';
 import ProfileInfo from './ProfileInfo';
-import { userInfo } from '@/utils/user/userinfo';
 
 const EditProfileWrapper = () => {
+  const { accountInfo } = useAccountStore();
+
   return (
-    <div className="">
+    <div>
       <div className="flex flex-col gap-6 text-text">
-        {userInfo?.name && (
-          <ProfileInfo userInfo={{ info: userInfo.name, label: 'Name' }} />
-        )}
-        {userInfo?.email && (
-          <ProfileInfo userInfo={{ info: userInfo.email, label: 'Email' }} />
-        )}
-        {userInfo?.phone && (
-          <ProfileInfo userInfo={{ info: userInfo.phone, label: 'Phone' }} />
-        )}
+        <ProfileInfo
+          userInfo={{
+            info: accountInfo?.fullname ?? null,
+            label: 'Name',
+            field: 'fullname',
+          }}
+        />
+        <ProfileInfo
+          userInfo={{
+            info: accountInfo?.email ?? null,
+            label: 'Email',
+            field: 'email',
+          }}
+        />
+        <ProfileInfo
+          userInfo={{
+            info: accountInfo?.phone ?? null,
+            label: 'Phone',
+            field: 'phone',
+          }}
+        />
       </div>
     </div>
   );
