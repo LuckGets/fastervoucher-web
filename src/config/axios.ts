@@ -1,6 +1,5 @@
 import axios from 'axios';
 import useAuthStore from '@/stores/auth-store';
-import { jwtDecode } from 'jwt-decode';
 
 const PORT: number = 8080;
 
@@ -11,26 +10,27 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const { accessToken } = useAuthStore.getState();
-    if (accessToken) {
-      const decodedToken: { exp?: number } = jwtDecode(accessToken);
-      const currentTime = Date.now() / 1000;
+    const { accessToken, actionRefreshToken } = useAuthStore.getState();
 
-      if (decodedToken.exp && decodedToken.exp <= currentTime) {
-        try {
-          const newAccessToken = await useAuthStore
-            .getState()
-            .actionRefreshToken();
-          if (newAccessToken) {
-            config.headers['Authorization'] = `Bearer ${newAccessToken}`;
-          }
-        } catch (error) {
-          console.warn('Failed to refresh token', error);
-        }
-      } else {
+    if (accessToken) {
+      try {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
+      } catch (error) {
+        console.warn('Error setting Authorization header:', error);
       }
     }
+
+    try {
+      if (!accessToken) {
+        const newAccessToken = await actionRefreshToken();
+        if (newAccessToken) {
+          config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to refresh token:', error);
+    }
+
     return config;
   },
   (error) => {

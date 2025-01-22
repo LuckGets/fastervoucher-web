@@ -32,6 +32,7 @@ const Voucher = ({ selectedRestaurant }: Props) => {
 
   useEffect(() => {
     actionGetVouchers();
+    console.log(vouchers);
   }, [vouchers]);
 
   const filteredVouchers = vouchers.filter((voucher) =>
@@ -78,11 +79,13 @@ const Voucher = ({ selectedRestaurant }: Props) => {
               </>
             )}
           </div>
-          {voucher.stockAmount !== undefined && voucher.stockAmount < 20 && (
-            <p className="mt-2 text-[10px] text-red-500 md:text-xs">
-              Only {voucher.stockAmount} left!
-            </p>
-          )}
+          {voucher?.stockAmount !== undefined &&
+            voucher?.stockAmount !== null &&
+            voucher?.stockAmount < 20 && (
+              <p className="mt-2 text-[10px] text-red-500 md:text-xs">
+                Only {voucher.stockAmount} left!
+              </p>
+            )}
         </div>
       ))}
       {isModalOpen && selectedVoucher && (
