@@ -6,10 +6,10 @@ import Swal from 'sweetalert2';
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
 import useSettingStore from '@/stores/setting-store';
-import { voucher } from '@/stores/voucher-store';
+import { Voucher } from '@/stores/voucher-store';
 
 interface VoucherDetailsProps {
-  voucher: voucher;
+  voucher: Voucher;
   onClose: () => void;
 }
 

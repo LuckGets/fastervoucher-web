@@ -14,7 +14,8 @@ interface Restaurant {
 }
 
 const SelectMeal: React.FC<SelectMealProps> = ({ meal, onSelectMeal }) => {
-  const { meals, setMeal } = useVoucherStore();
+  const meals = useVoucherStore((state) => state.meals as Restaurant[]);
+  const setMeal = useVoucherStore((state) => state.setMeal);
 
   const [newMeal, setNewMeal] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);

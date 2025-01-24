@@ -21,6 +21,7 @@ api.interceptors.request.use(
     }
 
     try {
+      // Refresh token logic
       if (!accessToken) {
         const newAccessToken = await actionRefreshToken();
         if (newAccessToken) {

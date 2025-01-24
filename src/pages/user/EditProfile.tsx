@@ -7,6 +7,7 @@ import { MoveLeft, Pencil } from 'lucide-react';
 import { paths } from '@/config/path';
 import EditProfileWrapper from '@/feature/user/components/EditProfileWrapper';
 import UserAvatar from '@/feature/user/components/UserAvatar';
+import { EditInfoBody } from '@/api/accounts/types/editInfo-body.type';
 
 const EditProfile = () => {
   const { accessToken } = useAuthStore();
@@ -33,12 +34,16 @@ const EditProfile = () => {
       const fileExtension = file.name.split('.').pop();
       const fileName = `profile_${Date.now()}.${fileExtension}`;
 
-      const formData = new FormData();
-
-      formData.append('accountImage', file, fileName);
+      const editInfoBody: EditInfoBody[] = [
+        {
+          field: 'accountImage',
+          value: file,
+          fileName,
+        },
+      ];
 
       try {
-        await actionEditInfo(formData, accountInfo?.id, accessToken);
+        await actionEditInfo(editInfoBody, accountInfo?.id, accessToken);
         console.log('Upload success!');
         actionGetMe(accessToken as string);
       } catch (err) {
