@@ -1,22 +1,21 @@
-import useSettingStore from '@/stores/setting-store';
+import useVoucherStore from '@/stores/voucher-store';
 import { PencilLine, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 const HotelRestaurant = () => {
-  const restaurant = useSettingStore((state) => state.restaurant);
-  const setRestaurant = useSettingStore((state) => state.setRestaurant);
+  const { restaurants, setRestaurant } = useVoucherStore();
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [newValue, setNewValue] = useState('');
   const [isAdding, setIsAdding] = useState(false);
 
   const handleEdit = (index: number) => {
     setIsEditing(index);
-    setNewValue(restaurant[index].name);
+    setNewValue(restaurants[index].name);
   };
 
   const handleSave = () => {
     if (isEditing !== null) {
-      const updatedRestaurants = [...restaurant];
+      const updatedRestaurants = [...restaurants];
       updatedRestaurants[isEditing].name = newValue;
       setRestaurant(updatedRestaurants);
     }
@@ -29,7 +28,7 @@ const HotelRestaurant = () => {
   };
 
   const handleDelete = (index: number) => {
-    const updatedRestaurants = restaurant.filter((_, i) => i !== index);
+    const updatedRestaurants = restaurants.filter((_, i) => i !== index);
     setRestaurant(updatedRestaurants);
   };
 
@@ -39,7 +38,7 @@ const HotelRestaurant = () => {
 
   const handleSaveNewRestaurant = () => {
     if (newValue.trim()) {
-      const updatedRestaurants = [...restaurant, { name: newValue }];
+      const updatedRestaurants = [...restaurants, { name: newValue }];
       setRestaurant(updatedRestaurants);
       setNewValue('');
       setIsAdding(false);
@@ -53,7 +52,7 @@ const HotelRestaurant = () => {
 
   return (
     <div className="my-2 flex flex-col gap-3">
-      {restaurant.map((restaurantItem, index) => (
+      {restaurants.map((restaurantItem, index) => (
         <div
           key={index}
           className="h-18 flex w-[90%] items-center justify-around rounded-xl bg-[#D9D9D9] px-5 hover:bg-[#a3a3a3a0]"

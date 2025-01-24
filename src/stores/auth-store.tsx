@@ -5,6 +5,7 @@ import { LoginForm } from '@/api/auth/types/login-form.types';
 import { RegisterForm } from '@/api/auth/types/register-form.types';
 import { AxiosError } from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { loginGoogle } from '@/api/authGoogle/authGoogle';
 
 interface LoginResponse {
   accessToken: string;
@@ -23,6 +24,7 @@ export interface AuthState {
   actionRegister: (form: RegisterForm) => Promise<RegisterResponse>;
   actionLogout: () => Promise<void>;
   actionRefreshToken: () => Promise<string | null>;
+  actionLoginGoogle: () => Promise<LoginResponse>;
 }
 
 const useAuthStore = create<AuthState>()(
@@ -123,7 +125,7 @@ const useAuthStore = create<AuthState>()(
         }
 
         try {
-          const response = await refresh(accessToken);
+          const response = await refresh();
           const newAccessToken = response.data.data.accessToken;
 
           useAuthStore.getState().setTokens(newAccessToken);
@@ -132,6 +134,34 @@ const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error('Failed to refresh token:', error);
           return null;
+        }
+      },
+
+      actionLoginGoogle: async () => {
+        try {
+          const login = await loginGoogle();
+          const result = await loginGoogle();
+          const accessToken = result?.data?.data?.accessToken;
+
+          console.log('login :>> ', login);
+
+          if (!accessToken) {
+            console.error('Access Token not found:', result.data);
+            throw new Error('Access Token is undefined');
+          }
+
+          set({ accessToken });
+
+          return result.data as LoginResponse;
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.log('actionLogin error:', err);
+          if (err.response) {
+            set({ errorLogin: err.response.data.message });
+          } else {
+            set({ errorLogin: 'An unexpected error occurred' });
+          }
+          throw err;
         }
       },
     }),

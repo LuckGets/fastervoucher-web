@@ -20,9 +20,9 @@ export interface AccountState {
   accountInfo: Account | null;
   actionGetMe: (accessToken: string) => Promise<Account | null>;
   actionEditInfo: (
-    body: EditInfoBody[],
-    accountId: string,
-    accessToken: string,
+    formData: EditInfoBody[],
+    accountId: string | undefined,
+    accessToken: string | null,
   ) => Promise<void>;
   actionChangePassword: (
     body: changePasswordFormdata,
@@ -49,24 +49,37 @@ const useAccountStore = create<AccountState>()(
           console.log('actionGetMe error:', err);
         }
       },
-      actionEditInfo: async (formData: EditInfoBody[], accountId: string) => {
+      actionEditInfo: async (
+        formData: EditInfoBody[],
+        accountId: string | undefined,
+      ) => {
         try {
-          const result = await editInfo(formData, accountId);
+          const result = await editInfo(formData, accountId || '');
 
           const updatedAccountInfo = formData.reduce(
             (acc, item) => {
-              acc[item.key] = item.value;
+              const value =
+                item.value instanceof File
+                  ? item.value.name
+                  : typeof item.value === 'number'
+                    ? item.value.toString()
+                    : (item.value ?? null);
+
+              acc[item.field] = value as string | null;
               return acc;
             },
             {} as Record<string, string | null>,
           );
 
-          set((state) => ({
-            accountInfo: {
-              ...state.accountInfo,
-              ...updatedAccountInfo,
-            },
-          }));
+          set((state) => {
+            const currentAccountInfo = state.accountInfo || {};
+            return {
+              accountInfo: {
+                ...currentAccountInfo,
+                ...updatedAccountInfo,
+              } as Account,
+            };
+          });
 
           console.log('result actionEditInfo:>> ', result);
         } catch (error) {

@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 const SelectMeal = () => {
   const { id } = useParams<{ id: string }>();
   const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher, meal, setMeal } = useVoucherStore();
+  const { vouchers, updateVoucher, meals, setMeal } = useVoucherStore();
   const voucher = vouchers.find((v) => v.id === voucherId);
 
   const [newMeal, setNewMeal] = useState('');
@@ -26,7 +26,7 @@ const SelectMeal = () => {
 
   const handleAddMeal = () => {
     if (newMeal.trim() === '') return;
-    const updatedMeals = [...meal, { name: newMeal }];
+    const updatedMeals = [...meals, { name: newMeal }];
     setMeal(updatedMeals);
     setNewMeal('');
     setIsModalOpen(false);
@@ -48,7 +48,7 @@ const SelectMeal = () => {
 
       {isDropdownOpen && (
         <div className="absolute left-0 top-full z-20 -mt-6 w-full rounded-xl border bg-[#E1E1E1] py-2 pt-6 shadow-lg">
-          {meal.map((item, index) => (
+          {meals.map((item: { name: string }, index: number) => (
             <div
               key={index}
               onClick={() => handleSelectMeal(item.name)}
