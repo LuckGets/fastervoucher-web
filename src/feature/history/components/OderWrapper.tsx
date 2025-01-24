@@ -4,7 +4,7 @@ import OrderDetails from './OderDetails';
 
 const OderWrapper = () => {
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="mb-20 flex w-full flex-col gap-4">
       {orderLists.map((item, index) => (
         <div key={index}>
           <div className="flex items-center justify-between px-3 text-xs text-basicGray">
