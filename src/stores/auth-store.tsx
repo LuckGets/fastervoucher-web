@@ -4,7 +4,6 @@ import { login, logout, refresh, register } from '../api/auth/auth';
 import { LoginForm } from '@/api/auth/types/login-form.types';
 import { RegisterForm } from '@/api/auth/types/register-form.types';
 import { AxiosError } from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { loginGoogle } from '@/api/authGoogle/authGoogle';
 
 interface LoginResponse {
@@ -35,26 +34,6 @@ const useAuthStore = create<AuthState>()(
       errorRegister: undefined,
       setTokens: (accessToken) => {
         set({ accessToken });
-        const decodedToken = jwtDecode(accessToken);
-
-        let expirationTime;
-        if (decodedToken && decodedToken.exp) {
-          expirationTime = decodedToken.exp * 1000;
-        } else {
-          console.warn(
-            'Access token does not have an expiration time (exp), setting default expiration to 15 minutes.',
-          );
-          expirationTime = Date.now() + 15 * 60 * 1000;
-        }
-
-        const currentTime = Date.now();
-        const timeRemaining = expirationTime - currentTime;
-
-        if (timeRemaining > 0) {
-          setTimeout(() => {
-            useAuthStore.getState().actionRefreshToken();
-          }, timeRemaining);
-        }
       },
 
       actionLogin: async (form: LoginForm) => {

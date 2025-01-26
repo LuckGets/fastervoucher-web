@@ -16,6 +16,7 @@ const UserPage = () => {
     const fetchData = async () => {
       try {
         await actionGetMe(accessToken as string);
+        console.log('accessToken', accessToken);
       } catch (error) {
         console.log('error details :>> ', error);
       }

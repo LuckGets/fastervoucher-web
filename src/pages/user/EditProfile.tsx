@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAccountStore from '@/stores/account-store';
 import useAuthStore from '@/stores/auth-store';
-import { MoveLeft, Pencil } from 'lucide-react';
+import { MoveLeft, Pencil, Loader2 } from 'lucide-react';
 import { paths } from '@/config/path';
 import EditProfileWrapper from '@/feature/user/components/EditProfileWrapper';
 import UserAvatar from '@/feature/user/components/UserAvatar';
-import { EditInfoBody } from '@/api/accounts/types/editInfo-body.type';
 
 const EditProfile = () => {
   const { accessToken } = useAuthStore();
   const { accountInfo, actionEditInfo, actionGetMe } = useAccountStore();
   const [isTallScreen, setIsTallScreen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const checkScreenHeight = () => {
@@ -34,20 +34,18 @@ const EditProfile = () => {
       const fileExtension = file.name.split('.').pop();
       const fileName = `profile_${Date.now()}.${fileExtension}`;
 
-      const editInfoBody: EditInfoBody[] = [
-        {
-          field: 'accountImage',
-          value: file,
-          fileName,
-        },
-      ];
+      const formData = new FormData();
+      formData.append('accountImage', file, fileName);
 
+      setIsUploading(true);
       try {
-        await actionEditInfo(editInfoBody, accountInfo?.id, accessToken);
+        await actionEditInfo(formData, accountInfo?.id, accessToken);
         console.log('Upload success!');
         actionGetMe(accessToken as string);
       } catch (err) {
         console.error('Failed to upload image:', err);
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -77,19 +75,27 @@ const EditProfile = () => {
               <UserAvatar />
             </div>
             <div className="relative right-5 top-40">
-              <label
-                htmlFor="upload-avatar"
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-basicGray"
-              >
-                <Pencil className="h-4 w-4" />
-              </label>
-              <input
-                id="upload-avatar"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              {isUploading ? (
+                <div className="flex h-6 w-6 items-center justify-center">
+                  <Loader2 className="h-4 w-4 animate-spin text-basicGray" />
+                </div>
+              ) : (
+                <>
+                  <label
+                    htmlFor="upload-avatar"
+                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-basicGray"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </label>
+                  <input
+                    id="upload-avatar"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                </>
+              )}
             </div>
           </div>
           <div className="mt-4 px-10">
