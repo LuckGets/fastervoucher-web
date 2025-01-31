@@ -1,6 +1,7 @@
 export interface PromotionType {
   id: number;
   name: string;
+  restaurant: string;
   sales: number;
   amount: number;
   redeemed: number;
@@ -13,6 +14,7 @@ export const promotion: PromotionType[] = [
   {
     id: 1,
     name: 'ไทยเที่ยวไทยครั้งที่ 77',
+    restaurant: 'Coffee Shop',
     sales: 123452,
     amount: 500,
     redeemed: 50,
@@ -23,6 +25,7 @@ export const promotion: PromotionType[] = [
   {
     id: 2,
     name: '11.11 Dim sum',
+    restaurant: 'Yok Chinese Restaurant',
     sales: 200000,
     amount: 200,
     redeemed: 100,
@@ -33,6 +36,7 @@ export const promotion: PromotionType[] = [
   {
     id: 3,
     name: 'Valentine’s day',
+    restaurant: 'Yok Chinese Restaurant',
     sales: 45266,
     amount: 300,
     redeemed: 150,
@@ -43,6 +47,7 @@ export const promotion: PromotionType[] = [
   {
     id: 4,
     name: 'All you can eat Dim Sum',
+    restaurant: 'Coffee Shop',
     sales: 3000,
     amount: 300,
     redeemed: 150,

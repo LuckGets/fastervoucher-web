@@ -1,44 +1,54 @@
 import useVoucherStore from '@/stores/voucher-store';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { Pencil } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const VoucherDetails = () => {
+const StockAmount = () => {
   const { id } = useParams<{ id: string }>();
   const voucherId = parseInt(id || '0');
   const { vouchers, updateVoucher } = useVoucherStore();
   const voucher = vouchers.find((v) => v.id === voucherId);
 
-  const [details, setDetails] = useState(voucher?.details || '');
+  const [newValue, setNewValue] = useState<string>(
+    voucher?.stockAmount?.toString() || '',
+  );
   const [isEditing, setIsEditing] = useState(false);
 
-  if (!voucher) {
-    return <p>Voucher not found!</p>;
-  }
+  useEffect(() => {
+    if (voucher) {
+      setNewValue(voucher.stockAmount?.toString() || '');
+    }
+  }, [voucher]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    updateVoucher(voucherId, { details });
+    if (voucher && newValue !== '') {
+      const updatedStockAmount = parseInt(newValue, 10);
+      if (!isNaN(updatedStockAmount)) {
+        updateVoucher(voucherId, { stockAmount: updatedStockAmount });
+      }
+    }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setDetails(voucher?.details || '');
+    setNewValue(voucher?.stockAmount?.toString() || '');
     setIsEditing(false);
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 rounded-2xl">
       <div className="flex items-center justify-between">
-        <h1 className="font-semibold">Voucher details</h1>
+        <h1 className="font-semibold">Stock amount</h1>
         {!isEditing && (
-          <button onClick={handleEdit} className="ml-2">
-            <span className="flex items-center gap-1 text-basicGray">
+          <button
+            onClick={handleEdit}
+            className="flex items-center gap-1 text-basicGray"
+          >
+            <span className="flex items-center">
               <Pencil className="h-4 w-4" />
               <p>Edit</p>
             </span>
@@ -62,26 +72,20 @@ const VoucherDetails = () => {
           </div>
         )}
       </div>
-
-      <div>
+      <div className="flex items-center justify-between">
         {isEditing ? (
-          <ReactQuill
-            value={details}
-            onChange={setDetails}
-            className="w-full rounded-xl bg-[#E1E1E1]"
-            theme="snow"
+          <input
+            type="number"
+            className="w-full rounded-full bg-[#D9D9D9] p-4 px-2 py-1"
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
           />
         ) : (
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{
-              __html: details || '<p>No information</p>',
-            }}
-          />
+          <h1 className="">{newValue}</h1>
         )}
       </div>
     </div>
   );
 };
 
-export default VoucherDetails;
+export default StockAmount;

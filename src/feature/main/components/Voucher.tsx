@@ -63,9 +63,9 @@ const Voucher = ({ selectedRestaurant }: Props) => {
           />
           <h1 className="mt-2 truncate text-sm md:text-lg">{voucher.name}</h1>
           <div className="flex items-center">
-            {!voucher.promotion?.length ? (
+            {!voucher.promotionPrice ? (
               <h2 className="text-xs text-gray-500 md:text-sm">
-                THB {voucher.price} ++
+                THB {voucher.price} NET
               </h2>
             ) : (
               <>
@@ -73,7 +73,7 @@ const Voucher = ({ selectedRestaurant }: Props) => {
                   THB {voucher.price} ++
                 </h2>
                 <span className="ml-2 text-[11px] text-red-500 md:text-sm">
-                  THB {voucher.promotion[0]?.price} NET
+                  THB {voucher?.promotionPrice} NET
                 </span>
               </>
             )}
@@ -88,7 +88,10 @@ const Voucher = ({ selectedRestaurant }: Props) => {
         </div>
       ))}
       {isModalOpen && selectedVoucher && (
-        <VoucherDetails voucher={selectedVoucher} onClose={closeModal} />
+        <VoucherDetails
+          voucher={{ ...selectedVoucher, voucherType: 'single' }}
+          onClose={closeModal}
+        />
       )}
     </div>
   );

@@ -31,7 +31,7 @@ const Input = ({ inputInfo, onSave }: InfoProps) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="mb-2">{label}</h1>
+        <h1 className="mb-2 font-semibold">{label}</h1>
         {!isEditing && (
           <button onClick={handleEdit} className="ml-2">
             <span className="flex items-center gap-1 text-basicGray">
@@ -62,12 +62,12 @@ const Input = ({ inputInfo, onSave }: InfoProps) => {
         {isEditing ? (
           <input
             type="text"
-            className="w-full rounded-full bg-[#D9D9D9] p-4 px-2 py-1 md:text-xl"
+            className="w-full rounded-full bg-[#D9D9D9] p-4 px-2 py-1"
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
           />
         ) : (
-          <h1 className="font-semibold md:text-xl">{newValue}</h1>
+          <h1 className="">{newValue}</h1>
         )}
       </div>
     </div>

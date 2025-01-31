@@ -37,7 +37,7 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
           <div>
             <h2 className="text-xs text-gray-500 md:text-sm">{i.restaurant}</h2>
             <div className="flex gap-2">
-              {!i?.promotion || i?.promotion.length === 0 ? (
+              {!i?.promotionPrice ? (
                 <h2 className="text-xs text-gray-500 md:text-sm">
                   THB {i?.price} ++
                 </h2>
@@ -47,7 +47,7 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
                     THB {i?.price} ++
                   </h2>
                   <span className="ml-2 text-[11px] text-red-500 md:text-sm">
-                    THB {i?.promotion[0]?.price} NET
+                    THB {i?.promotionPrice} NET
                   </span>
                 </>
               )}

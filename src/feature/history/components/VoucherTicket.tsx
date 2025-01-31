@@ -12,6 +12,7 @@ interface Voucher {
 
 interface VoucherWrapperProps {
   openIndex: number | null;
+  src: string;
   vouchers: Voucher[];
   freeVouchers?: Voucher[];
 }
@@ -29,6 +30,7 @@ const VoucherTicket = ({
   openIndex,
   vouchers,
   freeVouchers,
+  src,
 }: VoucherWrapperProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
@@ -152,6 +154,7 @@ const VoucherTicket = ({
       </div>
       {openModal && selectedVoucher && (
         <VoucherModal
+          src={src}
           voucher={selectedVoucher}
           onClose={() => setOpenModal(false)}
         />

@@ -27,6 +27,8 @@ const Photo: React.FC = () => {
     (state) => state.updateCarouselImages,
   );
 
+  const [imageToDelete, setImageToDelete] = useState<number | null>(null);
+
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -44,6 +46,7 @@ const Photo: React.FC = () => {
     const updatedImages = images.filter((image) => image.id !== id);
     setImages(updatedImages);
     updateCarouselImages(updatedImages);
+    setImageToDelete(null);
   };
 
   const handleEditImage = (
@@ -72,6 +75,14 @@ const Photo: React.FC = () => {
     }
   };
 
+  const handleConfirmDelete = (id: number) => {
+    setImageToDelete(id);
+  };
+
+  const handleCancelDelete = () => {
+    setImageToDelete(null);
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -82,7 +93,13 @@ const Photo: React.FC = () => {
               id={image.id}
               src={image.src}
               onEditImage={(e) => handleEditImage(image.id, e)}
-              onDeleteImage={() => handleDeleteImage(image.id)}
+              onDeleteImage={() =>
+                imageToDelete === image.id
+                  ? handleDeleteImage(image.id)
+                  : handleConfirmDelete(image.id)
+              }
+              isDeleting={imageToDelete === image.id}
+              onCancelDelete={handleCancelDelete}
             />
           ))}
         </SortableContext>
