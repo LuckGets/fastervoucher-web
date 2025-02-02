@@ -5,15 +5,14 @@ import VoucherRestaurant from '../../feature/admin/components/manageVoucher/vouc
 import VoucherMeal from '../../feature/admin/components/manageVoucher/meal/VoucherMeal';
 import VoucherPrice from '../../feature/admin/components/manageVoucher/price/VoucherPrice';
 import VoucherDate from '../../feature/admin/components/manageVoucher/date/VoucherDate';
-import CreateDiscount from '../../feature/admin/components/manageVoucher/discount/CreateDiscount';
 import CoverPhoto from '@/feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
-import VoucherPhoto from '@/feature/admin/components/manageVoucher/voucherphoto/VoucherPhoto';
-import VoucherExample from '@/feature/admin/components/manageVoucher/example/VoucherExample';
 import VoucherDetails from '@/feature/admin/components/manageVoucher/details/VoucherDetails';
 import VoucherTerm from '@/feature/admin/components/manageVoucher/termCondition/VoucherTerm';
 import useVoucherStore from '@/stores/voucher-store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { paths } from '@/config/path';
+import PromotionPrice from '@/feature/admin/components/manageVoucher/promotionPrice/PromotionPrice';
+import StockAmount from '@/feature/admin/components/manageVoucher/stock/StockAmount';
 
 const VoucherSetting = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,21 +36,22 @@ const VoucherSetting = () => {
 
   return (
     <div>
-      <div className="mb-12 flex w-full justify-between">
-        <div className="flex w-1/2 flex-col gap-4">
-          <VoucherName />
-          <VoucherRestaurant />
-          <VoucherMeal />
-          <VoucherPrice />
-          <VoucherDate />
-          <CreateDiscount />
-          <CoverPhoto />
-          <VoucherPhoto />
-          <VoucherDetails />
-          <VoucherTerm />
-        </div>
-        <div className="flex w-1/2 flex-grow items-center justify-center">
-          <VoucherExample />
+      <div className="mb-12 flex w-full">
+        <div className="flex w-full gap-4">
+          <div className="w-1/4">
+            <CoverPhoto />
+          </div>
+          <div className="flex w-3/5 flex-col gap-4">
+            <VoucherName />
+            <VoucherRestaurant />
+            <VoucherMeal />
+            <VoucherPrice />
+            <PromotionPrice />
+            <VoucherDate />
+            <StockAmount />
+            <VoucherDetails />
+            <VoucherTerm />
+          </div>
         </div>
       </div>
       <div className="flex justify-center">

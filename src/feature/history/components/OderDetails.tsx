@@ -69,6 +69,7 @@ const OrderDetails = ({ orderDetail }: OrderDetailProps) => {
       {openIndex === orderDetail.id && (
         <VoucherTicket
           openIndex={openIndex}
+          src={orderDetail.src}
           vouchers={orderDetail.vouchers}
           freeVouchers={orderDetail.freeVoucher}
         />

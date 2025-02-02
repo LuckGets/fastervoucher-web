@@ -38,7 +38,7 @@ const CartItems = () => {
                     {item.restaurant}
                   </h3>
                   <p className="mt-1 text-xs font-medium text-gray-800 md:text-sm">
-                    THB {item.price} NET
+                    THB {item.price.toLocaleString()} NET
                   </p>
                 </div>
                 <div className="flex flex-col items-center gap-4">

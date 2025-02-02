@@ -1,36 +1,45 @@
 /* eslint-disable react/prop-types */
-import { Condition } from '@/stores/voucher-store';
-import TermEng from './TermEng';
-import TermTh from './TermTh';
+import { useCallback, useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 interface VoucherTermProps {
-  conditionsTh: Condition[] | undefined;
-  conditionsEng: Condition[] | undefined;
-  onChange: (
-    field: 'conditionsTh' | 'conditionsEng',
-    value: Condition[],
-  ) => void;
+  conditions: string | undefined;
+  onChange: (value: string) => void;
 }
 
-const VoucherTerm: React.FC<VoucherTermProps> = ({
-  conditionsTh,
-  conditionsEng,
-  onChange,
-}) => {
-  const handleChange =
-    (field: 'conditionsTh' | 'conditionsEng') => (value: Condition[]) => {
-      onChange(field, value);
+const VoucherTerm: React.FC<VoucherTermProps> = ({ conditions, onChange }) => {
+  const [isTyping, setIsTyping] = useState(false);
+  const [value, setValue] = useState(conditions || '');
+
+  const handleChange = useCallback((newValue: string) => {
+    setValue(newValue);
+    setIsTyping(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isTyping) return;
+
+    const timeoutId = requestAnimationFrame(() => {
+      onChange(value);
+      setIsTyping(false);
+    });
+
+    return () => {
+      cancelAnimationFrame(timeoutId);
     };
+  }, [value, isTyping, onChange]);
+
   return (
-    <div className="flex flex-col gap-4">
-      <TermTh
-        conditionsTh={conditionsTh}
-        onChange={handleChange('conditionsTh')}
-      />
-      <TermEng
-        conditionsEng={conditionsEng}
-        onChange={handleChange('conditionsEng')}
-      />
+    <div className="flex w-[90%] flex-col gap-6 rounded-2xl border border-[#888888] p-6 px-8">
+      <h1>Voucher terms and conditions</h1>
+      <div>
+        <ReactQuill
+          value={value}
+          onChange={handleChange}
+          className="rounded-xl bg-[#E1E1E1]"
+        />
+      </div>
     </div>
   );
 };

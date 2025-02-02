@@ -19,9 +19,10 @@ interface Voucher {
 interface VoucherModalProps {
   voucher: Voucher;
   onClose: () => void;
+  src: string;
 }
 
-const VoucherModal = ({ voucher, onClose }: VoucherModalProps) => {
+const VoucherModal = ({ voucher, onClose, src }: VoucherModalProps) => {
   const isExpired = (expireDate: string) => {
     const currentDate = new Date();
     const expirationDate = new Date(expireDate);
@@ -30,7 +31,7 @@ const VoucherModal = ({ voucher, onClose }: VoucherModalProps) => {
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[90%] rounded-2xl bg-[#F7F3ED] py-12">
+      <DialogContent className="max-h-[90vh] w-[90%] overflow-y-auto rounded-2xl bg-[#F7F3ED] py-6">
         <DialogHeader className="flex flex-col items-center justify-center">
           <DialogTitle className="mx-8 text-xl">
             Premium Sushi & Seafood Buffet Dinner
@@ -41,6 +42,12 @@ const VoucherModal = ({ voucher, onClose }: VoucherModalProps) => {
 
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-center">The Emerald Coffee Shop</h1>
+          {!isExpired(voucher.expireDate) && (
+            <div className="h-40 w-40 flex-shrink-0 overflow-hidden rounded-xl">
+              <img src={src} alt="pic" className="h-full w-full object-cover" />
+            </div>
+          )}
+
           <div className="h-56 w-56">
             <img src={Qr} alt="Qr-code" />
             {isExpired(voucher.expireDate) && (

@@ -7,6 +7,7 @@ const HotelRestaurant = () => {
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [newValue, setNewValue] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null); // New state for delete confirmation
 
   const handleEdit = (index: number) => {
     setIsEditing(index);
@@ -30,6 +31,7 @@ const HotelRestaurant = () => {
   const handleDelete = (index: number) => {
     const updatedRestaurants = restaurants.filter((_, i) => i !== index);
     setRestaurant(updatedRestaurants);
+    setDeleteIndex(null);
   };
 
   const handleAddRestaurant = () => {
@@ -48,6 +50,14 @@ const HotelRestaurant = () => {
   const handleCancelAdd = () => {
     setNewValue('');
     setIsAdding(false);
+  };
+
+  const confirmDelete = (index: number) => {
+    setDeleteIndex(index);
+  };
+
+  const cancelDelete = () => {
+    setDeleteIndex(null);
   };
 
   return (
@@ -78,12 +88,30 @@ const HotelRestaurant = () => {
                 >
                   <PencilLine />
                 </label>
-                <label
-                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#888888] hover:text-textWhite"
-                  onClick={() => handleDelete(index)}
-                >
-                  <Trash2 className="cursor-pointer" />
-                </label>
+                {deleteIndex === index ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="cursor-pointer text-primary hover:underline"
+                    >
+                      Confirm
+                    </button>
+                    |
+                    <button
+                      onClick={cancelDelete}
+                      className="cursor-pointer text-red-500 hover:underline"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#888888] hover:text-textWhite"
+                    onClick={() => confirmDelete(index)}
+                  >
+                    <Trash2 className="cursor-pointer" />
+                  </label>
+                )}
               </>
             )}
           </div>

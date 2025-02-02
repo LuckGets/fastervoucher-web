@@ -1,9 +1,21 @@
 import useVoucherStore from '@/stores/voucher-store';
 import { ChevronDown, Plus, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const SelectMeal = () => {
+const SelectMeal = ({
+  isEditing,
+  selectedMeal,
+  setSelectedMeal,
+  isDropdownOpen,
+  setIsDropdownOpen,
+}: {
+  isEditing: boolean;
+  selectedMeal: string | null;
+  setSelectedMeal: (value: string | null) => void;
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: (value: boolean) => void;
+}) => {
   const { id } = useParams<{ id: string }>();
   const voucherId = parseInt(id || '0');
   const { vouchers, updateVoucher, meals, setMeal } = useVoucherStore();
@@ -11,10 +23,12 @@ const SelectMeal = () => {
 
   const [newMeal, setNewMeal] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedMeal, setSelectedMeal] = useState<string | null>(
-    voucher?.meal || null,
-  );
+
+  useEffect(() => {
+    if (voucher?.meal) {
+      setSelectedMeal(voucher.meal);
+    }
+  }, [voucher, setSelectedMeal]);
 
   const handleSelectMeal = (name: string) => {
     setSelectedMeal(name);
@@ -38,13 +52,17 @@ const SelectMeal = () => {
 
   return (
     <div className="relative w-full">
-      <button
-        onClick={() => setIsDropdownOpen((prev) => !prev)}
-        className="relative z-30 flex w-full items-center justify-between rounded-full bg-[#E1E1E1] p-2 px-5"
-      >
-        {selectedMeal || 'Select Meal'}
-        <ChevronDown />
-      </button>
+      {isEditing ? (
+        <button
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="relative z-30 flex w-full items-center justify-between rounded-full bg-[#E1E1E1] p-2 px-5"
+        >
+          {selectedMeal || 'Select Meal'}
+          <ChevronDown />
+        </button>
+      ) : (
+        <div>{selectedMeal || 'No restaurant selected'}</div>
+      )}
 
       {isDropdownOpen && (
         <div className="absolute left-0 top-full z-20 -mt-6 w-full rounded-xl border bg-[#E1E1E1] py-2 pt-6 shadow-lg">

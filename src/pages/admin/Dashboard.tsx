@@ -7,8 +7,8 @@ const Dashboard = () => {
   return (
     <div className="">
       <DashboardChart />
-      <div className="flex flex-col gap-4 p-4">
-        <div className="flex justify-between gap-4">
+      <div className="flex flex-col gap-4 p-3">
+        <div className="mb-3 flex justify-between gap-3">
           <div className="flex-1">
             <OutletSales />
           </div>

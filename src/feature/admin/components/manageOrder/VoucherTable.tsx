@@ -2,11 +2,36 @@ import { useFilterStore } from '@/stores/filter-store';
 import { orderLists } from '@/utils/main/orderLists';
 import { CalendarDays, Clock, UserRound } from 'lucide-react';
 import { useState } from 'react';
+import OrderDetails from './OrderDetails';
+
+interface Voucher {
+  no: string;
+  expireDate: string;
+  isUse: boolean;
+  useDate?: string;
+}
+
+interface Detail {
+  name: string;
+  id: string;
+  channels: string;
+  customer: string;
+  src: string;
+  vouchers: Voucher[];
+}
+
+interface Item {
+  orderId: string;
+  date: string;
+  OrderDetails: Detail[];
+}
 
 const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
   const { selectedChannel } = useFilterStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
 
   const isExpired = (expireDate: string) => {
     const currentDate = new Date();
@@ -20,10 +45,10 @@ const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
       )
     : orderLists;
 
-  const searchFilteredData = filteredData.filter((item) =>
-    item.OrderDetails.some((detail) =>
+  const searchFilteredData = filteredData.filter((item: Item) =>
+    item.OrderDetails.some((detail: Detail) =>
       detail.vouchers.some(
-        (voucher) =>
+        (voucher: Voucher) =>
           voucher.no.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
           detail.customer.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -41,6 +66,16 @@ const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleOpenModal = (voucher: Voucher) => {
+    setSelectedVoucher(voucher);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVoucher(null);
   };
 
   return (
@@ -119,7 +154,13 @@ const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
                         <div>
                           <h1>ไทยเที่ยวไทย #71</h1>
                           <div
-                            className={`inline-block rounded-full p-1 px-2 text-textWhite ${detail.channels === 'Line Shopping' ? 'bg-[#2BB673]' : detail.channels === 'Shopee' ? 'bg-[#EE4D2D]' : ''}`}
+                            className={`inline-block rounded-full p-1 px-2 text-textWhite ${
+                              detail.channels === 'Line Shopping'
+                                ? 'bg-[#2BB673]'
+                                : detail.channels === 'Shopee'
+                                  ? 'bg-[#EE4D2D]'
+                                  : ''
+                            }`}
                           >
                             <p className="text-xs">{detail.channels}</p>
                           </div>
@@ -174,15 +215,28 @@ const VoucherTable = ({ searchTerm }: { searchTerm: string }) => {
                           </div>
                         ) : (
                           <button
-                            className={`rounded-md p-2 text-xs ${isExpired(voucher.expireDate) ? 'bg-[#b8b8b8] text-gray-500' : 'bg-primary text-white'}`}
+                            className={`rounded-md p-2 text-xs ${
+                              isExpired(voucher.expireDate)
+                                ? 'bg-[#b8b8b8] text-gray-500'
+                                : 'bg-[#2BB673] text-white'
+                            }`}
                             disabled={isExpired(voucher.expireDate)}
+                            onClick={() => handleOpenModal(voucher)}
                           >
                             {isExpired(voucher.expireDate)
                               ? 'Expired'
-                              : 'Redeem Voucher'}
+                              : 'Available'}
                           </button>
                         )}
                       </td>
+                      {isModalOpen && (
+                        <OrderDetails
+                          item={item}
+                          detail={detail}
+                          voucher={selectedVoucher}
+                          onClose={handleCloseModal}
+                        />
+                      )}
                     </tr>
                   ))}
                 </>

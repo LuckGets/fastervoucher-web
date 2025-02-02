@@ -53,16 +53,36 @@ const CoverPhoto = () => {
   };
 
   return (
-    <div className="flex w-[90%] flex-col gap-6 rounded-2xl border border-[#888888] p-6 px-8">
+    <div className="flex w-[90%] flex-col items-center gap-6 rounded-2xl p-6 px-8">
+      <div className="flex items-center gap-6">
+        <div className="relative flex h-44 w-44 items-center justify-center overflow-hidden rounded-xl bg-[#E1E1E1]">
+          {tempSrc || previewSrc ? (
+            <img
+              src={tempSrc || previewSrc || ''}
+              alt="Preview"
+              className="absolute inset-0 h-full w-full rounded-xl object-cover"
+            />
+          ) : (
+            <Plus className="text-[#888888]" />
+          )}
+        </div>
+      </div>
+
+      <input
+        type="file"
+        ref={inputRef}
+        accept=".jpg,.png"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
       <div className="flex justify-between">
-        <h1>Voucher Cover Photo</h1>
         {!isEditing ? (
           <span
             onClick={handleEditClick}
             className="flex cursor-pointer items-center gap-1 text-basicGray"
           >
             <Pencil className="h-4 w-4" />
-            <p>Edit</p>
+            <p>Cover Photo</p>
           </span>
         ) : (
           <div className="flex gap-2">
@@ -82,32 +102,6 @@ const CoverPhoto = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center gap-6">
-        <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-xl bg-[#E1E1E1]">
-          {tempSrc || previewSrc ? (
-            <img
-              src={tempSrc || previewSrc || ''}
-              alt="Preview"
-              className="absolute inset-0 h-full w-full rounded-xl object-cover"
-            />
-          ) : (
-            <Plus className="text-[#888888]" />
-          )}
-        </div>
-        <div className="text-xs text-[#888888]">
-          <h1>Aspect Ratio: 1:1</h1>
-          <h1>Recommended Size: 1040px x 1040px</h1>
-          <h1>Supported File Formats: .jpg, .png</h1>
-        </div>
-      </div>
-
-      <input
-        type="file"
-        ref={inputRef}
-        accept=".jpg,.png"
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
     </div>
   );
 };

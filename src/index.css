@@ -31,6 +31,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -58,10 +59,12 @@
     --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -118,4 +121,16 @@
 .prev {
   left: 10px;
   transform: translateY(-50%) scale(-1);
+}
+
+.ql-container {
+  border: none !important;
+}
+
+.ql-editor {
+  border: none !important;
+}
+
+.ql-toolbar {
+  border: none !important;
 }

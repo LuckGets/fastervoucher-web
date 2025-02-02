@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pencil } from 'lucide-react';
+import { Pencil, Loader2 } from 'lucide-react';
 import useAccountStore, { Account } from '@/stores/account-store';
 import useAuthStore from '@/stores/auth-store';
 
@@ -27,14 +27,15 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
 
   const handleSave = async () => {
     if (loading) return;
+
     if (newValue !== undefined && newValue !== null && newValue !== info) {
       setLoading(true);
       try {
-        await actionEditInfo(
-          [{ field, value: newValue }],
-          accountId,
-          accessToken as string,
-        );
+        const formData = {
+          [field]: newValue,
+        };
+
+        await actionEditInfo(formData, accountId, accessToken as string);
         setIsEditing(false);
       } catch (error) {
         console.error('Failed to save changes:', error);
@@ -95,7 +96,10 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
           </button>
         )}
         {loading && (
-          <span className="ml-2 text-sm text-gray-500">Saving...</span>
+          <span className="ml-2 text-sm text-gray-500">
+            <Loader2 className="mr-1 inline-block h-4 w-4 animate-spin" />{' '}
+            Saving...
+          </span>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
+import { Account } from '@/stores/account-store';
+
 export interface EditInfoBody {
-  field: string;
-  value: string | number | File | null;
-  fileName?: string;
+  field: keyof Account;
+  value: string | number | null;
 }

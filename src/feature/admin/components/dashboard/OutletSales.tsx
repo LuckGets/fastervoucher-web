@@ -82,7 +82,7 @@ const OutletSales = () => {
                   {outlet.name}
                 </td>
                 <td className="px-4 py-3 text-center text-sm text-gray-800">
-                  {outlet.voucher}
+                  {outlet.voucher.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-800">
                   {outlet.sales.toLocaleString()} THB

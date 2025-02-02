@@ -76,7 +76,7 @@ const UserOrders = () => {
               >
                 <td className="px-4 py-3 text-sm text-gray-800">{user.name}</td>
                 <td className="px-4 py-3 text-center text-sm text-gray-800">
-                  {user.order}
+                  {user.order.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-center text-sm text-gray-800">
                   {user.voucher.toLocaleString()} ใบ

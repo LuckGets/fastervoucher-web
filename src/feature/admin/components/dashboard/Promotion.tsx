@@ -1,16 +1,18 @@
-import { promotion, PromotionType } from '@/utils/dashboard/promotion';
-import { ArrowDownUp } from 'lucide-react';
 import { useState } from 'react';
+import { ArrowDownUp } from 'lucide-react';
+import { promotion, PromotionType } from '@/utils/dashboard/promotion';
+
+import ModalPromotion from './ModalPromotion';
 
 const Promotion = () => {
   const [sortedData, setSortedData] = useState<PromotionType[]>(promotion);
   const [sortOrder, setSortOrder] = useState<{
     field: keyof PromotionType;
     order: 'asc' | 'desc';
-  }>({
-    field: 'sales',
-    order: 'desc',
-  });
+  }>({ field: 'sales', order: 'desc' });
+
+  const [selectedItem, setSelectedItem] = useState<PromotionType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSort = (field: keyof PromotionType) => {
     const newOrder =
@@ -24,6 +26,16 @@ const Promotion = () => {
     });
     setSortedData(sorted);
     setSortOrder({ field, order: newOrder });
+  };
+
+  const openModal = (item: PromotionType) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
   };
 
   const columns: { key: keyof PromotionType; label: string }[] = [
@@ -73,7 +85,8 @@ const Promotion = () => {
             {sortedData.map((item) => (
               <tr
                 key={item.id}
-                className="border-b border-dashed border-[#ADADAD]"
+                className="cursor-pointer border-b border-dashed border-[#ADADAD]"
+                onClick={() => openModal(item)}
               >
                 {columns.map((col, index) => (
                   <td
@@ -92,6 +105,12 @@ const Promotion = () => {
           </tbody>
         </table>
       </div>
+
+      <ModalPromotion
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        selectedItem={selectedItem}
+      />
     </div>
   );
 };

@@ -17,16 +17,16 @@ const VoucherCost = ({ id }: VoucherCostProps) => {
     );
   }
 
-  const { name, price, promotion, restaurant, carouselImages } = voucher;
+  const { name, price, promotionPrice, restaurant, carouselImages } = voucher;
 
   return (
     <div className="flex gap-4">
       <div className="flex w-full flex-col justify-center">
         <h1 className="text-lg font-bold text-gray-800">{name}</h1>
         <h2 className="mt-1 text-sm text-gray-500">{restaurant}</h2>
-        {promotion && promotion.length > 0 ? (
+        {promotionPrice ? (
           <h1 className="mb-4 mt-4 text-sm font-semibold">
-            THB {promotion[0].price.toLocaleString()} NET
+            THB {promotionPrice.toLocaleString()} NET
           </h1>
         ) : (
           <h1 className="mb-4 mt-4 text-sm font-semibold">

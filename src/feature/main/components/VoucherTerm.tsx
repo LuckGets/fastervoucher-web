@@ -1,11 +1,11 @@
-import { Condition } from '@/stores/voucher-store';
+import { useMemo } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 interface VoucherProps {
   id: number;
-  detailsTh?: string;
-  detailsEng?: string;
-  conditionsTh?: Condition[];
-  conditionsEng?: Condition[];
+  details?: string;
+  conditions?: string;
 }
 
 interface VoucherTermProps {
@@ -13,32 +13,45 @@ interface VoucherTermProps {
 }
 
 const VoucherTerm = ({ voucher }: VoucherTermProps) => {
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'list',
+    'bullet',
+    'indent',
+  ];
+
+  // Move the useMemo hook outside of any condition
+  const modules = useMemo(() => ({ toolbar: false }), []);
+
+  if (!voucher) {
+    return <div>Voucher not found</div>;
+  }
+
   return (
     <div className="max-h-screen">
       <div className="mt-2">
         <h1 className="text-sm font-semibold">รายละเอียด</h1>
-        <p className="text-xs md:text-sm">
-          {voucher.detailsTh || 'No details available'}
-        </p>
+        <ReactQuill
+          value={voucher.details || '<p>No information</p>'}
+          readOnly={true}
+          modules={modules}
+          className="border-0 text-xs md:text-sm"
+        />
       </div>
       <div>
         <h1 className="text-sm font-semibold">เงื่อนไขและข้อกำหนด</h1>
-        <ul className="list-inside list-disc text-xs md:text-sm">
-          {voucher.conditionsTh?.map((condition) => (
-            <li key={condition.id}>{condition.condition}</li>
-          )) || <li>No terms and conditions available</li>}
-        </ul>
-        <p className="text-sm">
-          {voucher.detailsEng || 'No English details available'}
-        </p>
-      </div>
-      <div>
-        <h1 className="text-sm font-semibold">Details</h1>
-        <ul className="list-inside list-disc text-xs md:text-sm">
-          {voucher.conditionsEng?.map((condition) => (
-            <li key={condition.id}>{condition.condition}</li>
-          )) || <li>No terms and conditions available</li>}
-        </ul>
+        <div className="mt-2">
+          <ReactQuill
+            value={voucher.conditions || '<p>No information</p>'}
+            readOnly={true}
+            modules={modules}
+            formats={formats}
+            className="border-0 text-xs md:text-sm"
+          />
+        </div>
       </div>
     </div>
   );
