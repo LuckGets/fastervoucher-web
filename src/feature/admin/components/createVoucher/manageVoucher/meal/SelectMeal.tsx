@@ -57,14 +57,14 @@ const SelectMeal: React.FC<SelectMealProps> = ({ meal, onSelectMeal }) => {
     <div className="relative w-full">
       <button
         onClick={() => setIsDropdownOpen((prev) => !prev)}
-        className="relative z-30 flex w-full items-center justify-between rounded-full bg-[#E1E1E1] p-2 px-5"
+        className="relative z-20 flex w-full items-center justify-between rounded-full bg-[#E1E1E1] p-2 px-5"
       >
         {selectedMeal || 'Select Meal'}
         <ChevronDown />
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute left-0 top-full z-20 -mt-6 w-full rounded-xl border bg-[#E1E1E1] py-2 pt-6 shadow-lg">
+        <div className="absolute left-0 top-full z-10 -mt-6 w-full rounded-xl border bg-[#E1E1E1] py-2 pt-6 shadow-lg">
           {meals.map((item, index) => (
             <div
               key={index}
