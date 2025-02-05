@@ -1,4 +1,6 @@
 /* eslint-disable react/prop-types */
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 import {
   Dialog,
@@ -34,6 +36,30 @@ const ModalPromotion: React.FC<ModalPromotionProps> = ({
   closeModal,
   selectedItem,
 }) => {
+  const handleExportExcel = () => {
+    const data = [
+      {
+        Name: selectedItem?.name,
+        Restaurant: selectedItem?.restaurant,
+        Sales: selectedItem?.sales,
+        'Vouchers Sold': selectedItem?.amount,
+        Redeemed: selectedItem?.redeemed,
+        Expired: selectedItem?.expired,
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'PromotionData');
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    const file = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(file, `${selectedItem?.name || 'promotion'}_data.xlsx`);
+  };
+
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={closeModal}>
@@ -72,7 +98,10 @@ const ModalPromotion: React.FC<ModalPromotionProps> = ({
                 </div>
               </div>
               <div>
-                <button className="rounded-full bg-[#2BB673] px-4 py-2 text-white">
+                <button
+                  className="rounded-full bg-[#2BB673] px-4 py-2 text-white"
+                  onClick={handleExportExcel}
+                >
                   Export Excel
                 </button>
               </div>
