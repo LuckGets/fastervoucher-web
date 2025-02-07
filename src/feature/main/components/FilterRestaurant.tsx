@@ -1,21 +1,31 @@
+import { Restaurant } from '@/data-schema/restaurant.type';
 import useSettingStore from '@/stores/setting-store';
 
 interface FilterRestaurantProps {
+  defaultRestaurant: Restaurant['name'];
   selectedRestaurant: string | null;
-  setSelectedRestaurant: (restaurant: string | null) => void;
+  setSelectedRestaurant: ({
+    id,
+    name,
+  }: {
+    id: Restaurant['id'];
+    name: Restaurant['name'];
+  }) => void;
+  restaurants: Restaurant[];
 }
 
 const FilterRestaurant = ({
+  defaultRestaurant,
   selectedRestaurant,
   setSelectedRestaurant,
+  restaurants,
 }: FilterRestaurantProps) => {
-  const restaurant = useSettingStore((state) => state.restaurant);
   const color = useSettingStore((state) => state.color);
 
   const bgColor = color ? color : '#D1D5DB';
 
-  const handleActive = (restaurantName: string | null) => {
-    setSelectedRestaurant(restaurantName);
+  const handleActive = (id: Restaurant['id'], name: Restaurant['name']) => {
+    setSelectedRestaurant({ id, name });
   };
 
   return (
@@ -23,16 +33,20 @@ const FilterRestaurant = ({
       {/* Button for "All" */}
       <div
         className={`flex h-10 min-w-[60px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 lg:min-w-[80px] ${
-          selectedRestaurant === null ? 'text-textWhite' : ''
+          selectedRestaurant === defaultRestaurant ? `text-textWhite` : ''
         }`}
-        style={selectedRestaurant === null ? { backgroundColor: bgColor } : {}}
-        onClick={() => handleActive(null)}
+        style={
+          selectedRestaurant === defaultRestaurant
+            ? { backgroundColor: bgColor }
+            : {}
+        }
+        onClick={() => handleActive('', defaultRestaurant)}
       >
-        <button>All</button>
+        <button>{defaultRestaurant}</button>
       </div>
 
       {/* Buttons for Restaurants */}
-      {restaurant.map((item, index) => (
+      {restaurants.map((item, index) => (
         <div
           key={index}
           className={`flex h-10 min-w-[80px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 ${
@@ -41,7 +55,7 @@ const FilterRestaurant = ({
           style={
             selectedRestaurant === item.name ? { backgroundColor: bgColor } : {}
           }
-          onClick={() => handleActive(item.name)}
+          onClick={() => handleActive(item.id, item.name)}
         >
           <button>{item.name}</button>
         </div>

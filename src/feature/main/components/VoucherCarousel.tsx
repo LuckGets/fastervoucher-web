@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { ChevronRight } from 'lucide-react';
+import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { prependHttpsToString } from '@/utils/function/stringToUrl';
 
 const variants = {
   enter: (direction: number) => ({
@@ -28,7 +30,7 @@ const swipePower = (offset: number, velocity: number) => {
 const VoucherCarousel = ({
   images,
 }: {
-  images: { id: number; src: string }[];
+  images: VoucherDataSchema['images'];
 }) => {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.length, page);
@@ -54,7 +56,7 @@ const VoucherCarousel = ({
         >
           <motion.img
             key={page}
-            src={images[imageIndex].src}
+            src={prependHttpsToString(images[imageIndex].imgPath)}
             custom={direction}
             variants={variants}
             initial="enter"

@@ -1,5 +1,9 @@
 import ScrollTop from '@/components/ScrollTop';
 import { paths } from '@/config/path';
+import {
+  CreateVoucherDataSchema,
+  // VoucherDataSchema,
+} from '@/data-schema/voucher.type';
 import VoucherAmount from '@/feature/admin/components/createVoucher/manageVoucher/amount/VoucherAmount';
 import CoverPhoto from '@/feature/admin/components/createVoucher/manageVoucher/coverphoto/CoverPhoto';
 import VoucherDate from '@/feature/admin/components/createVoucher/manageVoucher/date/VoucherDate';
@@ -12,36 +16,28 @@ import VoucherName from '@/feature/admin/components/createVoucher/manageVoucher/
 import VoucherPhoto from '@/feature/admin/components/createVoucher/manageVoucher/voucherphoto/VoucherPhoto';
 import VoucherRestaurant from '@/feature/admin/components/createVoucher/manageVoucher/voucherRestaurant/VoucherRestaurant';
 import VoucherTypes from '@/feature/admin/components/createVoucher/manageVoucher/voucherType/VoucherTypes';
-import useVoucherStore, { Voucher } from '@/stores/voucher-store';
+import useVoucherStore from '@/stores/voucher-store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-const initialVoucherData: Voucher = {
-  id: 0,
-  name: '',
-  passcode: undefined,
-  voucherType: 'single',
-  restaurant: '',
-  meal: '',
+const initialVoucherData: CreateVoucherDataSchema = {
+  title: '',
+  tagId: '',
   price: 0,
-  promotionPrice: 0,
   stockAmount: 0,
-  src: undefined,
-  saleStartDate: undefined,
-  saleEndDate: undefined,
-  useDateStart: undefined,
-  useDateEnd: undefined,
-  carouselImages: [],
-  details: '',
-  conditions: '',
-  package: [],
-  freeVoucher: [],
+  sellStartedAt: '',
+  sellExpiredAt: '',
+  usableAt: '',
+  usableExpiredAt: '',
+  termAndCond: '',
+  description: '',
+  mainImg: null,
 };
 
 const CreateVoucher = () => {
-  const { vouchers, createVoucher } = useVoucherStore();
+  const { vouchers } = useVoucherStore();
   const navigate = useNavigate();
 
   const [voucherData, setVoucherData] = useState(initialVoucherData);
@@ -164,11 +160,11 @@ const CreateVoucher = () => {
             onChange={updateVoucherData}
           />
           <VoucherDetails
-            details={voucherData.details}
+            details={voucherData.description}
             onChange={(value: string) => updateVoucherData('details', value)}
           />
           <VoucherTerm
-            conditions={voucherData.conditions}
+            conditions={voucherData.termAndCond}
             onChange={(value: string) => updateVoucherData('conditions', value)}
           />
         </div>
