@@ -40,6 +40,7 @@ const useAuthStore = create<AuthState>()(
         set({ errorLogin: '' });
         try {
           const result = await login(form);
+          console.log(result.data);
           const accessToken = result?.data?.data?.accessToken;
 
           if (!accessToken) {

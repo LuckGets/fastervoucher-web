@@ -1,49 +1,45 @@
-/* eslint-disable react/prop-types */
 import { ChevronDown, Plus, Search } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useVoucherStore from '@/stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '@/config/path';
+import { Restaurant } from '@/data-schema/restaurant.type';
 
 interface SearchVoucherProps {
-  selectedRestaurant: string;
-  setSelectedRestaurant: (restaurant: string) => void;
+  selectedRestaurant?: string;
+  setSelectedRestaurant: (restaurantId: string, restaurantName: string) => void;
 }
+
+const defaultSelectedRestaurantObj: Pick<Restaurant, 'id' | 'name'> = {
+  id: 'DEFAULT',
+  name: 'All Restaurants',
+};
 
 const SearchVoucher: React.FC<SearchVoucherProps> = ({
   selectedRestaurant,
   setSelectedRestaurant,
 }) => {
   const navigate = useNavigate();
-  const { restaurants, filterVouchers } = useVoucherStore();
+  const { restaurants } = useVoucherStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    console.log('Search Term:', searchTerm);
-    if (searchTerm) {
-      filterVouchers(searchTerm);
-    }
-  }, [searchTerm, filterVouchers]);
+  const restaurantsAndDefault: Pick<Restaurant, 'id' | 'name'>[] = [
+    defaultSelectedRestaurantObj,
+    ...restaurants,
+  ];
 
   const handleRemoveFilter = () => {
-    setSelectedRestaurant('');
+    setSelectedRestaurant('', '');
   };
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    setSelectedRestaurant('');
+    setSelectedRestaurant('', '');
   };
 
   const handleCreateVoucher = () => {
     navigate(`${paths.admin.createVoucher.path}`);
   };
-
-  useEffect(() => {
-    if (searchTerm) {
-      filterVouchers(searchTerm);
-    }
-  }, [searchTerm, filterVouchers]);
 
   return (
     <div className="mb-6 mr-10 space-y-4">
@@ -76,11 +72,16 @@ const SearchVoucher: React.FC<SearchVoucherProps> = ({
             {isFilterDropdownOpen && (
               <div className="absolute right-0 top-10 z-10 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
                 <div className="p-2">
-                  {restaurants.map((item) => (
+                  {restaurantsAndDefault.map((item) => (
                     <button
-                      key={item.name}
+                      key={item.id}
                       onClick={() => {
-                        setSelectedRestaurant(item.name);
+                        setSelectedRestaurant(
+                          item.id === defaultSelectedRestaurantObj.id
+                            ? ''
+                            : item.id,
+                          item.name,
+                        );
                         setIsFilterDropdownOpen(false);
                       }}
                       className="block w-full rounded px-4 py-2 text-left hover:bg-[#a3a3a3a0]"

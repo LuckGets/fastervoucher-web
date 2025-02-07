@@ -1,21 +1,24 @@
 import { ShoppingCart, X } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherTerm from './VoucherTerm';
-import useCartStore from '@/stores/cart-store';
+// import useCartStore from '@/stores/cart-store';
 import Swal from 'sweetalert2';
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
 import useSettingStore from '@/stores/setting-store';
-import { Voucher } from '@/stores/voucher-store';
+import {
+  DiscountStatusEnum,
+  VoucherDataSchema,
+} from '@/data-schema/voucher.type';
 
 interface VoucherDetailsProps {
-  voucher: Voucher;
+  voucher: VoucherDataSchema;
   onClose: () => void;
 }
 
 const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
   const { color } = useSettingStore();
-  const addToCart = useCartStore((state) => state.addToCart);
+  // const addToCart = useCartStore((state) => state.addToCart);
   const navigate = useNavigate();
 
   const bgColor = color
@@ -23,15 +26,15 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
     : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {
-    const cartItem = {
-      ...voucher,
-      quantity: 1,
-    };
-    addToCart(cartItem);
+    // const cartItem = {
+    //   ...voucher,
+    //   quantity: 1,
+    // };
+    // addToCart(cartItem);
 
     Swal.fire({
       title: 'Added to cart!',
-      text: `Voucher '${voucher.name}' has been added to your cart.`,
+      text: `Voucher '${voucher.title}' has been added to your cart.`,
       icon: 'success',
       width: '80%',
       padding: '20px',
@@ -48,6 +51,11 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
     });
   };
 
+  const voucherPrice =
+    voucher.discount && voucher.discount.status === DiscountStatusEnum.ACTIVE
+      ? voucher.discount.discountedPrice
+      : voucher.price;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
       <div className="relative mx-4 flex max-h-[90vh] w-full max-w-xl flex-col overflow-y-auto rounded-lg bg-[#F7F3ED]">
@@ -61,8 +69,16 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
         </div>
 
         <div className="px-6">
-          <VoucherCost id={voucher.id} />
-          <VoucherTerm voucher={voucher} />
+          <VoucherCost
+            images={voucher.img}
+            price={voucherPrice}
+            restaurant={voucher.category}
+            title={voucher.title}
+          />
+          <VoucherTerm
+            conditions={voucher.termAndCondition}
+            details={voucher.description}
+          />
         </div>
 
         <div className="sticky bottom-0 w-full bg-[#F7F3ED] p-4 shadow-lg">

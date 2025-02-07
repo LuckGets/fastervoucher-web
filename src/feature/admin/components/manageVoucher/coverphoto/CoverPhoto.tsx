@@ -1,17 +1,20 @@
-import useVoucherStore from '@/stores/voucher-store';
+import { VoucherDataSchema } from '@/data-schema/voucher.type';
 import { Pencil, Plus } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const CoverPhoto = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const updateVoucher = useVoucherStore((state) => state.updateVoucher);
-  const { id } = useParams();
-  const vouchers = useVoucherStore((state) => state.vouchers);
+interface CoverPhotoProps {
+  voucher: VoucherDataSchema;
+  mainImg: VoucherDataSchema['img'][number];
+}
 
-  const currentVoucher = vouchers.find((voucher) => voucher.id === Number(id));
+const CoverPhoto: React.FC<CoverPhotoProps> = ({ voucher, mainImg }) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { id } = useParams();
+  console.log(voucher);
+
   const [previewSrc, setPreviewSrc] = useState<string | null>(
-    currentVoucher?.src || null,
+    mainImg.imgPath || null,
   );
   const [tempSrc, setTempSrc] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -31,7 +34,7 @@ const CoverPhoto = () => {
 
   const handleSave = () => {
     if (id && tempSrc) {
-      updateVoucher(Number(id), { src: tempSrc });
+      // updateVoucher(Number(id), { src: tempSrc });
       setPreviewSrc(tempSrc);
       setTempSrc(null);
       setIsEditing(false);

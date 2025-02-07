@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { Plus, X, ChevronDown } from 'lucide-react';
 import useVoucherStore from '@/stores/voucher-store';
@@ -8,6 +7,11 @@ interface SelectRestaurantProps {
   restaurant: string;
   onSelectRestaurant: (field: string, value: string) => void;
 }
+
+const INIT_ADD_RESTAURANT = {
+  name: '',
+  error: '',
+};
 
 const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
   restaurant,
@@ -20,7 +24,7 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
 
   const voucher = vouchers.find((v) => v.id === voucherId);
 
-  const [newRestaurant, setNewRestaurant] = useState('');
+  const [newRestaurant, setNewRestaurant] = useState(INIT_ADD_RESTAURANT);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
@@ -28,7 +32,9 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
   );
 
   const handleAddRestaurant = () => {
-    if (newRestaurant.trim() === '') return;
+    if (newRestaurant.name.trim() === '') {
+      setNewRestaurant((prev) => ({ ...prev, error: '' }));
+    }
     const updatedRestaurants = [...restaurants, { name: newRestaurant }];
     setRestaurant(updatedRestaurants);
     setNewRestaurant('');
