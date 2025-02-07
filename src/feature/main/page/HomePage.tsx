@@ -1,6 +1,6 @@
 import CarouselV2 from '../components/CarouselV2';
 import { motion, AnimatePresence } from 'framer-motion';
-import ProductWrapper from '../components/ProductPart';
+import ProductWrapper from '../components/ProductWrapper';
 
 const HomePage = () => {
   return (

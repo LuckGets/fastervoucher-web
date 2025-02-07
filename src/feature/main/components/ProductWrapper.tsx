@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { RestaurantQueryFunc } from '@/api/restaurant/restaurant-query';
-import { IGetManyVoucherQueryOption } from '@/api/voucher/voucher-query';
 import { useQuery } from '@tanstack/react-query';
 import { Restaurant } from '@/data-schema/restaurant.type';
 import FilterRestaurant from './FilterRestaurant';
 import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import HomePageVoucherWrapper from './HomePageVoucherList';
 import Loading from '@/components/Loading';
+import { IGetManyProductQueriesOptions } from '@/data-schema/product.type';
+import HomePageProductList from './HomePageVoucherWrapper';
 
 export interface IVoucherListQueriesAndState
-  extends IGetManyVoucherQueryOption {
+  extends IGetManyProductQueriesOptions {
   selectedVoucher: VoucherDataSchema['id'];
   restaurantName: Restaurant['name'];
+}
+
+export interface HomePageProductListProps {
+  queries: IVoucherListQueriesAndState;
 }
 
 const ALL_RESTAURANT = 'All';
@@ -24,6 +28,7 @@ const INIT_QUERY: IVoucherListQueriesAndState = {
   page: 1,
 };
 
+// ----- COMPONENT ----- //
 const ProductWrapper: React.FC = () => {
   const [queries, setQueries] =
     useState<IVoucherListQueriesAndState>(INIT_QUERY);
@@ -63,7 +68,7 @@ const ProductWrapper: React.FC = () => {
         setSelectedRestaurant={handleSelectRestaurant}
         restaurants={restaurants ?? []}
       />
-      <HomePageVoucherWrapper queries={queries} />
+      <HomePageProductList queries={queries} />
     </>
   );
 };

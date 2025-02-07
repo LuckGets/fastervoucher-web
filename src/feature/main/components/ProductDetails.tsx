@@ -7,16 +7,16 @@ import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
 import useSettingStore from '@/stores/setting-store';
 import {
-  DiscountStatusEnum,
-  VoucherDataSchema,
-} from '@/data-schema/voucher.type';
+  ProductDataSchema,
+  ProductDiscountEnum,
+} from '@/data-schema/product.type';
 
-interface VoucherDetailsProps {
-  voucher: VoucherDataSchema;
+interface ProductDetailsProps {
+  product: ProductDataSchema;
   onClose: () => void;
 }
 
-const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
+const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const { color } = useSettingStore();
   // const addToCart = useCartStore((state) => state.addToCart);
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
 
     Swal.fire({
       title: 'Added to cart!',
-      text: `Voucher '${voucher.title}' has been added to your cart.`,
+      text: `Voucher '${product.title}' has been added to your cart.`,
       icon: 'success',
       width: '80%',
       padding: '20px',
@@ -52,9 +52,9 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
   };
 
   const voucherPrice =
-    voucher.discount && voucher.discount.status === DiscountStatusEnum.ACTIVE
-      ? voucher.discount.discountedPrice
-      : voucher.price;
+    product.discount && product.discount.status === ProductDiscountEnum.ACTIVE
+      ? product.discount.discountedPrice
+      : product.price;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
@@ -70,14 +70,14 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
 
         <div className="px-6">
           <VoucherCost
-            images={voucher.img}
+            images={product.images}
             price={voucherPrice}
-            restaurant={voucher.category}
-            title={voucher.title}
+            restaurant={product.category}
+            title={product.title}
           />
           <VoucherTerm
-            conditions={voucher.termAndCondition}
-            details={voucher.description}
+            conditions={product.termAndCondition}
+            details={product.description}
           />
         </div>
 
@@ -96,4 +96,4 @@ const VoucherDetails = ({ voucher, onClose }: VoucherDetailsProps) => {
   );
 };
 
-export default VoucherDetails;
+export default ProductDetails;

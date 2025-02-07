@@ -3,7 +3,7 @@ import { VoucherDataSchema } from '@/data-schema/voucher.type';
 
 interface VoucherCostProps {
   price: VoucherDataSchema['price'];
-  images: VoucherDataSchema['img'];
+  images: VoucherDataSchema['images'];
   title: VoucherDataSchema['title'];
   restaurant: VoucherDataSchema['category'];
 }
@@ -14,8 +14,6 @@ const VoucherCost = ({
   title,
   restaurant,
 }: VoucherCostProps) => {
-  console.log(images);
-
   return (
     <div className="flex gap-4">
       <div className="flex w-full flex-col justify-center">
