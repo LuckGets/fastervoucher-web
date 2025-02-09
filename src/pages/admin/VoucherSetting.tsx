@@ -8,29 +8,50 @@ import VoucherDate from '../../feature/admin/components/manageVoucher/date/Vouch
 import CoverPhoto from '@/feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
 import VoucherDetails from '@/feature/admin/components/manageVoucher/details/VoucherDetails';
 import VoucherTerm from '@/feature/admin/components/manageVoucher/termCondition/VoucherTerm';
-import useVoucherStore from '@/stores/voucher-store';
-import { useNavigate, useParams } from 'react-router-dom';
-import { paths } from '@/config/path';
+import { useParams } from 'react-router-dom';
 import PromotionPrice from '@/feature/admin/components/manageVoucher/promotionPrice/PromotionPrice';
 import StockAmount from '@/feature/admin/components/manageVoucher/stock/StockAmount';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
+import { VoucherDataSchema } from '@/data-schema/voucher.type';
+// import Swal from 'sweetalert2';
+
+export interface VoucherDetailSettingProps {
+  voucher: VoucherDataSchema;
+}
 
 const VoucherSetting = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { removeVoucher } = useVoucherStore();
-  const navigate = useNavigate();
-
+  const { id } = useParams<{ id: VoucherDataSchema['id'] }>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const navigate = useNavigate();
+
+  const {
+    data: axiosVoucherResponse,
+    isError,
+    error,
+  } = useSuspenseQuery(VoucherQueryFunc.getById(id ?? ''));
+
+  const { data: voucher } = axiosVoucherResponse.data;
+
+  if ((isError && error) || !voucher) {
+    if (!voucher) throw new Error(`Can't find voucher with id: ${id}`);
+    console.error(error);
+    throw error;
+  }
+
+  const image = voucher.img.filter((item) => item.mainImg)[0];
+
+  // Query voucher id information
 
   const handleDelete = () => {
     setIsModalOpen(true);
   };
 
   const confirmDelete = () => {
-    if (voucherId) {
-      removeVoucher(voucherId);
-      navigate(`${paths.admin.manage.path}`);
-    }
+    // if (voucherId) {
+    //   removeVoucher(voucherId);
+    //   navigate(`${paths.admin.manage.path}`);
+    // }
     setIsModalOpen(false);
   };
 
@@ -39,7 +60,7 @@ const VoucherSetting = () => {
       <div className="mb-12 flex w-full">
         <div className="flex w-full gap-4">
           <div className="w-1/4">
-            <CoverPhoto />
+            <CoverPhoto voucher={voucher} mainImg={image} />
           </div>
           <div className="flex w-3/5 flex-col gap-4">
             <VoucherName />

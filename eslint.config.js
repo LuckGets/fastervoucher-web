@@ -7,7 +7,7 @@ import prettier from 'eslint-config-prettier';
 import vitest from 'eslint-plugin-vitest';
 import testingLibrary from 'eslint-plugin-testing-library';
 import reactPlugin from 'eslint-plugin-react';
-import eslintPluginImportX from "eslint-plugin-import-x"
+import eslintPluginImportX from 'eslint-plugin-import-x';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -20,12 +20,12 @@ export default tseslint.config(
       vitest.configs.recommended,
       prettier,
       reactPlugin.configs.flat.recommended,
-      reactPlugin.configs.flat["jsx-runtime"]
+      reactPlugin.configs.flat['jsx-runtime'],
     ],
     settings: {
       react: {
-        version: "detect"
-      }
+        version: 'detect',
+      },
     },
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -44,8 +44,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'import-x/default': 'off',
       'prefer-const': 'warn',
-      'react-prop-types': 'off',
+      'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/no-unknown-property': [
         2,
@@ -54,10 +55,6 @@ export default tseslint.config(
         },
       ],
     },
-    ignores: [
-      "package-lock.json",
-      "public",
-      "node_modules"
-    ]
+    ignores: ['package-lock.json', 'public', 'node_modules'],
   },
 );

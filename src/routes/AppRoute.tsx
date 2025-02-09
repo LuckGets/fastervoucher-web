@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { paths } from '@/config/path';
 import Loading from '@/components/Loading';
+import ErrorBoundary from '@/pages/error/ErrorBoundary';
 
 const GuestLayout = lazy(() => import('../layouts/GuestLayout'));
 const RedeemLayout = lazy(() => import('../layouts/RedeemLayout'));
@@ -37,7 +38,9 @@ const router = createBrowserRouter([
     path: paths.main.home.path,
     element: (
       <Suspense fallback={<Loading />}>
-        <GuestLayout />
+        <ErrorBoundary>
+          <GuestLayout />
+        </ErrorBoundary>
       </Suspense>
     ),
     children: [
@@ -69,7 +72,9 @@ const router = createBrowserRouter([
     path: paths.admin.path,
     element: (
       <Suspense fallback={<Loading />}>
-        <AdminLayout />
+        <ErrorBoundary>
+          <AdminLayout />
+        </ErrorBoundary>
       </Suspense>
     ),
     children: [
@@ -92,9 +97,7 @@ const router = createBrowserRouter([
 export default function AppRouter() {
   return (
     <div>
-      <Suspense fallback={<Loading />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <RouterProvider router={router} />
     </div>
   );
 }

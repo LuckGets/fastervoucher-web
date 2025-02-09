@@ -1,63 +1,40 @@
 import { ShoppingCart, X } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherTerm from './VoucherTerm';
-import useCartStore, { CartItem } from '@/stores/cart-store';
+// import useCartStore from '@/stores/cart-store';
 import Swal from 'sweetalert2';
 import { paths } from '@/config/path';
 import { useNavigate } from 'react-router-dom';
 import useSettingStore from '@/stores/setting-store';
-import useVoucherStore from '@/stores/voucher-store';
-import { useEffect } from 'react';
+import {
+  ProductDataSchema,
+  ProductDiscountEnum,
+} from '@/data-schema/product.type';
 
-interface VoucherDetailsProps {
-  voucherId: string;
+interface ProductDetailsProps {
+  product: ProductDataSchema;
   onClose: () => void;
 }
 
-const VoucherDetails = ({ voucherId, onClose }: VoucherDetailsProps) => {
+const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const { color } = useSettingStore();
-  const { addToCart } = useCartStore();
+  // const addToCart = useCartStore((state) => state.addToCart);
   const navigate = useNavigate();
-  const { actionGetVoucherById, voucherById } = useVoucherStore();
-
-  useEffect(() => {
-    actionGetVoucherById(voucherId);
-  }, [actionGetVoucherById, voucherId]);
 
   const bgColor = color
     ? { backgroundColor: color }
     : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {
-    if (!voucherById) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Voucher data not found.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
-      return;
-    }
-
-    const price =
-      voucherById.discount?.status === 'ACTIVE'
-        ? voucherById.discount.discountedPrice
-        : voucherById.price || 0;
-
-    const cartItem: CartItem = {
-      id: voucherById.id,
-      title: voucherById.title || 'Untitled Voucher',
-      category: voucherById.category || 'N/A',
-      price: price,
-      quantity: 1,
-      img: voucherById.images || [],
-    };
-
-    addToCart(cartItem);
+    // const cartItem = {
+    //   ...voucher,
+    //   quantity: 1,
+    // };
+    // addToCart(cartItem);
 
     Swal.fire({
       title: 'Added to cart!',
-      text: `Voucher '${voucherById.title || 'Untitled'}' has been added to your cart.`,
+      text: `Voucher '${product.title}' has been added to your cart.`,
       icon: 'success',
       width: '80%',
       padding: '20px',
@@ -74,6 +51,11 @@ const VoucherDetails = ({ voucherId, onClose }: VoucherDetailsProps) => {
     });
   };
 
+  const voucherPrice =
+    product.discount && product.discount.status === ProductDiscountEnum.ACTIVE
+      ? product.discount.discountedPrice
+      : product.price;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
       <div className="relative mx-4 flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg bg-[#F7F3ED]">
@@ -86,18 +68,17 @@ const VoucherDetails = ({ voucherId, onClose }: VoucherDetailsProps) => {
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-6">
-          {voucherById?.id ? (
-            <VoucherCost id={voucherById.id} />
-          ) : (
-            <div className="text-gray-500">Voucher ID not found</div>
-          )}
-
-          {voucherById ? (
-            <VoucherTerm voucher={voucherById} />
-          ) : (
-            <div className="text-gray-500">Voucher details not available</div>
-          )}
+        <div className="px-6">
+          <VoucherCost
+            images={product.images}
+            price={voucherPrice}
+            restaurant={product.category}
+            title={product.title}
+          />
+          <VoucherTerm
+            conditions={product.termAndCondition}
+            details={product.description}
+          />
         </div>
 
         <div className="sticky bottom-0 bg-[#F7F3ED] p-4 shadow-lg">
@@ -115,4 +96,4 @@ const VoucherDetails = ({ voucherId, onClose }: VoucherDetailsProps) => {
   );
 };
 
-export default VoucherDetails;
+export default ProductDetails;
