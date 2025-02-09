@@ -151,10 +151,6 @@ const CreateVoucher = () => {
             stockAmount={voucherData.stockAmount}
             onChange={updateVoucherData}
           />
-          {/* <CreateDiscount
-            promotion={voucherData.promotion || []}
-            onChange={updateVoucherData}
-          /> */}
           <CoverPhoto
             src={voucherData.src ?? null}
             onChange={updateVoucherData}

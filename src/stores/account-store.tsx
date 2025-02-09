@@ -19,6 +19,7 @@ export interface Account {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+  verifiedAt: string | null;
 }
 
 export interface AccountState {

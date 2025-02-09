@@ -3,9 +3,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 interface VoucherProps {
-  id: number;
+  id: string;
   details?: string;
-  conditions?: string;
+  termAndCondition?: string;
 }
 
 interface VoucherTermProps {
@@ -23,7 +23,6 @@ const VoucherTerm = ({ voucher }: VoucherTermProps) => {
     'indent',
   ];
 
-  // Move the useMemo hook outside of any condition
   const modules = useMemo(() => ({ toolbar: false }), []);
 
   if (!voucher) {
@@ -45,7 +44,7 @@ const VoucherTerm = ({ voucher }: VoucherTermProps) => {
         <h1 className="text-sm font-semibold">เงื่อนไขและข้อกำหนด</h1>
         <div className="mt-2">
           <ReactQuill
-            value={voucher.conditions || '<p>No information</p>'}
+            value={voucher.termAndCondition || '<p>No information</p>'}
             readOnly={true}
             modules={modules}
             formats={formats}

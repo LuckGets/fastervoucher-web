@@ -1,16 +1,38 @@
 import useCartStore from '@/stores/cart-store';
 import useSettingStore from '@/stores/setting-store';
+import useVoucherStore from '@/stores/voucher-store';
 import { footerLinks } from '@/utils/main/footerLinks';
 import { Search } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const location = useLocation();
   const { logoImage } = useSettingStore();
   const { items } = useCartStore();
+  const { filterVouchers } = useVoucherStore();
+
+  const [search, setSearch] = useState('');
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
+    null,
+  );
 
   const cartHasItems = items.length > 0;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    const timer = setTimeout(() => {
+      filterVouchers(search);
+    }, 1000);
+
+    setDebounceTimer(timer);
+  };
 
   return (
     <>
@@ -25,7 +47,7 @@ const Header: React.FC = () => {
             <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#D9D9D9] lg:h-20 lg:w-20">
               <img
                 src={logoImage}
-                alt=""
+                alt="Logo"
                 className="h-full w-full object-scale-down"
               />
             </div>
@@ -81,7 +103,7 @@ const Header: React.FC = () => {
             <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#D9D9D9] lg:h-20 lg:w-20">
               <img
                 src={logoImage}
-                alt=""
+                alt="Logo"
                 className="h-full w-full object-scale-down"
               />
             </div>
@@ -93,6 +115,7 @@ const Header: React.FC = () => {
               </h1>
               <div>
                 <input
+                  onChange={handleInputChange}
                   className="w-full rounded-full bg-[#E1E1E1] p-2 pl-5 pr-10 text-sm focus:border-primary lg:w-[30rem] lg:text-base"
                   placeholder="Find your favorite menu"
                   type="text"

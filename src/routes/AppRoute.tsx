@@ -30,6 +30,7 @@ const ManageVoucher = lazy(() => import('@/pages/admin/ManageVoucher'));
 const CreateVoucher = lazy(() => import('@/pages/admin/CreateVoucher'));
 const VoucherSetting = lazy(() => import('@/pages/admin/VoucherSetting'));
 const Affiliate = lazy(() => import('@/pages/admin/Affiliate'));
+const Payment = lazy(() => import('@/feature/payment/page/PayMent'));
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: paths.main.cart.path, element: <CartPage /> },
+      { path: paths.payment.path, element: <Payment /> },
       { path: paths.main.history.path, element: <HistoryPage /> },
       { path: paths.main.user.path, element: <UserPage /> },
       { path: paths.user.edit.path, element: <EditProfile /> },

@@ -2,25 +2,27 @@ import { useEffect, useState } from 'react';
 import VoucherDetails from './VoucherDetails';
 import useVoucherStore from '@/stores/voucher-store';
 
-interface Promotion {
-  name: string;
-  price: number;
-  startDate: string;
-  endDate: string;
-}
-
 interface Props {
   selectedRestaurant: string | null;
 }
 
+interface Images {
+  id: string;
+  imgPath: string;
+}
+
 interface VoucherProps {
-  id: number;
-  name: string;
+  id: string;
+  title: string;
   price: number;
-  promotion?: Promotion[];
-  restaurant: string;
-  meal: string;
-  src?: string;
+  category: string;
+  tag: string;
+  img?: Images | null;
+  discount?: { discountedPrice: number };
+  sellStartedAt: string;
+  sellExpiredAt: string;
+  status: string;
+  stockAmount?: number;
 }
 
 const Voucher = ({ selectedRestaurant }: Props) => {
@@ -32,11 +34,18 @@ const Voucher = ({ selectedRestaurant }: Props) => {
 
   useEffect(() => {
     actionGetVouchers();
-  }, [actionGetVouchers]);
+  }, [actionGetVouchers, vouchers]);
 
-  const filteredVouchers = vouchers.filter((voucher) =>
-    selectedRestaurant ? voucher.restaurant === selectedRestaurant : true,
+  const currentDate = new Date();
+  const currentTimeInThailand = new Date(
+    currentDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }),
   );
+
+  const filteredVouchersList = selectedRestaurant
+    ? vouchers.filter((voucher) => {
+        return voucher.category === selectedRestaurant;
+      })
+    : vouchers;
 
   const handleOnclick = (voucher: VoucherProps) => {
     setSelectedVoucher(voucher);
@@ -48,32 +57,52 @@ const Voucher = ({ selectedRestaurant }: Props) => {
     setSelectedVoucher(null);
   };
 
+  const vouchersToDisplay = filteredVouchersList.filter((voucher) => {
+    const sellStartedAt = new Date(voucher?.sellStartedAt);
+    const sellExpiredAt = new Date(voucher?.sellExpiredAt);
+
+    const isActive =
+      currentTimeInThailand >= sellStartedAt &&
+      currentTimeInThailand <= sellExpiredAt;
+
+    const hasActiveDiscount =
+      voucher.discount &&
+      voucher.discount.discountedPrice > 0 &&
+      voucher.status === 'ACTIVE';
+
+    return isActive && (!voucher.discount || hasActiveDiscount);
+  });
+
   return (
-    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
-      {filteredVouchers.map((voucher, index) => (
+    <div className="mb-20 grid w-full grid-cols-2 gap-1 px-4 md:grid-cols-3 lg:grid-cols-5">
+      {vouchersToDisplay.map((voucher, index) => (
         <div
           key={index}
           onClick={() => handleOnclick(voucher)}
-          className="cursor-pointer rounded-xl p-2 active:bg-[#0000003a]"
+          className="flex cursor-pointer flex-col justify-center rounded-xl p-2 active:bg-[#0000003a] lg:items-center"
         >
           <img
-            src={voucher.src || '/placeholder-image.png'}
-            alt={voucher.name}
-            className="w-full rounded-2xl object-cover"
+            src={
+              Array.isArray(voucher?.images) && voucher?.images[0]?.imgPath
+                ? voucher?.images[0]?.imgPath
+                : '/placeholder-image.png'
+            }
+            alt={voucher?.title}
+            className="h-44 w-44 rounded-2xl object-cover lg:h-52 lg:w-52"
           />
-          <h1 className="mt-2 truncate text-sm md:text-lg">{voucher.name}</h1>
+          <h1 className="mt-2 truncate text-sm md:text-lg">{voucher?.title}</h1>
           <div className="flex items-center">
-            {!voucher.promotionPrice ? (
+            {!voucher?.discount ? (
               <h2 className="text-xs text-gray-500 md:text-sm">
-                THB {voucher.price} NET
+                THB {voucher?.price} NET
               </h2>
             ) : (
               <>
                 <h2 className="text-[11px] text-gray-500 line-through md:text-sm">
-                  THB {voucher.price} ++
+                  THB {voucher?.price} ++
                 </h2>
                 <span className="ml-2 text-[11px] text-red-500 md:text-sm">
-                  THB {voucher?.promotionPrice} NET
+                  THB {voucher?.discount?.discountedPrice} NET
                 </span>
               </>
             )}
@@ -88,10 +117,7 @@ const Voucher = ({ selectedRestaurant }: Props) => {
         </div>
       ))}
       {isModalOpen && selectedVoucher && (
-        <VoucherDetails
-          voucher={{ ...selectedVoucher, voucherType: 'single' }}
-          onClose={closeModal}
-        />
+        <VoucherDetails voucherId={selectedVoucher?.id} onClose={closeModal} />
       )}
     </div>
   );

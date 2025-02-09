@@ -7,9 +7,11 @@ import type { LoginForm } from '@/api/auth/types/login-form.types';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import useAccountStore from '@/stores/account-store';
 
 const LoginForm = () => {
-  const { actionLogin, actionRefreshToken } = useAuthStore();
+  const { actionLogin, accessToken } = useAuthStore();
+  const { actionGetMe, accountInfo, actionFirstVerify } = useAccountStore();
 
   const navigate = useNavigate();
 
@@ -52,7 +54,10 @@ const LoginForm = () => {
             confirmButton: 'custom-confirm-button',
           },
         }).then(async () => {
-          await actionRefreshToken();
+          await actionGetMe(accessToken);
+          if (accountInfo?.verifiedAt === null) {
+            actionFirstVerify(accessToken);
+          }
           navigate('/');
         });
       } catch (error) {

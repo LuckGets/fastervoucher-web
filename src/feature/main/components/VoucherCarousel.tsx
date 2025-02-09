@@ -28,7 +28,7 @@ const swipePower = (offset: number, velocity: number) => {
 const VoucherCarousel = ({
   images,
 }: {
-  images: { id: number; src: string }[];
+  images: { id: number; imgPath: string }[];
 }) => {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.length, page);
@@ -54,7 +54,7 @@ const VoucherCarousel = ({
         >
           <motion.img
             key={page}
-            src={images[imageIndex].src}
+            src={images[imageIndex]?.imgPath}
             custom={direction}
             variants={variants}
             initial="enter"

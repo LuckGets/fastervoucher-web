@@ -2,7 +2,7 @@ import useVoucherStore from '@/stores/voucher-store';
 import VoucherCarousel from './VoucherCarousel';
 
 interface VoucherCostProps {
-  id: number;
+  id: string;
 }
 
 const VoucherCost = ({ id }: VoucherCostProps) => {
@@ -17,16 +17,16 @@ const VoucherCost = ({ id }: VoucherCostProps) => {
     );
   }
 
-  const { name, price, promotionPrice, restaurant, carouselImages } = voucher;
+  const { title, price, discount, category, images } = voucher;
 
   return (
     <div className="flex gap-4">
       <div className="flex w-full flex-col justify-center">
-        <h1 className="text-lg font-bold text-gray-800">{name}</h1>
-        <h2 className="mt-1 text-sm text-gray-500">{restaurant}</h2>
-        {promotionPrice ? (
+        <h1 className="text-lg font-bold text-gray-800">{title}</h1>
+        <h2 className="mt-1 text-sm text-gray-500">{category}</h2>
+        {discount && discount?.status === 'ACTIVE' ? (
           <h1 className="mb-4 mt-4 text-sm font-semibold">
-            THB {promotionPrice.toLocaleString()} NET
+            THB {discount?.discountedPrice.toLocaleString()} NET
           </h1>
         ) : (
           <h1 className="mb-4 mt-4 text-sm font-semibold">
@@ -34,7 +34,7 @@ const VoucherCost = ({ id }: VoucherCostProps) => {
           </h1>
         )}
         <div className="relative w-full overflow-hidden rounded-lg">
-          <VoucherCarousel images={carouselImages || []} />
+          <VoucherCarousel images={images || []} />
         </div>
       </div>
     </div>

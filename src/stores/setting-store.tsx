@@ -1,3 +1,5 @@
+import { getShopDetails } from '@/api/owner/owners';
+import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -5,8 +7,9 @@ interface Image {
   src: string;
 }
 
-interface Restaurant {
-  name: string;
+interface ShopImage {
+  type: string;
+  imgPath: string;
 }
 
 export interface SettingState {
@@ -16,7 +19,7 @@ export interface SettingState {
   emailForLogin: string;
   emailForSend: string;
   carouselImages: Image[];
-  restaurant: Restaurant[];
+  actionGetShopInfo: () => void;
   setName: (newName: string) => void;
   setSelectedImage: (image: string) => void;
   setColor: (color: string) => void;
@@ -42,17 +45,40 @@ const useSettingStore = create<SettingState>()(
         { src: 'https://i.imgur.com/UelGops.jpeg' },
         { src: 'https://i.imgur.com/hw3L8oP.jpeg' },
       ],
-      restaurant: [
-        { name: 'Coffee Shop' },
-        { name: 'Yok Chinese Restaurant' },
-        { name: 'Health club' },
-      ],
+      actionGetShopInfo: async () => {
+        try {
+          const result = await getShopDetails();
+          const data = result?.data?.data;
+
+          if (data) {
+            const logoImage =
+              data.img.find((image: ShopImage) => image.type === 'LOGO')
+                ?.imgPath || '';
+            const carouselImages = data.img
+              .filter((image: ShopImage) => image.type === 'BACKGROUND')
+              .map((image: ShopImage) => ({ src: `https://${image.imgPath}` }));
+
+            set({
+              name: data.name,
+              logoImage: `https://${logoImage}`,
+              color: `#${data.colorCode}`,
+              emailForSend: data.emailForSendNotification,
+              carouselImages,
+            });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.log('actionEditInfo error:', err);
+        }
+      },
       setName: (newName: string) => set({ name: newName }),
+
       setSelectedImage: (image: string) => set({ logoImage: image }),
+
       setColor: (color: string) => set({ color: color }),
       updateCarouselImages: (images: Image[]) =>
         set({ carouselImages: images }),
-      setRestaurant: (restaurant: Restaurant[]) => set({ restaurant }),
+
       updateField: <T extends keyof SettingState>(
         key: T,
         value: SettingState[T],

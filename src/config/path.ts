@@ -18,6 +18,11 @@ export const paths = {
     },
   },
 
+  payment: {
+    label: 'Payment',
+    path: '/cart/payment',
+  },
+
   auth: {
     login: {
       label: 'Login',
@@ -29,7 +34,7 @@ export const paths = {
     },
     verifyEmail: {
       label: 'Verify Email',
-      path: '/confirm-email',
+      path: '/auth/verify-email',
     },
     forgetPassword: {
       label: 'Forget Password',
@@ -56,6 +61,7 @@ export const paths = {
   redeem: {
     path: '/redeem',
   },
+
   admin: {
     path: '/admin',
     dashboard: {

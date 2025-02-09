@@ -3,7 +3,7 @@ import { PencilLine, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 const HotelRestaurant = () => {
-  const { restaurants, setRestaurant } = useVoucherStore();
+  const { categories, setRestaurant } = useVoucherStore();
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [newValue, setNewValue] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -11,12 +11,12 @@ const HotelRestaurant = () => {
 
   const handleEdit = (index: number) => {
     setIsEditing(index);
-    setNewValue(restaurants[index].name);
+    setNewValue(categories[index].name);
   };
 
   const handleSave = () => {
     if (isEditing !== null) {
-      const updatedRestaurants = [...restaurants];
+      const updatedRestaurants = [...categories];
       updatedRestaurants[isEditing].name = newValue;
       setRestaurant(updatedRestaurants);
     }
@@ -29,7 +29,7 @@ const HotelRestaurant = () => {
   };
 
   const handleDelete = (index: number) => {
-    const updatedRestaurants = restaurants.filter((_, i) => i !== index);
+    const updatedRestaurants = categories.filter((_, i) => i !== index);
     setRestaurant(updatedRestaurants);
     setDeleteIndex(null);
   };
@@ -40,7 +40,7 @@ const HotelRestaurant = () => {
 
   const handleSaveNewRestaurant = () => {
     if (newValue.trim()) {
-      const updatedRestaurants = [...restaurants, { name: newValue }];
+      const updatedRestaurants = [...categories, { name: newValue }];
       setRestaurant(updatedRestaurants);
       setNewValue('');
       setIsAdding(false);
@@ -62,7 +62,7 @@ const HotelRestaurant = () => {
 
   return (
     <div className="my-2 flex flex-col gap-3">
-      {restaurants.map((restaurantItem, index) => (
+      {categories.map((restaurantItem, index) => (
         <div
           key={index}
           className="h-18 flex w-[90%] items-center justify-around rounded-xl bg-[#D9D9D9] px-5 hover:bg-[#a3a3a3a0]"

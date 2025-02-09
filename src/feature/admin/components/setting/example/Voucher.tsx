@@ -4,27 +4,31 @@ const Voucher = () => {
   const { vouchers } = useVoucherStore();
 
   return (
-    <div className="grid w-full grid-cols-2 gap-4 px-6">
+    <div className="grid w-full grid-cols-2 gap-2 px-6">
       {vouchers.slice(0, 4).map((voucher, index) => (
-        <div key={index} className="rounded-xl p-2">
+        <div key={index} className="rounded-xl">
           <img
-            src={voucher.src}
-            alt={voucher.name}
-            width={250}
-            height={250}
-            className="w-full rounded-2xl object-cover"
+            src={
+              Array.isArray(voucher?.images) && voucher?.images[0]?.imgPath
+                ? voucher?.images[0]?.imgPath
+                : '/placeholder-image.png'
+            }
+            alt={voucher?.title}
+            className="h-44 w-44 rounded-2xl object-cover"
           />
-          <h1 className="mt-2 truncate text-sm">{voucher.name}</h1>
+          <h1 className="mt-2 truncate text-sm">{voucher?.title}</h1>
           <div className="flex items-center">
-            {!voucher.promotion || voucher.promotion.length === 0 ? (
-              <h2 className="text-xs text-gray-500">THB {voucher.price} ++</h2>
+            {!voucher?.discount ? (
+              <h2 className="text-xs text-gray-500">
+                THB {voucher?.price} NET
+              </h2>
             ) : (
               <>
                 <h2 className="text-[11px] text-gray-500 line-through">
-                  THB {voucher.price} ++
+                  THB {voucher?.price} ++
                 </h2>
                 <span className="ml-2 text-[11px] text-red-500">
-                  THB {voucher.promotion[0]?.price} NET
+                  THB {voucher?.discount?.discountedPrice} NET
                 </span>
               </>
             )}
