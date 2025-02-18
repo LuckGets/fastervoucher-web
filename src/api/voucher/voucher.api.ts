@@ -1,6 +1,6 @@
-import { ResponseDataList } from '@/data-schema/common.type';
+import { ResponseDataList } from '../../data-schema/common.type';
 import axios from '../../config/axios';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../data-schema/voucher.type';
 import { AxiosResponse } from 'axios';
 
 const VOUCHER_BASE_API_ENDPOINT = {

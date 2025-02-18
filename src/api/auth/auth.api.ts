@@ -1,7 +1,7 @@
-import { ResponseData } from '@/data-schema/common.type';
+import { ResponseData } from '../../data-schema/common.type';
 import axios from '../../config/axios';
 import { AxiosResponse } from 'axios';
-import { RegisterForm, LoginForm, login } from '@/data-schema/auth.type';
+import { RegisterForm, LoginForm, login } from '../../data-schema/auth.type';
 
 const AUTH_BASE_API_ENDPOINT = '/auth';
 const AUTH_API_ENDPOINTs = {

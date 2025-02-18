@@ -1,5 +1,5 @@
-import { Restaurant } from '@/data-schema/restaurant.type';
-import useSettingStore from '@/stores/setting-store';
+import { Restaurant } from '../../../data-schema/restaurant.type';
+import useSettingStore from '../../../stores/setting-store';
 
 interface FilterRestaurantProps {
   defaultRestaurant: Restaurant['name'];

@@ -1,14 +1,14 @@
 import {
   getManyProductQueriesOptionMapper,
   IGetManyProductQueriesOptions,
-} from '@/data-schema/product.type';
+} from '../../data-schema/product.type';
 import {
   infiniteQueryOptions,
   keepPreviousData,
   queryOptions,
 } from '@tanstack/react-query';
 import { packageApi } from './package.api';
-import { PackageDataSchema } from '@/data-schema/package.type';
+import { PackageDataSchema } from '../../data-schema/package.type';
 
 const PACKAGE_QUERY_KEY = 'package';
 

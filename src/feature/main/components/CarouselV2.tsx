@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { ChevronRight } from 'lucide-react';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../stores/setting-store';
 
 const variants = {
   enter: (direction: number) => {
