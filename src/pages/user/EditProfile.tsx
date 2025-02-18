@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import useAccountStore from '@/stores/account-store';
-import useAuthStore from '@/stores/auth-store';
+import useAccountStore from '../../stores/account-store';
+import useAuthStore from '../../stores/auth-store';
 import { MoveLeft, Pencil, Loader2 } from 'lucide-react';
-import { paths } from '@/config/path';
-import EditProfileWrapper from '@/feature/user/components/EditProfileWrapper';
-import UserAvatar from '@/feature/user/components/UserAvatar';
+import { paths } from '../../config/path';
+import EditProfileWrapper from '../../feature/user/components/EditProfileWrapper';
+import UserAvatar from '../../feature/user/components/UserAvatar';
 
 const EditProfile = () => {
   const { accessToken } = useAuthStore();

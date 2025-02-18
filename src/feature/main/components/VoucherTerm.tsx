@@ -1,4 +1,4 @@
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';

@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '../../../components/ui/dialog';
 
 import Qr from '../../../assets/pics/Qr-example.png';
 import { CalendarDays, Clock3 } from 'lucide-react';

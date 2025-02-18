@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../../stores/voucher-store';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -28,7 +27,7 @@ const VoucherTypes: React.FC<VoucherTypesProps> = ({
   } | null>(null);
   const [isVoucherAdded, setIsVoucherAdded] = useState(false);
 
-  const handleVoucherSelection = (voucherId: number) => {
+  const handleVoucherSelection = (voucherId: string) => {
     const selected = vouchers.find((voucher) => voucher.id === voucherId);
     setSelectedVoucher(selected ? { id: selected.id, quantity: 1 } : null);
   };

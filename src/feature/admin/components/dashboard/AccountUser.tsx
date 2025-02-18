@@ -1,4 +1,4 @@
-import { accountUser } from '@/utils/dashboard/accountUser';
+import { accountUser } from '../../../../utils/dashboard/accountUser';
 import { ArrowDownUp } from 'lucide-react';
 import { useState } from 'react';
 

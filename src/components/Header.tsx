@@ -1,7 +1,6 @@
-import useCartStore from '@/stores/cart-store';
-import useSettingStore from '@/stores/setting-store';
-import useVoucherStore from '@/stores/voucher-store';
-import { footerLinks } from '@/utils/main/footerLinks';
+import useCartStore from '../stores/cart-store';
+import useSettingStore from '../stores/setting-store';
+import { footerLinks } from '../utils/main/footerLinks';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,7 +9,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const { logoImage } = useSettingStore();
   const { items } = useCartStore();
-  const { filterVouchers } = useVoucherStore();
+  // const { filterVouchers } = useVoucherStore();
 
   const [search, setSearch] = useState('');
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
@@ -28,7 +27,8 @@ const Header: React.FC = () => {
     }
 
     const timer = setTimeout(() => {
-      filterVouchers(search);
+      // filterVouchers(search);
+      console.log('search :>> ', search);
     }, 1000);
 
     setDebounceTimer(timer);

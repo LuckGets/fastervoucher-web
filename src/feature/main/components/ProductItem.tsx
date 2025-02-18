@@ -1,9 +1,9 @@
-import { PackageDataSchema } from '@/data-schema/package.type';
+import { PackageDataSchema } from '../../../data-schema/package.type';
 import {
   ProductDataSchema,
   ProductDiscountEnum,
-} from '@/data-schema/product.type';
-import { prependHttpsToString } from '@/utils/function/stringToUrl';
+} from '../../../data-schema/product.type';
+import { prependHttpsToString } from '../../../utils/function/stringToUrl';
 import { FC } from 'react';
 
 interface ProductItemProps {

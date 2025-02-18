@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import EmailInfo from './EmailInfo';
-import { subSetting } from '@/utils/admin/subsetting';
-import useSettingStore from '@/stores/setting-store';
+import { subSetting } from '../../../../../utils/admin/subsetting';
+import useSettingStore from '../../../../../stores/setting-store';
 import ChangePassword from './ChangPassword';
 
 const VoucherEmail = () => {

@@ -1,4 +1,4 @@
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../../../data-schema/voucher.type';
 import { Pencil, Plus, Save, Trash2, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';

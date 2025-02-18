@@ -1,4 +1,4 @@
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../../stores/setting-store';
 
 const Header: React.FC = () => {
   const logoImage = useSettingStore((state) => state.logoImage);

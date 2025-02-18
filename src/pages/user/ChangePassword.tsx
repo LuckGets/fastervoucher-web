@@ -1,5 +1,5 @@
-import { paths } from '@/config/path';
-import ChangePassForm from '@/feature/user/components/ChangePassForm';
+import { paths } from '../../config/path';
+import ChangePassForm from '../../feature/user/components/ChangePassForm';
 import { MoveLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';

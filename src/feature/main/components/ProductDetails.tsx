@@ -3,13 +3,13 @@ import VoucherCost from './VoucherCost';
 import VoucherTerm from './VoucherTerm';
 // import useCartStore from '@/stores/cart-store';
 import Swal from 'sweetalert2';
-import { paths } from '@/config/path';
+import { paths } from '../../../config/path';
 import { useNavigate } from 'react-router-dom';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../stores/setting-store';
 import {
   ProductDataSchema,
   ProductDiscountEnum,
-} from '@/data-schema/product.type';
+} from '../../../data-schema/product.type';
 
 interface ProductDetailsProps {
   product: ProductDataSchema;

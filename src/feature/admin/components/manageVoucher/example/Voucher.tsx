@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { ShoppingCart } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherDetail from './VoucherDetail';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../../stores/setting-store';
 
 const Voucher = () => {
   const { id } = useParams<{ id: string }>();
   const { color } = useSettingStore();
   const { vouchers } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === Number(id));
+  const voucher = vouchers.find((v) => v.id === id);
 
   const bgColor = color
     ? { backgroundColor: color }

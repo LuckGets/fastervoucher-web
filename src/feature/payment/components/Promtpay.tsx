@@ -1,4 +1,4 @@
-import useCartStore from '@/stores/cart-store';
+import useCartStore from '../../../stores/cart-store';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 

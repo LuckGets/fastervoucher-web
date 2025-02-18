@@ -1,4 +1,4 @@
-import { getShopDetails } from '@/api/owner/owners';
+import { getShopDetails } from '../api/owner/owners';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';

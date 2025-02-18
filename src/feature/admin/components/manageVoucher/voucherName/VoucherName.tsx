@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import Input from './Input';
 
 const VoucherName = () => {

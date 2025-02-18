@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
 
 interface SearchVoucherProps {
@@ -11,10 +10,10 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
   const navigate = useNavigate();
 
   const filteredVouchers = selectedRestaurant
-    ? vouchers.filter((voucher) => voucher.restaurant === selectedRestaurant)
+    ? vouchers.filter((voucher) => voucher.category === selectedRestaurant)
     : vouchers;
 
-  const handleVoucherClick = (id: number) => {
+  const handleVoucherClick = (id: string) => {
     navigate(`${id}`);
   };
 
@@ -27,19 +26,19 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
           onClick={() => handleVoucherClick(i.id)}
         >
           <img
-            src={i.src}
-            alt={i.name}
+            src={i.images[0].imgPath}
+            alt={i.title}
             width={250}
             height={250}
             className="w-full rounded-2xl object-cover"
           />
-          <h1 className="mt-2 truncate text-sm md:text-lg">{i.name}</h1>
+          <h1 className="mt-2 truncate text-sm md:text-lg">{i.title}</h1>
           <div>
-            <h2 className="text-xs text-gray-500 md:text-sm">{i.restaurant}</h2>
+            <h2 className="text-xs text-gray-500 md:text-sm">{i.category}</h2>
             <div className="flex gap-2">
-              {!i?.promotionPrice ? (
+              {!i?.discount ? (
                 <h2 className="text-xs text-gray-500 md:text-sm">
-                  THB {i?.price} ++
+                  THB {i?.discount?.discountedPrice.toLocaleString()} ++
                 </h2>
               ) : (
                 <>
@@ -47,7 +46,7 @@ const Voucher: React.FC<SearchVoucherProps> = ({ selectedRestaurant }) => {
                     THB {i?.price} ++
                   </h2>
                   <span className="ml-2 text-[11px] text-red-500 md:text-sm">
-                    THB {i?.promotionPrice} NET
+                    THB {i?.discount?.discountedPrice.toLocaleString()} NET
                   </span>
                 </>
               )}

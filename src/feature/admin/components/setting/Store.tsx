@@ -1,4 +1,4 @@
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../stores/setting-store';
 import Color from './Color';
 import Logo from './Logo';
 import EmailInfo from './email/EmailInfo';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../stores/setting-store';
 
 const Logo = () => {
   const { logoImage } = useSettingStore();

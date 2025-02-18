@@ -1,5 +1,5 @@
-import { useFilterStore } from '@/stores/filter-store';
-import { orderLists } from '@/utils/main/orderLists';
+import { useFilterStore } from '../../../../stores/filter-store';
+import { orderLists } from '../../../../utils/main/orderLists';
 import { CalendarDays, Clock, UserRound } from 'lucide-react';
 import { useState } from 'react';
 import OrderDetails from './OrderDetails';

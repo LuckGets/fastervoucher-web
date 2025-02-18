@@ -1,7 +1,10 @@
-import SubmitButton from '@/components/SubmitButton';
-import useAccountStore from '@/stores/account-store';
-import useAuthStore from '@/stores/auth-store';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
+import SubmitButton from '../../../components/SubmitButton';
+import useAccountStore from '../../../stores/account-store';
+import useAuthStore from '../../../stores/auth-store';
+import {
+  Form,
+  handleInputChange,
+} from '../../../utils/function/handleOnchange';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 

@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { Voucher } from '@/stores/voucher-store';
+import { Voucher } from '../../../../../../stores/voucher-store';
 
 interface VoucherDetailProps {
   voucher: Voucher | undefined;
@@ -26,7 +25,7 @@ const VoucherDetail: React.FC<VoucherDetailProps> = ({ voucher }) => {
         <div
           className="mt-2 border-0 text-xs md:text-sm"
           dangerouslySetInnerHTML={{
-            __html: voucher.conditions || '<p>No information</p>',
+            __html: voucher.termAndCond || '<p>No information</p>',
           }}
         />
       </div>

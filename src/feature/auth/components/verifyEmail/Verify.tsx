@@ -1,4 +1,4 @@
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../stores/setting-store';
 import { useState } from 'react';
 
 const Verify = () => {

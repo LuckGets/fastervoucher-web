@@ -1,5 +1,8 @@
-import useSettingStore from '@/stores/setting-store';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
+import useSettingStore from '../../../../stores/setting-store';
+import {
+  Form,
+  handleInputChange,
+} from '../../../../utils/function/handleOnchange';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 

@@ -1,4 +1,4 @@
-import { subSetting } from '@/utils/admin/subsetting';
+import { subSetting } from '../../../../../utils/admin/subsetting';
 import InfoInput from '../../../../../feature/admin/components/setting/line/InfoInput';
 import KeyInfo from '../../../../../feature/admin/components/setting/line/KeyInfo';
 

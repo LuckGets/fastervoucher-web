@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { affiliate } from '@/utils/affiliate/affiliateList';
+import { affiliate } from '../../../../utils/affiliate/affiliateList';
 import {
   ArrowDownUp,
   CalendarDays,

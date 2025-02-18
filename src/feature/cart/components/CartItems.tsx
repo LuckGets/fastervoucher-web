@@ -1,9 +1,9 @@
-import useCartStore from '@/stores/cart-store';
+import useCartStore from '../../../stores/cart-store';
 import { Trash2 } from 'lucide-react';
 import Total from './Total';
-import useAuthStore from '@/stores/auth-store';
+import useAuthStore from '../../../stores/auth-store';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '@/config/path';
+import { paths } from '../../../config/path';
 import { useEffect } from 'react';
 
 const CartItems = () => {

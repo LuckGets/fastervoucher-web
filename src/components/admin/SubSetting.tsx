@@ -1,4 +1,4 @@
-import { subSetting } from '@/utils/admin/subsetting';
+import { subSetting } from '../../utils/admin/subsetting';
 import { Link } from 'react-router-dom';
 
 const SubSetting = () => {

@@ -1,7 +1,7 @@
-import { getCategories, getTag } from '@/api/category/category';
-import { voucherApi } from '@/api/voucher/voucher.api';
-import { Meal, Restaurant } from '@/data-schema/restaurant.type';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { getCategories, getTag } from '../api/category/category';
+import { voucherApi } from '../api/voucher/voucher.api';
+import { Meal, Restaurant } from '../data-schema/restaurant.type';
+import { VoucherDataSchema } from '../data-schema/voucher.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -41,6 +41,7 @@ export interface Voucher {
   images?: Image | null;
   carouselImages?: Image[] | null;
   details?: string;
+  termAndCond: string;
   package?: { id: number; name: string; quantity: number }[];
   freeVoucher?: { id: number; name: string; quantity: number }[];
 }

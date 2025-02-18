@@ -1,4 +1,4 @@
-import RegisterWrapper from '@/feature/auth/components/register/RegisterWrapper';
+import RegisterWrapper from '../../../feature/auth/components/register/RegisterWrapper';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Register = () => {

@@ -1,12 +1,12 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '../../../components/ui/card';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import { carouselImages } from '@/utils/main/carouselImg';
+} from '../../../components/ui/carousel';
+import { carouselImages } from '../../../utils/main/carouselImg';
 
 const MainCarousel = () => {
   return (

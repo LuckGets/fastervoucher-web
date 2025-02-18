@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import SearchVoucher from '@/feature/admin/components/manageVoucher/SearchVoucher';
-import useVoucherStore from '@/stores/voucher-store';
+import SearchVoucher from '../../feature/admin/components/manageVoucher/SearchVoucher';
+import useVoucherStore from '../../stores/voucher-store';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { RestaurantQueryFunc } from '@/api/restaurant/restaurant-query';
-import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
-import VoucherList from '@/feature/admin/components/manageVoucher/VoucherList';
+import { RestaurantQueryFunc } from '../../api/restaurant/restaurant-query';
+import { VoucherQueryFunc } from '../../api/voucher/voucher-query';
+import VoucherList from '../../feature/admin/components/manageVoucher/VoucherList';
 import {
   IGetManyProductQueriesOptions,
   ProductSellDateQueryEnum,
-} from '@/data-schema/product.type';
+} from '../../data-schema/product.type';
 
 const defaultPage = 1;
 

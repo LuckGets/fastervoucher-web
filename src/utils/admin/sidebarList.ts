@@ -1,4 +1,4 @@
-import { paths } from '@/config/path';
+import { paths } from '../../config/path';
 import {
   LayoutDashboard,
   ListOrdered,

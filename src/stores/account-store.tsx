@@ -4,8 +4,8 @@ import {
   firstVerify,
   getMe,
   getVerify,
-} from '@/api/accounts/account';
-import { changePasswordFormdata } from '@/api/accounts/types/changePassword.type';
+} from '../api/accounts/account';
+import { changePasswordFormdata } from '../api/accounts/types/changePassword.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';

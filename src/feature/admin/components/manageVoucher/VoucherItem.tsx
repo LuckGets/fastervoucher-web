@@ -1,5 +1,5 @@
-import { ProductDiscountEnum } from '@/data-schema/product.type';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { ProductDiscountEnum } from '../../../../data-schema/product.type';
+import { VoucherDataSchema } from '../../../../data-schema/voucher.type';
 import React, { useState } from 'react';
 
 interface VoucherItemProps {

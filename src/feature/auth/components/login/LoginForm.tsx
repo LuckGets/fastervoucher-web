@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
-import SubmitButton from '@/components/SubmitButton';
-import useAuthStore from '@/stores/auth-store';
-import type { LoginForm } from '@/api/auth/types/login-form.types';
+import {
+  Form,
+  handleInputChange,
+} from '../../../../utils/function/handleOnchange';
+import SubmitButton from '../../../../components/SubmitButton';
+import useAuthStore from '../../../../stores/auth-store';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import useAccountStore from '@/stores/account-store';
+import useAccountStore from '../../../../stores/account-store';
+import type { LoginForm } from '../../../../data-schema/auth.type';
 
 const LoginForm = () => {
   const { actionLogin, accessToken } = useAuthStore();

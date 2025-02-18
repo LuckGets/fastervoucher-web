@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AddDiscount from './AddDiscount';
 import PromotionItem from './PromotionItem';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 
 const CreateDiscount = () => {
   const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
+  const voucherId = id || '0';
   const { vouchers } = useVoucherStore();
   const [showAddDiscount, setShowAddDiscount] = useState(false);
 
@@ -32,10 +32,10 @@ const CreateDiscount = () => {
       {showAddDiscount && <AddDiscount />}
 
       {voucher &&
-      Array.isArray(voucher.promotion) &&
-      voucher.promotion.length > 0 ? (
+      Array.isArray(voucher.discount) &&
+      voucher.discount.length > 0 ? (
         <div className="mt-2 rounded-xl bg-[#E1E1E1] p-2">
-          {voucher.promotion.map((promo, index) => (
+          {voucher.discount.map((promo, index) => (
             <PromotionItem
               key={index}
               promo={promo}

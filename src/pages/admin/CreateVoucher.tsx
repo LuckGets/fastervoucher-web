@@ -1,22 +1,22 @@
-import ScrollTop from '@/components/ScrollTop';
-import { paths } from '@/config/path';
+import ScrollTop from '../../components/ScrollTop';
+import { paths } from '../../config/path';
 import {
   CreateVoucherDataSchema,
   // VoucherDataSchema,
-} from '@/data-schema/voucher.type';
-import VoucherAmount from '@/feature/admin/components/createVoucher/manageVoucher/amount/VoucherAmount';
-import CoverPhoto from '@/feature/admin/components/createVoucher/manageVoucher/coverphoto/CoverPhoto';
-import VoucherDate from '@/feature/admin/components/createVoucher/manageVoucher/date/VoucherDate';
-import VoucherDetails from '@/feature/admin/components/createVoucher/manageVoucher/details/VoucherDetails';
-import VoucherExample from '@/feature/admin/components/createVoucher/manageVoucher/example/VoucherExample';
-import VoucherMeal from '@/feature/admin/components/createVoucher/manageVoucher/meal/VoucherMeal';
-import VoucherPrice from '@/feature/admin/components/createVoucher/manageVoucher/price/VoucherPrice';
-import VoucherTerm from '@/feature/admin/components/createVoucher/manageVoucher/termCondition/VoucherTerm';
-import VoucherName from '@/feature/admin/components/createVoucher/manageVoucher/voucherName/VoucherName';
-import VoucherPhoto from '@/feature/admin/components/createVoucher/manageVoucher/voucherphoto/VoucherPhoto';
-import VoucherRestaurant from '@/feature/admin/components/createVoucher/manageVoucher/voucherRestaurant/VoucherRestaurant';
-import VoucherTypes from '@/feature/admin/components/createVoucher/manageVoucher/voucherType/VoucherTypes';
-import useVoucherStore from '@/stores/voucher-store';
+} from '../../data-schema/voucher.type';
+import VoucherAmount from '../../feature/admin/components/createVoucher/manageVoucher/amount/VoucherAmount';
+import CoverPhoto from '../../feature/admin/components/createVoucher/manageVoucher/coverphoto/CoverPhoto';
+import VoucherDate from '../../feature/admin/components/createVoucher/manageVoucher/date/VoucherDate';
+import VoucherDetails from '../../feature/admin/components/createVoucher/manageVoucher/details/VoucherDetails';
+import VoucherExample from '../../feature/admin/components/createVoucher/manageVoucher/example/VoucherExample';
+import VoucherMeal from '../../feature/admin/components/createVoucher/manageVoucher/meal/VoucherMeal';
+import VoucherPrice from '../../feature/admin/components/createVoucher/manageVoucher/price/VoucherPrice';
+import VoucherTerm from '../../feature/admin/components/createVoucher/manageVoucher/termCondition/VoucherTerm';
+import VoucherName from '../../feature/admin/components/createVoucher/manageVoucher/voucherName/VoucherName';
+import VoucherPhoto from '../../feature/admin/components/createVoucher/manageVoucher/voucherphoto/VoucherPhoto';
+import VoucherRestaurant from '../../feature/admin/components/createVoucher/manageVoucher/voucherRestaurant/VoucherRestaurant';
+import VoucherTypes from '../../feature/admin/components/createVoucher/manageVoucher/voucherType/VoucherTypes';
+import useVoucherStore from '../../stores/voucher-store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -46,10 +46,14 @@ const CreateVoucher = () => {
     quantity: number;
   } | null>(null);
 
+  console.log('selectedVoucher :>> ', selectedVoucher);
+
   const [freeVoucher, setFreeVoucher] = useState<{
     id: number;
     quantity: number;
   } | null>(null);
+
+  console.log('freeVoucher :>> ', freeVoucher);
 
   const updateVoucherData = (
     field: string,
@@ -61,33 +65,34 @@ const CreateVoucher = () => {
     }));
   };
 
-  const getVoucherName = (id: number) => {
+  const getVoucherName = (id: string) => {
     const voucher = vouchers.find((voucher) => voucher.id === id);
-    return voucher ? voucher.name : 'Unknown Voucher';
+    return voucher ? voucher.title : 'Unknown Voucher';
   };
   const handleCreateVoucher = () => {
-    if (voucherData.name.trim()) {
-      createVoucher({
-        ...voucherData,
-        package: selectedVoucher
-          ? [
-              {
-                id: selectedVoucher.id,
-                name: getVoucherName(selectedVoucher.id),
-                quantity: selectedVoucher.quantity,
-              },
-            ]
-          : [],
-        freeVoucher: freeVoucher
-          ? [
-              {
-                id: freeVoucher.id,
-                name: getVoucherName(freeVoucher.id),
-                quantity: freeVoucher.quantity,
-              },
-            ]
-          : [],
-      });
+    if (voucherData.title.trim()) {
+      console.log('getVoucherName :>> ', getVoucherName);
+      // createVoucher({
+      //   ...voucherData,
+      //   package: selectedVoucher
+      //     ? [
+      //         {
+      //           id: selectedVoucher.id,
+      //           name: getVoucherName(selectedVoucher.id),
+      //           quantity: selectedVoucher.quantity,
+      //         },
+      //       ]
+      //     : [],
+      //   freeVoucher: freeVoucher
+      //     ? [
+      //         {
+      //           id: freeVoucher.id,
+      //           name: getVoucherName(freeVoucher.id),
+      //           quantity: freeVoucher.quantity,
+      //         },
+      //       ]
+      //     : [],
+      // });
 
       Swal.fire({
         icon: 'success',
@@ -112,15 +117,15 @@ const CreateVoucher = () => {
       <div className="mb-12 flex w-full justify-between">
         <div className="flex w-1/2 flex-col gap-4">
           <VoucherName
-            name={voucherData.name}
+            name={voucherData.title}
             passcode={voucherData.passcode}
             onChange={updateVoucherData}
           />
           <VoucherRestaurant
-            restaurant={voucherData.restaurant}
+            restaurant={voucherData.category}
             onChange={updateVoucherData}
           />
-          <VoucherMeal meal={voucherData.meal} onChange={updateVoucherData} />
+          <VoucherMeal meal={voucherData.tag} onChange={updateVoucherData} />
 
           <VoucherTypes
             voucherType={voucherData.voucherType}

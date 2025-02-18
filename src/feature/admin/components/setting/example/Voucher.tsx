@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 
 const Voucher = () => {
   const { vouchers } = useVoucherStore();

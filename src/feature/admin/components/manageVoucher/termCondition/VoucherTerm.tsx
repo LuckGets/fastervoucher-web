@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';

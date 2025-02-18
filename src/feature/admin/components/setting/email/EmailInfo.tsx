@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
-import useSettingStore, { SettingState } from '@/stores/setting-store';
+import useSettingStore, {
+  SettingState,
+} from '../../../../../stores/setting-store';
 
 interface ProfileInfoProps {
   userInfo: {

@@ -1,10 +1,9 @@
-/* eslint-disable react/prop-types */
 import { ChevronDown, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
-import useSettingStore from '@/stores/setting-store';
-import useVoucherStore from '@/stores/voucher-store';
+import useSettingStore from '../../../../../stores/setting-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '@/config/path';
+import { paths } from '../../../../../config/path';
 
 interface SearchVoucherProps {
   selectedRestaurant: string;

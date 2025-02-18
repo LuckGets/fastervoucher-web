@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowDownUp } from 'lucide-react';
-import { outletSales } from '@/utils/dashboard/outletSales';
+import { outletSales } from '../../../../utils/dashboard/outletSales';
 
 const OutletSales = () => {
   const [sortOrderVoucher, setSortOrderVoucher] = useState<'asc' | 'desc'>(

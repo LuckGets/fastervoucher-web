@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { RestaurantQueryFunc } from '@/api/restaurant/restaurant-query';
+import { RestaurantQueryFunc } from '../../../api/restaurant/restaurant-query';
 import { useQuery } from '@tanstack/react-query';
-import { Restaurant } from '@/data-schema/restaurant.type';
+import { Restaurant } from '../../../data-schema/restaurant.type';
 import FilterRestaurant from './FilterRestaurant';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { IGetManyProductQueriesOptions } from '@/data-schema/product.type';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
+import { IGetManyProductQueriesOptions } from '../../../data-schema/product.type';
 import HomePageProductList from './HomePageVoucherWrapper';
-import VoucherLoading from '@/components/VoucherLoading';
-import FilterLoading from '@/components/FilterLoading';
+import VoucherLoading from '../../../components/VoucherLoading';
+import FilterLoading from '../../../components/FilterLoading';
 
 export interface IVoucherListQueriesAndState
   extends IGetManyProductQueriesOptions {

@@ -1,5 +1,5 @@
 import VoucherCarousel from './VoucherCarousel';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 
 interface VoucherCostProps {
   price: VoucherDataSchema['price'];

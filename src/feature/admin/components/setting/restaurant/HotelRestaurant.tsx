@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { PencilLine, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 

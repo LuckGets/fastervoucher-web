@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { ChevronDown, Plus, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 

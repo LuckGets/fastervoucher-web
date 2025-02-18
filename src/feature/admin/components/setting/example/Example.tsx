@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import Footer from './Footer';
-import FilterRestaurant from '@/feature/main/components/FilterRestaurant';
+import FilterRestaurant from '../../../../../feature/main/components/FilterRestaurant';
 import Voucher from './Voucher';
 import Header from './Header';
 import Carousel from './Carousel';
-import { IVoucherListQueriesAndState } from '@/feature/main/components/ProductWrapper';
-import Loading from '@/components/Loading';
-import { RestaurantQueryFunc } from '@/api/restaurant/restaurant-query';
+import { IVoucherListQueriesAndState } from '../../../../../feature/main/components/ProductWrapper';
+import Loading from '../../../../../components/Loading';
+import { RestaurantQueryFunc } from '../../../../../api/restaurant/restaurant-query';
 import { useQuery } from '@tanstack/react-query';
-import { Restaurant } from '@/data-schema/restaurant.type';
+import { Restaurant } from '../../../../../data-schema/restaurant.type';
 
 const Example = () => {
   const ALL_RESTAURANT = 'All';

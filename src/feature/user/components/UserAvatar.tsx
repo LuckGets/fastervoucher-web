@@ -1,4 +1,4 @@
-import useAccountStore from '@/stores/account-store';
+import useAccountStore from '../../../stores/account-store';
 
 const UserAvatar = () => {
   const { accountInfo } = useAccountStore();

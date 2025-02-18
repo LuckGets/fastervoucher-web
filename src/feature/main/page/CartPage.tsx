@@ -1,4 +1,4 @@
-import CartItems from '@/feature/cart/components/CartItems';
+import CartItems from '../../../feature/cart/components/CartItems';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CartPage = () => {

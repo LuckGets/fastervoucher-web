@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pencil, Loader2 } from 'lucide-react';
-import useAccountStore, { Account } from '@/stores/account-store';
-import useAuthStore from '@/stores/auth-store';
+import useAccountStore, { Account } from '../../../stores/account-store';
+import useAuthStore from '../../../stores/auth-store';
 
 interface ProfileInfoProps {
   userInfo: {

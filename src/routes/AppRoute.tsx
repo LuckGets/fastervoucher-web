@@ -4,34 +4,38 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { paths } from '@/config/path';
-import Loading from '@/components/Loading';
-import ErrorBoundary from '@/pages/error/ErrorBoundary';
+import { paths } from '../config/path';
+import Loading from '../components/Loading';
+import ErrorBoundary from '../pages/error/ErrorBoundary';
 
 const GuestLayout = lazy(() => import('../layouts/GuestLayout'));
 const RedeemLayout = lazy(() => import('../layouts/RedeemLayout'));
 const AdminLayout = lazy(() => import('../layouts/AdminLayout'));
-const HomePage = lazy(() => import('@/feature/main/page/HomePage'));
-const HistoryPage = lazy(() => import('@/feature/main/page/HistoryPage'));
-const UserPage = lazy(() => import('@/feature/main/page/UserPage'));
-const CartPage = lazy(() => import('@/feature/main/page/CartPage'));
-const Register = lazy(() => import('@/feature/auth/page/Register'));
-const Login = lazy(() => import('@/feature/auth/page/Login'));
-const VerifyEmail = lazy(() => import('@/feature/auth/page/VerifyEmail'));
-const ForgetPassword = lazy(() => import('@/feature/auth/page/ForgetPassword'));
-const ResetPassWord = lazy(() => import('@/feature/auth/page/ResetPassWord'));
-const EditProfile = lazy(() => import('@/pages/user/EditProfile'));
-const RedeemVoucher = lazy(() => import('@/feature/redeem/page/RedeemVoucher'));
-const ChangePassword = lazy(() => import('@/pages/user/ChangePassword'));
-const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
-const LoginAdmin = lazy(() => import('@/pages/admin/LoginAdmin'));
-const Setting = lazy(() => import('@/pages/admin/Setting'));
-const ManageOrder = lazy(() => import('@/pages/admin/ManageOrder'));
-const ManageVoucher = lazy(() => import('@/pages/admin/ManageVoucher'));
-const CreateVoucher = lazy(() => import('@/pages/admin/CreateVoucher'));
-const VoucherSetting = lazy(() => import('@/pages/admin/VoucherSetting'));
-const Affiliate = lazy(() => import('@/pages/admin/Affiliate'));
-const Payment = lazy(() => import('@/feature/payment/page/PayMent'));
+const HomePage = lazy(() => import('../feature/main/page/HomePage'));
+const HistoryPage = lazy(() => import('../feature/main/page/HistoryPage'));
+const UserPage = lazy(() => import('../feature/main/page/UserPage'));
+const CartPage = lazy(() => import('../feature/main/page/CartPage'));
+const Register = lazy(() => import('../feature/auth/page/Register'));
+const Login = lazy(() => import('../feature/auth/page/Login'));
+const VerifyEmail = lazy(() => import('../feature/auth/page/VerifyEmail'));
+const ForgetPassword = lazy(
+  () => import('../feature/auth/page/ForgetPassword'),
+);
+const ResetPassWord = lazy(() => import('../feature/auth/page/ResetPassWord'));
+const EditProfile = lazy(() => import('../pages/user/EditProfile'));
+const RedeemVoucher = lazy(
+  () => import('../feature/redeem/page/RedeemVoucher'),
+);
+const ChangePassword = lazy(() => import('../pages/user/ChangePassword'));
+const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
+const LoginAdmin = lazy(() => import('../pages/admin/LoginAdmin'));
+const Setting = lazy(() => import('../pages/admin/Setting'));
+const ManageOrder = lazy(() => import('../pages/admin/ManageOrder'));
+const ManageVoucher = lazy(() => import('../pages/admin/ManageVoucher'));
+const CreateVoucher = lazy(() => import('../pages/admin/CreateVoucher'));
+const VoucherSetting = lazy(() => import('../pages/admin/VoucherSetting'));
+const Affiliate = lazy(() => import('../pages/admin/Affiliate'));
+const Payment = lazy(() => import('../feature/payment/page/PayMent'));
 
 const router = createBrowserRouter([
   {

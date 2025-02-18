@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { authApi } from '../api/auth/auth.api'; // Removed unused imports (login, logout, refresh, register)
+import { authApi } from '../api/auth/auth.api';
 import { AxiosError } from 'axios';
-import { loginGoogle } from '@/api/authGoogle/authGoogle';
-import { LoginForm, RegisterForm } from '@/data-schema/auth.type';
+import { loginGoogle } from '../api/authGoogle/authGoogle';
+import { LoginForm, RegisterForm } from '../data-schema/auth.type';
 
 interface LoginResponse {
   accessToken: string;

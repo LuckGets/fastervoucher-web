@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { ChevronRight } from 'lucide-react';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { prependHttpsToString } from '@/utils/function/stringToUrl';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
+import { prependHttpsToString } from '../../../utils/function/stringToUrl';
 
 const variants = {
   enter: (direction: number) => ({

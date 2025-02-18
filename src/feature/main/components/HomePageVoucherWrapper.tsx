@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef, FC } from 'react';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
+import { VoucherQueryFunc } from '../../../api/voucher/voucher-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import NullableType from '@/utils/types/nullable.type';
+import NullableType from '../../../utils/types/nullable.type';
 import { HomePageProductListProps } from './ProductWrapper';
 import ProductItem from './ProductItem';
-import { PackageQueryFunc } from '@/api/package/package-query';
+import { PackageQueryFunc } from '../../../api/package/package-query';
 import {
   isProductPackageType,
   PackageDataSchema,
-} from '@/data-schema/package.type';
+} from '../../../data-schema/package.type';
 import ProductDetails from './ProductDetails';
-import { ProductDataSchema } from '@/data-schema/product.type';
-import VoucherLoading from '@/components/VoucherLoading';
+import { ProductDataSchema } from '../../../data-schema/product.type';
+import VoucherLoading from '../../../components/VoucherLoading';
 
 const DEFAULT_PRODUCT_LIMIT = 10;
 
@@ -41,7 +41,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let selectedVoucher: NullableType<VoucherDataSchema> = null;
 
-  let currentPage = 1;
+  const currentPage = 1;
 
   // Fetching pagination voucher list.
   const {
@@ -114,30 +114,27 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   // --- Infinite scrolling part. --- //
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
 
-        if (
-          entry.isIntersecting &&
-          hasNextVoucherPage &&
-          !isFetchingVoucherNextPage
-        ) {
-          fetchVoucherNextPage();
-          currentPage++;
-        }
+      if (
+        entry.isIntersecting &&
+        hasNextVoucherPage &&
+        !isFetchingVoucherNextPage
+      ) {
+        fetchVoucherNextPage();
+        currentPage.current++; // ถ้าใช้ useRef
+      }
 
-        if (
-          entry.isIntersecting &&
-          hasNextPackagePage &&
-          !isFetchingNextPackagePage
-        ) {
-          fetchPackageNextPage();
-          currentPage++;
-        }
-      },
-      { root: null, rootMargin: '0px', threshold: 0.1 },
-    );
+      if (
+        entry.isIntersecting &&
+        hasNextPackagePage &&
+        !isFetchingNextPackagePage
+      ) {
+        fetchPackageNextPage();
+        currentPage.current++; // ถ้าใช้ useRef
+      }
+    });
 
     const voucherSentinel = voucherBottomSentinelRef.current;
     const packageSentinel = packageBottomSentinelRef.current;
@@ -156,6 +153,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     fetchPackageNextPage,
     isFetchingVoucherNextPage,
     isFetchingNextPackagePage,
+    currentPage.current,
   ]);
 
   // --- End of  Infinite scrolling part. --- //

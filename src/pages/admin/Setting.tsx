@@ -4,11 +4,11 @@ import Store from '../../feature/admin/components/setting/Store';
 import CoverPhoto from '../../feature/admin/components/setting/coverphoto/CoverPhoto';
 import Restaurant from '../../feature/admin/components/setting/restaurant/Restaurant';
 import LineShop from '../../feature/admin/components/setting/line/LineShop';
-import ScrollTop from '@/components/ScrollTop';
-import VoucherEmail from '@/feature/admin/components/setting/email/VoucherEmail';
-import Shopee from '@/feature/admin/components/setting/shopee/Shopee';
-import Email from '@/feature/admin/components/setting/email/Email';
-import useSettingStore from '@/stores/setting-store';
+import ScrollTop from '../../components/ScrollTop';
+import VoucherEmail from '../../feature/admin/components/setting/email/VoucherEmail';
+import Shopee from '../../feature/admin/components/setting/shopee/Shopee';
+import Email from '../../feature/admin/components/setting/email/Email';
+import useSettingStore from '../../stores/setting-store';
 
 const Setting = () => {
   const { actionGetShopInfo } = useSettingStore();

@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { ChevronDown, Plus, X } from 'lucide-react';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../../stores/voucher-store';
 
 interface SelectMealProps {
   meal: string | string[];
@@ -14,8 +13,8 @@ interface Restaurant {
 }
 
 const SelectMeal: React.FC<SelectMealProps> = ({ meal, onSelectMeal }) => {
-  const meals = useVoucherStore((state) => state.meals as Restaurant[]);
-  const setMeal = useVoucherStore((state) => state.setMeal);
+  const { meals } = useVoucherStore();
+  const { setMeal } = useVoucherStore();
 
   const [newMeal, setNewMeal] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,6 +45,7 @@ const SelectMeal: React.FC<SelectMealProps> = ({ meal, onSelectMeal }) => {
           newMealObj,
         ]
       : [newMealObj];
+    console.log('updatedMeals :>> ', updatedMeals);
 
     setMeal(updatedMeals);
 
