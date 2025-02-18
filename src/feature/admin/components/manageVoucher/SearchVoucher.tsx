@@ -2,8 +2,8 @@ import { ChevronDown, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 import useVoucherStore from '../../../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '@/config/path';
-import { Restaurant } from '@/data-schema/restaurant.type';
+import { paths } from '../../../../config/path';
+import { Restaurant } from '../../../../data-schema/restaurant.type';
 
 interface SearchVoucherProps {
   selectedRestaurant?: string;

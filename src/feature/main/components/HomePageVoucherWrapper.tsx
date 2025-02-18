@@ -153,7 +153,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     fetchPackageNextPage,
     isFetchingVoucherNextPage,
     isFetchingNextPackagePage,
-    currentPage.current,
+    currentPage,
   ]);
 
   // --- End of  Infinite scrolling part. --- //
