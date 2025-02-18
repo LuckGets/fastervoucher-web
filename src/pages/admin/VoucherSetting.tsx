@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
-import ScrollTop from '@/components/ScrollTop';
 import VoucherName from '../../feature/admin/components/manageVoucher/voucherName/VoucherName';
 import VoucherRestaurant from '../../feature/admin/components/manageVoucher/voucherRestaurant/VoucherRestaurant';
 import VoucherMeal from '../../feature/admin/components/manageVoucher/meal/VoucherMeal';
 import VoucherPrice from '../../feature/admin/components/manageVoucher/price/VoucherPrice';
 import VoucherDate from '../../feature/admin/components/manageVoucher/date/VoucherDate';
-import CoverPhoto from '@/feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
-import VoucherDetails from '@/feature/admin/components/manageVoucher/details/VoucherDetails';
-import VoucherTerm from '@/feature/admin/components/manageVoucher/termCondition/VoucherTerm';
+import CoverPhoto from '../../feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
+import VoucherDetails from '../../feature/admin/components/manageVoucher/details/VoucherDetails';
+import VoucherTerm from '../../feature/admin/components/manageVoucher/termCondition/VoucherTerm';
 import { useNavigate, useParams } from 'react-router-dom';
-import PromotionPrice from '@/feature/admin/components/manageVoucher/promotionPrice/PromotionPrice';
-import StockAmount from '@/feature/admin/components/manageVoucher/stock/StockAmount';
+import PromotionPrice from '../../feature/admin/components/manageVoucher/promotionPrice/PromotionPrice';
+import StockAmount from '../../feature/admin/components/manageVoucher/stock/StockAmount';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import useVoucherStore from '@/stores/voucher-store';
+import { VoucherQueryFunc } from '../../api/voucher/voucher-query';
+import { VoucherDataSchema } from '../../data-schema/voucher.type';
+import useVoucherStore from '../../stores/voucher-store';
 import { ChevronRight } from 'lucide-react';
-import { paths } from '@/config/path';
+import { paths } from '../../config/path';
+import ScrollTop from '../../components/ScrollTop';
 // import Swal from 'sweetalert2';
 
 export interface VoucherDetailSettingProps {
