@@ -19,12 +19,12 @@ const ProductItem: FC<ProductItemProps> = ({ product, handleOnClick }) => {
     <div
       key={product.id}
       onClick={() => handleOnClick(product)}
-      className="cursor-pointer rounded-xl p-2 active:bg-[#0000003a]"
+      className="py2 cursor-pointer rounded-xl active:bg-[#0000003a]"
     >
       <img
         src={mainImg || '/placeholder-image.png'}
         alt={product.title}
-        className="h-[250px] w-[250px] rounded-2xl object-cover"
+        className="h-44 w-44 rounded-2xl object-cover lg:h-52 lg:w-52"
       />
       <h1 className="mt-2 truncate text-sm md:text-lg">{product.title}</h1>
       <div className="flex items-center">

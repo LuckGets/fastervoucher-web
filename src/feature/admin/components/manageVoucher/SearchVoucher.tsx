@@ -70,7 +70,7 @@ const SearchVoucher: React.FC<SearchVoucherProps> = ({
               <ChevronDown />
             </button>
             {isFilterDropdownOpen && (
-              <div className="absolute right-0 top-10 z-10 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
+              <div className="absolute right-0 top-10 z-20 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
                 <div className="p-2">
                   {restaurantsAndDefault.map((item) => (
                     <button

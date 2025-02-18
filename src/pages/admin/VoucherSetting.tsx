@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScrollTop from '@/components/ScrollTop';
 import VoucherName from '../../feature/admin/components/manageVoucher/voucherName/VoucherName';
 import VoucherRestaurant from '../../feature/admin/components/manageVoucher/voucherRestaurant/VoucherRestaurant';
@@ -8,12 +8,15 @@ import VoucherDate from '../../feature/admin/components/manageVoucher/date/Vouch
 import CoverPhoto from '@/feature/admin/components/manageVoucher/coverphoto/CoverPhoto';
 import VoucherDetails from '@/feature/admin/components/manageVoucher/details/VoucherDetails';
 import VoucherTerm from '@/feature/admin/components/manageVoucher/termCondition/VoucherTerm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PromotionPrice from '@/feature/admin/components/manageVoucher/promotionPrice/PromotionPrice';
 import StockAmount from '@/feature/admin/components/manageVoucher/stock/StockAmount';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
 import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import useVoucherStore from '@/stores/voucher-store';
+import { ChevronRight } from 'lucide-react';
+import { paths } from '@/config/path';
 // import Swal from 'sweetalert2';
 
 export interface VoucherDetailSettingProps {
@@ -21,6 +24,9 @@ export interface VoucherDetailSettingProps {
 }
 
 const VoucherSetting = () => {
+  const navigate = useNavigate();
+  const { actionGetCategoriesAndTags, actionGetVoucherById } =
+    useVoucherStore();
   const { id } = useParams<{ id: VoucherDataSchema['id'] }>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const navigate = useNavigate();
@@ -39,7 +45,7 @@ const VoucherSetting = () => {
     throw error;
   }
 
-  const image = voucher.img.filter((item) => item.mainImg)[0];
+  const image = voucher.images.filter((item) => item.mainImg)[0];
 
   // Query voucher id information
 
@@ -55,9 +61,32 @@ const VoucherSetting = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    actionGetCategoriesAndTags();
+    if (id) {
+      actionGetVoucherById(id);
+    }
+  }, [actionGetCategoriesAndTags, actionGetVoucherById, id]);
+
+  const back = () => {
+    navigate(`${paths.admin.voucher.path}`);
+  };
+
   return (
     <div>
-      <div className="mb-12 flex w-full">
+      <div className="mb-12 flex w-full flex-col">
+        <div>
+          <div>
+            <h1 className="flex items-center gap-1 text-[#888888]">
+              <span className="cursor-pointer hover:font-medium" onClick={back}>
+                All Voucher
+              </span>{' '}
+              <ChevronRight className="mt-[3px] h-4 w-4" />
+              {voucher?.title}
+            </h1>
+          </div>
+          <hr className="mb-6 mt-2 w-full border text-[#888888]" />
+        </div>
         <div className="flex w-full gap-4">
           <div className="w-1/4">
             <CoverPhoto voucher={voucher} mainImg={image} />

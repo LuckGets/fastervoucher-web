@@ -1,11 +1,11 @@
 import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { Pencil, Plus } from 'lucide-react';
+import { Pencil, Plus, Save, Trash2, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 interface CoverPhotoProps {
   voucher: VoucherDataSchema;
-  mainImg: VoucherDataSchema['img'][number];
+  mainImg: VoucherDataSchema['images'][number];
 }
 
 const CoverPhoto: React.FC<CoverPhotoProps> = ({ voucher, mainImg }) => {
@@ -57,8 +57,9 @@ const CoverPhoto: React.FC<CoverPhotoProps> = ({ voucher, mainImg }) => {
 
   return (
     <div className="flex w-[90%] flex-col items-center gap-6 rounded-2xl p-6 px-8">
+      <p>Cover Photo</p>
       <div className="flex items-center gap-6">
-        <div className="relative flex h-44 w-44 items-center justify-center overflow-hidden rounded-xl bg-[#E1E1E1]">
+        <div className="relative flex h-52 w-52 items-center justify-center overflow-hidden rounded-xl bg-[#E1E1E1]">
           {tempSrc || previewSrc ? (
             <img
               src={tempSrc || previewSrc || ''}
@@ -78,33 +79,46 @@ const CoverPhoto: React.FC<CoverPhotoProps> = ({ voucher, mainImg }) => {
         style={{ display: 'none' }}
         onChange={handleFileChange}
       />
-      <div className="flex justify-between">
-        {!isEditing ? (
-          <span
-            onClick={handleEditClick}
-            className="flex cursor-pointer items-center gap-1 text-basicGray"
-          >
-            <Pencil className="h-4 w-4" />
-            <p>Cover Photo</p>
-          </span>
-        ) : (
-          <div className="flex gap-2">
+      <div className="absolute left-[28rem] top-[24.5rem] z-30 rounded-full bg-[#F7F3ED] p-2 hover:bg-[#e2ded8]">
+        <div className="flex justify-between">
+          {!isEditing ? (
             <span
-              onClick={handleSave}
-              className="cursor-pointer text-primary hover:underline"
+              onClick={handleEditClick}
+              className="flex cursor-pointer items-center gap-1 text-basicGray"
             >
-              Save
+              <Pencil className="h-4 w-4" />
             </span>
-            |
+          ) : (
+            <div className="flex items-center gap-2">
+              <span
+                onClick={handleSave}
+                className="cursor-pointer text-primary hover:underline"
+              >
+                <Save className="h-4 w-4" />
+              </span>
+              |
+              <span
+                onClick={handleCancel}
+                className="cursor-pointer text-red-500 hover:underline"
+              >
+                <X className="h-4 w-4" />
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+      {!isEditing && (
+        <div className="absolute left-[30.5rem] top-[24.5rem] z-30 rounded-full bg-[#F7F3ED] p-2 hover:bg-[#e2ded8]">
+          <div className="flex justify-between">
             <span
-              onClick={handleCancel}
-              className="cursor-pointer text-red-500 hover:underline"
+              onClick={handleEditClick}
+              className="flex cursor-pointer items-center gap-1 text-basicGray"
             >
-              Cancel
+              <Trash2 className="h-4 w-4" />
             </span>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

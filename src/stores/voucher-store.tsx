@@ -1,3 +1,4 @@
+import { getCategories, getTag } from '@/api/category/category';
 import { voucherApi } from '@/api/voucher/voucher.api';
 import { Meal, Restaurant } from '@/data-schema/restaurant.type';
 import { VoucherDataSchema } from '@/data-schema/voucher.type';
@@ -11,7 +12,7 @@ interface Image {
   mainImg: boolean;
 }
 
-enum DiscountStatusEnum {
+export enum DiscountStatusEnum {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'inactive',
 }
@@ -37,7 +38,7 @@ export interface Voucher {
   restaurant: string;
   meal: string;
   passcode?: string;
-  images?: Images | null;
+  images?: Image | null;
   carouselImages?: Image[] | null;
   details?: string;
   package?: { id: number; name: string; quantity: number }[];
@@ -45,6 +46,7 @@ export interface Voucher {
 }
 
 interface SettingState {
+  voucherById: VoucherDataSchema | null;
   vouchers: VoucherDataSchema[];
   restaurants: Restaurant[];
   meals: Meal[];
@@ -62,71 +64,9 @@ const useVoucherStore = create<SettingState>()(
   persist(
     (set) => ({
       voucherById: null,
-      vouchers: [
-        // {
-        //   id: 1,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 1000,
-        //   restaurant: 'Coffee Shop',
-        //   meal: 'dinner',
-        //   passcode: 'UsePass',
-        //   src: 'https://i.imgur.com/41ygasy.png',
-        //   carouselImages: [
-        //     {
-        //       id: 1,
-        //       src: 'https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg',
-        //     },
-        //     {
-        //       id: 2,
-        //       src: 'https://i.imgur.com/UelGops.jpeg',
-        //     },
-        //     {
-        //       id: 3,
-        //       src: 'https://i.imgur.com/hw3L8oP.jpeg',
-        //     },
-        //   ],
-        //   details:
-        //     'อาหารเช้า ซิกเนเจอร์ เคมปินสกี้ รวมเครื่องดื่มสปาร์คกลิ้งไวน์อย่างไม่จำกัด สำหรับ 2 ท่าน (วันจันทร์ – วันพฤหัสบดี) ราคาปกติ 2,942.50 บาทสุทธิ',
-        // },
-        // {
-        //   id: 2,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 1000,
-        //   restaurant: 'Coffee Shop',
-        //   meal: 'dinner',
-        //   src: 'https://i.imgur.com/41ygasy.png',
-        // },
-        // {
-        //   id: 3,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 10,
-        //   restaurant: 'Yok Chinese Restaurant',
-        //   meal: 'dinner',
-        //   passcode: 'saddxc',
-        //   src: 'https://i.imgur.com/K6t4Xue.png',
-        // },
-        // {
-        //   id: 4,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   promotionPrice: 1299,
-        //   stockAmount: 9,
-        //   price: 1800,
-        //   restaurant: 'Yok Chinese Restaurant',
-        //   meal: 'dinner',
-        //   src: 'https://i.imgur.com/DmSDV96.png',
-        // },
-      ],
+      vouchers: [],
       restaurants: [],
-      meals: [
-        // { name: 'lunch' }, { name: 'dinner' }, { name: 'brunch' }
-      ],
+      meals: [],
       actionGetVouchers: async () => {
         try {
           const result = await voucherApi.getVouchers();
@@ -142,6 +82,37 @@ const useVoucherStore = create<SettingState>()(
           const err = error as AxiosError<{ message: string }>;
           console.error('Error fetching voucher data:', err?.message || err);
           set({ vouchers: useVoucherStore.getState().vouchers });
+        }
+      },
+      actionGetVoucherById: async (voucherId: string) => {
+        try {
+          const result = await voucherApi.getVoucherById(voucherId);
+          const data = result?.data?.data;
+
+          if (data) {
+            set({ voucherById: data });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
+        }
+      },
+      actionGetCategoriesAndTags: async () => {
+        try {
+          const categories = await getCategories();
+          const tags = await getTag();
+
+          const categoriesData = categories?.data?.data;
+          if (categoriesData) {
+            set({ restaurants: categoriesData });
+          }
+          const tagsData = tags?.data?.data;
+          if (tagsData) {
+            set({ meals: tagsData });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
         }
       },
       setVoucher: (vouchers: VoucherDataSchema[]) => set({ vouchers }),

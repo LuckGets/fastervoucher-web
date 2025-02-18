@@ -1,7 +1,6 @@
 import useVoucherStore from '@/stores/voucher-store';
 import { ChevronDown, Plus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 const SelectMeal = ({
   isEditing,
@@ -16,37 +15,34 @@ const SelectMeal = ({
   isDropdownOpen: boolean;
   setIsDropdownOpen: (value: boolean) => void;
 }) => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher, meals, setMeal } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById, meals } = useVoucherStore();
 
   const [newMeal, setNewMeal] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (voucher?.meal) {
-      setSelectedMeal(voucher.meal);
+    if (voucherById?.tag) {
+      setSelectedMeal(voucherById.tag);
     }
-  }, [voucher, setSelectedMeal]);
+  }, [voucherById, setSelectedMeal]);
 
   const handleSelectMeal = (name: string) => {
     setSelectedMeal(name);
-    if (voucher) {
-      updateVoucher(voucher.id, { meal: name });
+    if (voucherById) {
+      // updateVoucher(voucher.id, { meal: name });
     }
     setIsDropdownOpen(false);
   };
 
   const handleAddMeal = () => {
     if (newMeal.trim() === '') return;
-    const updatedMeals = [...meals, { name: newMeal }];
-    setMeal(updatedMeals);
+    // const updatedMeals = [...meals, { name: newMeal }];
+    // setMeal(updatedMeals);
     setNewMeal('');
     setIsModalOpen(false);
   };
 
-  if (!voucher) {
+  if (!voucherById) {
     return <div>Voucher not found</div>;
   }
 

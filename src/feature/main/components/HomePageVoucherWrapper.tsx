@@ -12,6 +12,7 @@ import {
 } from '@/data-schema/package.type';
 import ProductDetails from './ProductDetails';
 import { ProductDataSchema } from '@/data-schema/product.type';
+import VoucherLoading from '@/components/VoucherLoading';
 
 const DEFAULT_PRODUCT_LIMIT = 10;
 
@@ -135,30 +136,27 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
           currentPage++;
         }
       },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      },
+      { root: null, rootMargin: '0px', threshold: 0.1 },
     );
-    if (voucherBottomSentinelRef.current) {
-      observer.observe(voucherBottomSentinelRef.current);
-    }
 
-    if (packageBottomSentinelRef.current) {
-      observer.observe(packageBottomSentinelRef.current);
-    }
+    const voucherSentinel = voucherBottomSentinelRef.current;
+    const packageSentinel = packageBottomSentinelRef.current;
+
+    if (voucherSentinel) observer.observe(voucherSentinel);
+    if (packageSentinel) observer.observe(packageSentinel);
 
     return () => {
-      if (voucherBottomSentinelRef.current) {
-        observer.unobserve(voucherBottomSentinelRef.current);
-      }
-
-      if (packageBottomSentinelRef.current) {
-        observer.unobserve(packageBottomSentinelRef.current);
-      }
+      if (voucherSentinel) observer.unobserve(voucherSentinel);
+      if (packageSentinel) observer.unobserve(packageSentinel);
     };
-  }, [hasNextVoucherPage, hasNextPackagePage]);
+  }, [
+    hasNextVoucherPage,
+    hasNextPackagePage,
+    fetchVoucherNextPage,
+    fetchPackageNextPage,
+    isFetchingVoucherNextPage,
+    isFetchingNextPackagePage,
+  ]);
 
   // --- End of  Infinite scrolling part. --- //
 
@@ -178,10 +176,10 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     throw new Error(errorVoucher?.message || errorPackage?.message);
   }
 
-  if (isPendingVoucher || isPendingPackage) return <div>Loading...</div>;
+  if (isPendingVoucher || isPendingPackage) return <VoucherLoading />;
 
   return (
-    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
+    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 lg:grid-cols-5">
       {products.map((product) => (
         <ProductItem
           key={product.id}

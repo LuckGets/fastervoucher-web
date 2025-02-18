@@ -31,9 +31,14 @@ function getByIdPackageQuery(id: string) {
 
 function getManyPackageQuery(options: IGetManyProductQueriesOptions) {
   const queriesArr = getManyProductQueriesOptionMapper(options);
-  const queries = `?${queriesArr.join('&')}`;
+
+  const validQueriesArr = queriesArr.filter(
+    (query) => query !== 'undefined' && query !== undefined,
+  );
+  const queries = `?${validQueriesArr.join('&')}`;
+
   return queryOptions({
-    queryKey: [PACKAGE_QUERY_KEY, ...queriesArr],
+    queryKey: [PACKAGE_QUERY_KEY, ...validQueriesArr],
     queryFn: () => {
       return packageApi.getMany(queries);
     },

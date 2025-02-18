@@ -4,9 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Restaurant } from '@/data-schema/restaurant.type';
 import FilterRestaurant from './FilterRestaurant';
 import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import Loading from '@/components/Loading';
 import { IGetManyProductQueriesOptions } from '@/data-schema/product.type';
 import HomePageProductList from './HomePageVoucherWrapper';
+import VoucherLoading from '@/components/VoucherLoading';
+import FilterLoading from '@/components/FilterLoading';
 
 export interface IVoucherListQueriesAndState
   extends IGetManyProductQueriesOptions {
@@ -51,7 +52,12 @@ const ProductWrapper: React.FC = () => {
   } = useQuery(RestaurantQueryFunc.getMany(1));
 
   if (isPending) {
-    return <Loading />;
+    return (
+      <div className="mt-5">
+        <FilterLoading />
+        <VoucherLoading />
+      </div>
+    );
   }
 
   if (isError) {

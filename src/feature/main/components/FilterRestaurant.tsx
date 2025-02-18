@@ -46,7 +46,7 @@ const FilterRestaurant = ({
       </div>
 
       {/* Buttons for Restaurants */}
-      {restaurants.map((item, index) => (
+      {restaurants?.map((item, index) => (
         <div
           key={index}
           className={`flex h-10 min-w-[80px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 ${

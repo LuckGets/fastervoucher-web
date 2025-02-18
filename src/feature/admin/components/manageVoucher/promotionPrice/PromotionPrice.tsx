@@ -1,56 +1,54 @@
 import useVoucherStore from '@/stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const PromotionPrice = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [usePromotion, setUsePromotion] = useState(!!voucher?.promotionPrice);
+  const [usePromotion, setUsePromotion] = useState(
+    !!voucherById?.discount?.discountedPrice,
+  );
   const [promotionValue, setPromotionValue] = useState(
-    voucher?.promotionPrice || 0,
+    voucherById?.discount?.discountedPrice || 0,
   );
 
   useEffect(() => {
-    if (voucher?.promotionPrice) {
-      setPromotionValue(voucher.promotionPrice);
+    if (voucherById?.discount) {
+      setPromotionValue(voucherById.discount.discountedPrice);
       setUsePromotion(true);
     } else {
       setUsePromotion(false);
     }
-  }, [voucher?.promotionPrice]);
+  }, [voucherById?.discount]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    if (voucher) {
-      updateVoucher(voucherId, {
-        promotionPrice: usePromotion ? promotionValue : undefined,
-      });
+    if (voucherById) {
+      // updateVoucher(voucherId, {
+      //   promotionPrice: usePromotion ? promotionValue : undefined,
+      // });
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setPromotionValue(voucher?.promotionPrice || 0);
-    setUsePromotion(!!voucher?.promotionPrice);
+    setPromotionValue(voucherById?.discount?.discountedPrice || 0);
+    setUsePromotion(!!voucherById?.discount?.discountedPrice);
     setIsEditing(false);
   };
 
-  if (!voucher) {
+  if (!voucherById) {
     return <div>Voucher not found</div>;
   }
 
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h1 className="front-semibold">Promotion Price</h1>
+        <h1 className="font-semibold">Promotion Price</h1>
         {!isEditing && (
           <button
             onClick={handleEdit}
@@ -110,8 +108,10 @@ const PromotionPrice = () => {
             </div>
           )}
         </div>
-      ) : voucher.promotionPrice ? (
-        <h2>THB {voucher.promotionPrice.toLocaleString()} NET</h2>
+      ) : voucherById?.discount?.discountedPrice ? (
+        <h2>
+          THB {voucherById?.discount?.discountedPrice.toLocaleString()} NET
+        </h2>
       ) : (
         <h2 className="italic text-gray-400">No Promotion Price</h2>
       )}

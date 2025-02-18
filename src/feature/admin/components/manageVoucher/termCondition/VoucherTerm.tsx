@@ -2,21 +2,19 @@ import useVoucherStore from '@/stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';
-import { useParams } from 'react-router-dom';
 
 const VoucherTerm = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
-  const [conditions, setConditions] = useState(voucher?.conditions || '');
+  const [conditions, setConditions] = useState(
+    voucherById?.termAndCondition || '',
+  );
   const [isEditing, setIsEditing] = useState(false);
 
   // Move this useMemo outside of any conditions
   const modules = useMemo(() => ({ toolbar: false }), []);
 
-  if (!voucher) {
+  if (!voucherById) {
     return <p>Voucher not found!</p>;
   }
 
@@ -25,12 +23,12 @@ const VoucherTerm = () => {
   };
 
   const handleSave = () => {
-    updateVoucher(voucherId, { conditions });
+    // updateVoucher(voucherId, { conditions });
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setConditions(voucher?.conditions || '');
+    setConditions(voucherById?.termAndCondition || '');
     setIsEditing(false);
   };
 
@@ -86,7 +84,7 @@ const VoucherTerm = () => {
         ) : (
           <div className="mt-2">
             <ReactQuill
-              value={voucher.conditions || '<p>No information</p>'}
+              value={voucherById.termAndCondition || '<p>No information</p>'}
               readOnly={true}
               modules={modules}
               formats={formats}

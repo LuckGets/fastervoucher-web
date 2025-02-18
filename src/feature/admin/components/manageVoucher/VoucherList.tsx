@@ -9,7 +9,7 @@ interface VoucherListProps {
 const VoucherList: React.FC<VoucherListProps> = ({ vouchers }) => {
   const navigate = useNavigate();
 
-  const handleVoucherClick = (id: number) => {
+  const handleVoucherClick = (id: string) => {
     navigate(`${id}`);
   };
 
