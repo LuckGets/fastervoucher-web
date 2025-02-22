@@ -10,6 +10,7 @@ import {
   ProductDataSchema,
   ProductDiscountEnum,
 } from '../../../data-schema/product.type';
+import useCartStore from '../../../stores/cart-store';
 
 interface ProductDetailsProps {
   product: ProductDataSchema;
@@ -18,7 +19,7 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
   const { color } = useSettingStore();
-  // const addToCart = useCartStore((state) => state.addToCart);
+  const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
   const bgColor = color
@@ -26,11 +27,12 @@ const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
     : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {
-    // const cartItem = {
-    //   ...voucher,
-    //   quantity: 1,
-    // };
-    // addToCart(cartItem);
+    const cartItem = {
+      ...product,
+      quantity: 1,
+    };
+
+    addToCart(cartItem);
 
     Swal.fire({
       title: 'Added to cart!',
@@ -58,7 +60,7 @@ const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative mx-4 flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg bg-[#F7F3ED]">
+      <div className="relative mx-4 flex max-h-[90vh] min-h-0 w-full max-w-xl flex-col overflow-auto rounded-lg bg-[#F7F3ED]">
         <div className="sticky top-0 z-10 flex justify-end bg-[#F7F3ED] p-4">
           <button
             className="text-xl font-bold text-gray-500 hover:text-gray-700"
@@ -68,7 +70,7 @@ const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
           </button>
         </div>
 
-        <div className="px-6">
+        <div className="flex-grow px-6">
           <VoucherCost
             images={product.images}
             price={voucherPrice}

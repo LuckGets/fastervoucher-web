@@ -41,7 +41,7 @@ const CarouselV2 = () => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-[100vw]">
       <AnimatePresence initial={false} custom={direction}>
         <div className="relative h-60 overflow-hidden md:h-96 lg:h-[35rem]">
           <motion.img

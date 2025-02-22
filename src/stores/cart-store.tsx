@@ -7,7 +7,7 @@ export interface CartItem {
   category: string;
   price: number;
   quantity: number;
-  img?: Images[];
+  images?: Images[];
 }
 
 interface Images {

@@ -24,11 +24,11 @@ export interface Account {
 
 export interface AccountState {
   accountInfo: Account | null;
-  actionGetMe: (accessToken: string) => Promise<Account | null>;
+  setAccountInfo: (accountInfo: Account | null) => void;
+  actionGetMe: () => Promise<Account | null>;
   actionEditInfo: (
-    formData: Record<string, string | number | null>,
+    formData: FormData,
     accountId: string | undefined,
-    accessToken: string | null,
   ) => Promise<void>;
   actionChangePassword: (
     body: changePasswordFormdata,
@@ -42,6 +42,7 @@ const useAccountStore = create<AccountState>()(
   persist(
     (set) => ({
       accountInfo: null,
+      setAccountInfo: (accountInfo) => set({ accountInfo }),
       actionGetMe: async () => {
         try {
           const result = await getMe();
@@ -57,7 +58,7 @@ const useAccountStore = create<AccountState>()(
         }
       },
       actionEditInfo: async (
-        formData: Record<string, string | number | null>,
+        formData: FormData,
         accountId: string | undefined,
       ) => {
         try {

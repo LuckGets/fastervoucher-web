@@ -15,7 +15,7 @@ const UserPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await actionGetMe(accessToken as string);
+        await actionGetMe();
       } catch (error) {
         console.log('error details :>> ', error);
       }

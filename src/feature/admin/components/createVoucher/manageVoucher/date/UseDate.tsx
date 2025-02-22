@@ -8,11 +8,11 @@ const UseDate = ({
   onChange: (field: string, value: string | undefined) => void;
 }) => {
   const handleUseDateStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange('useDateStart', e.target.value || undefined);
+    onChange('usableAt', e.target.value || undefined);
   };
 
   const handleUseDateEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange('useDateEnd', e.target.value || undefined);
+    onChange('usableExpiredAt', e.target.value || undefined);
   };
 
   return (

@@ -123,7 +123,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
         !isFetchingVoucherNextPage
       ) {
         fetchVoucherNextPage();
-        currentPage.current++; // ถ้าใช้ useRef
       }
 
       if (
@@ -132,7 +131,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
         !isFetchingNextPackagePage
       ) {
         fetchPackageNextPage();
-        currentPage.current++; // ถ้าใช้ useRef
       }
     });
 
@@ -156,7 +154,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     currentPage,
   ]);
 
-  // --- End of  Infinite scrolling part. --- //
+  // --- End of Infinite scrolling part. --- //
 
   const handleOnclick = (product: ProductDataSchema | PackageDataSchema) => {
     if (isProductPackageType(product)) {
@@ -177,7 +175,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   if (isPendingVoucher || isPendingPackage) return <VoucherLoading />;
 
   return (
-    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 lg:grid-cols-5">
+    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 md:px-12 lg:grid-cols-4">
       {products.map((product) => (
         <ProductItem
           key={product.id}

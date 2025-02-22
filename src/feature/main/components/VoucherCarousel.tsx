@@ -48,10 +48,10 @@ const VoucherCarousel = ({
   }
 
   return (
-    <div className="relative w-full md:h-[15rem] md:w-[30rem]">
+    <div className="relative w-full md:h-[15rem] md:w-[32rem]">
       <AnimatePresence initial={false} custom={direction}>
         <div
-          className="relative w-full overflow-hidden"
+          className="relative w-full overflow-hidden rounded-xl"
           style={{ paddingTop: '56.25%' }}
         >
           <motion.img

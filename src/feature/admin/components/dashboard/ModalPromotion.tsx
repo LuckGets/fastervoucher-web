@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
@@ -7,8 +6,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { PromotionType } from '@/utils/dashboard/promotion';
+} from '../../../../components/ui/dialog';
+import { PromotionType } from '../../../../utils/dashboard/promotion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 interface ModalPromotionProps {

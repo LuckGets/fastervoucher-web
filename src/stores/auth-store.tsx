@@ -2,8 +2,9 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { authApi } from '../api/auth/auth.api';
 import { AxiosError } from 'axios';
-import { loginGoogle } from '../api/authGoogle/authGoogle';
 import { LoginForm, RegisterForm } from '../data-schema/auth.type';
+import { googleAuthApi } from '@/api/authGoogle/authGoogle';
+import useAccountStore from './account-store';
 
 interface LoginResponse {
   accessToken: string;
@@ -47,7 +48,10 @@ const useAuthStore = create<AuthState>()(
             throw new Error('Access Token is undefined');
           }
 
-          set({ accessToken });
+          set((state) => ({
+            ...state,
+            accessToken,
+          }));
 
           return result.data.data;
         } catch (error) {
@@ -88,6 +92,8 @@ const useAuthStore = create<AuthState>()(
         set({ errorLogin: '', errorRegister: '' });
         try {
           await authApi.logout();
+          useAccountStore.getState().setAccountInfo(null);
+          localStorage.removeItem('accessToken');
           set({ accessToken: null });
         } catch (error) {
           console.error('Logout failed:', error);
@@ -118,19 +124,11 @@ const useAuthStore = create<AuthState>()(
 
       actionLoginGoogle: async () => {
         try {
-          const result = await loginGoogle();
-          const accessToken = result?.data?.data?.accessToken;
+          const result = await googleAuthApi.loginGoogle();
 
           console.log('login :>> ', result);
 
-          if (!accessToken) {
-            console.error('Access Token not found:', result.data);
-            throw new Error('Access Token is undefined');
-          }
-
-          set({ accessToken });
-
-          return result.data.data; // Correct return value
+          return result.data.data;
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
           console.log('actionLogin error:', err);

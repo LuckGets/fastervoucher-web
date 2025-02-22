@@ -8,12 +8,22 @@ const GoogleCallback = () => {
   const { setTokens } = useAuthStore();
 
   useEffect(() => {
+    const savedAccessToken = localStorage.getItem('accessToken');
+    if (savedAccessToken) {
+      setTokens(savedAccessToken);
+      navigate('/');
+      return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('accessToken');
+    const accessToken = urlParams.get('token');
 
-    if (accessToken) {
+    console.log('accessToken :>> ', accessToken);
+
+    if (accessToken && accessToken.trim() !== '') {
+      localStorage.setItem('accessToken', accessToken);
+      console.log('accessTokenIf1 :>> ', accessToken);
       setTokens(accessToken);
-
       navigate('/');
     } else {
       console.error('AccessToken not found in URL');

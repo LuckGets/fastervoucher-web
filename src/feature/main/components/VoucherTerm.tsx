@@ -22,7 +22,7 @@ const VoucherTerm = ({ details, conditions }: VoucherTermProps) => {
   const modules = useMemo(() => ({ toolbar: false }), []);
 
   return (
-    <div className="max-h-screen">
+    <div className="mb-[23rem] max-h-screen md:mb-5">
       <div className="mt-2">
         <h1 className="text-sm font-semibold">รายละเอียด</h1>
         <ReactQuill

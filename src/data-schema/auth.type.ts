@@ -12,5 +12,11 @@ export interface RegisterForm {
 }
 
 export type login = {
+  data: {
+    accessToken: string;
+  };
+};
+
+export type LoginResponseData = {
   accessToken: string;
 };

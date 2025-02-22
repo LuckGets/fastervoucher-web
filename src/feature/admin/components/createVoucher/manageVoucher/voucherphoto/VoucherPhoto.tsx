@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import Carousel from './Carousel';
 
 interface VoucherPhotoProps {
@@ -8,7 +7,7 @@ interface VoucherPhotoProps {
 
 interface Image {
   id: number;
-  src: string;
+  src: File | null | undefined;
 }
 
 const VoucherPhoto: React.FC<VoucherPhotoProps> = ({

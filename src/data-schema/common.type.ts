@@ -17,6 +17,10 @@ export interface IPaginationOption {
   limit?: number;
 }
 
+export type LoginResponseData = {
+  accessToken: string;
+};
+
 export function commonQueryOptionsMapper(queries: IPaginationOption): string[] {
   const { page, limit } = queries;
   if (!page && !limit) return [];

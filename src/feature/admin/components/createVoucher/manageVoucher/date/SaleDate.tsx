@@ -8,11 +8,11 @@ const SaleDate = ({
   onChange: (field: string, value: string | undefined) => void;
 }) => {
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange('saleStartDate', e.target.value || undefined);
+    onChange('sellStartedAt', e.target.value || undefined);
   };
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange('saleEndDate', e.target.value || undefined);
+    onChange('sellExpiredAt', e.target.value || undefined);
   };
 
   return (

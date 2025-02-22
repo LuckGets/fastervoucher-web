@@ -22,7 +22,7 @@ const VoucherItem: React.FC<VoucherItemProps> = ({
   };
 
   return (
-    <div className="relative cursor-pointer rounded-xl p-2 active:bg-[#0000003a]">
+    <div className="relative rounded-xl p-2">
       {/* Toggle Switch on Top Right of Image */}
       <div className="absolute right-5 top-4 z-10">
         <label className="relative inline-flex cursor-pointer items-center">

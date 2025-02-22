@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAccountStore from '../../stores/account-store';
-import useAuthStore from '../../stores/auth-store';
 import { MoveLeft, Pencil, Loader2 } from 'lucide-react';
 import { paths } from '../../config/path';
 import EditProfileWrapper from '../../feature/user/components/EditProfileWrapper';
 import UserAvatar from '../../feature/user/components/UserAvatar';
 
 const EditProfile = () => {
-  const { accessToken } = useAuthStore();
   const { accountInfo, actionEditInfo, actionGetMe } = useAccountStore();
   const [isTallScreen, setIsTallScreen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -39,9 +37,9 @@ const EditProfile = () => {
 
       setIsUploading(true);
       try {
-        await actionEditInfo(formData, accountInfo?.id, accessToken);
+        await actionEditInfo(formData, accountInfo?.id);
         console.log('Upload success!');
-        actionGetMe(accessToken as string);
+        actionGetMe();
       } catch (err) {
         console.error('Failed to upload image:', err);
       } finally {

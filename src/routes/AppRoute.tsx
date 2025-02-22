@@ -17,6 +17,9 @@ const UserPage = lazy(() => import('../feature/main/page/UserPage'));
 const CartPage = lazy(() => import('../feature/main/page/CartPage'));
 const Register = lazy(() => import('../feature/auth/page/Register'));
 const Login = lazy(() => import('../feature/auth/page/Login'));
+const LoginGoogle = lazy(
+  () => import('../feature/auth/components/login/GoogleCallBack'),
+);
 const VerifyEmail = lazy(() => import('../feature/auth/page/VerifyEmail'));
 const ForgetPassword = lazy(
   () => import('../feature/auth/page/ForgetPassword'),
@@ -57,6 +60,7 @@ const router = createBrowserRouter([
       { path: paths.user.changePassword.path, element: <ChangePassword /> },
       { path: paths.auth.register.path, element: <Register /> },
       { path: paths.auth.login.path, element: <Login /> },
+      { path: paths.auth.loginGoogleSuccess.path, element: <LoginGoogle /> },
       { path: paths.redeem.path, element: <RedeemVoucher /> },
       { path: paths.auth.verifyEmail.path, element: <VerifyEmail /> },
       { path: paths.auth.forgetPassword.path, element: <ForgetPassword /> },

@@ -13,8 +13,8 @@ import useAccountStore from '../../../../stores/account-store';
 import type { LoginForm } from '../../../../data-schema/auth.type';
 
 const LoginForm = () => {
-  const { actionLogin, accessToken } = useAuthStore();
-  const { actionGetMe, accountInfo, actionFirstVerify } = useAccountStore();
+  const { actionLogin } = useAuthStore();
+  const { actionGetMe, accountInfo } = useAccountStore();
 
   const navigate = useNavigate();
 
@@ -57,17 +57,15 @@ const LoginForm = () => {
             confirmButton: 'custom-confirm-button',
           },
         }).then(async () => {
-          await actionGetMe(accessToken);
+          await actionGetMe();
           if (accountInfo?.verifiedAt === null) {
-            actionFirstVerify(accessToken);
+            // actionFirstVerify();
           }
           navigate('/');
         });
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
-        const errorMessage =
-          err.response?.data?.message ||
-          'An error occurred while Login. Please try again.';
+        const errorMessage = 'Password incorrect';
         Swal.fire({
           title: 'Login Failed!',
           text: errorMessage,

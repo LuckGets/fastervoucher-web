@@ -44,6 +44,10 @@ export const paths = {
       label: 'Reset Password',
       path: '/auth/reset-password',
     },
+    loginGoogleSuccess: {
+      label: 'Login Google Success',
+      path: '/google-success',
+    },
   },
 
   user: {

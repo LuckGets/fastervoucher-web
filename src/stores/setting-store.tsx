@@ -1,4 +1,5 @@
-import { getShopDetails } from '../api/owner/owners';
+import { ownerApi } from '@/api/owner/owners.api';
+import { OwnerDataSchema } from '@/data-schema/owner.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -20,9 +21,9 @@ export interface SettingState {
   emailForSend: string;
   carouselImages: Image[];
   actionGetShopInfo: () => void;
+  actionEditInfo: (data: OwnerDataSchema) => void;
   setName: (newName: string) => void;
   setSelectedImage: (image: string) => void;
-  setColor: (color: string) => void;
   updateCarouselImages: (images: Image[]) => void;
   updateField: <T extends keyof SettingState>(
     key: T,
@@ -47,7 +48,7 @@ const useSettingStore = create<SettingState>()(
       ],
       actionGetShopInfo: async () => {
         try {
-          const result = await getShopDetails();
+          const result = await ownerApi.getOwnerInfo();
           const data = result?.data?.data;
 
           if (data) {
@@ -71,11 +72,17 @@ const useSettingStore = create<SettingState>()(
           console.log('actionEditInfo error:', err);
         }
       },
+      actionEditInfo: async (data) => {
+        try {
+          const result = await ownerApi.updateInfo(data);
+          console.log('result actionEditInfo:>> ', result);
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.log('actionEditInfo error:', err);
+        }
+      },
       setName: (newName: string) => set({ name: newName }),
-
       setSelectedImage: (image: string) => set({ logoImage: image }),
-
-      setColor: (color: string) => set({ color: color }),
       updateCarouselImages: (images: Image[]) =>
         set({ carouselImages: images }),
 

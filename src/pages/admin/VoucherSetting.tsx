@@ -14,7 +14,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { VoucherQueryFunc } from '../../api/voucher/voucher-query';
 import { VoucherDataSchema } from '../../data-schema/voucher.type';
 import useVoucherStore from '../../stores/voucher-store';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Copy, Trash2 } from 'lucide-react';
 import { paths } from '../../config/path';
 import ScrollTop from '../../components/ScrollTop';
 // import Swal from 'sweetalert2';
@@ -78,7 +78,7 @@ const VoucherSetting = () => {
         <div>
           <div>
             <h1 className="flex items-center gap-1 text-[#888888]">
-              <span className="cursor-pointer hover:font-medium" onClick={back}>
+              <span className="cursor-pointer hover:underline" onClick={back}>
                 All Voucher
               </span>{' '}
               <ChevronRight className="mt-[3px] h-4 w-4" />
@@ -104,11 +104,19 @@ const VoucherSetting = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="mx-auto my-10 flex w-[50%] justify-center gap-10">
         <button
-          className="w-[50%] rounded-full bg-[#F87171] p-2 px-10 text-white"
+          className="flex items-center rounded-full bg-[#E1E1E1] p-2 px-10 text-[#888888] hover:bg-gray-300"
           onClick={handleDelete}
         >
+          <Copy className="h-5 w-5" />
+          duplicate voucher
+        </button>
+        <button
+          className="flex items-center rounded-full bg-[#E1E1E1] p-2 px-10 text-[#888888] hover:bg-gray-300"
+          onClick={handleDelete}
+        >
+          <Trash2 className="h-5 w-5" />
           Delete Voucher
         </button>
       </div>

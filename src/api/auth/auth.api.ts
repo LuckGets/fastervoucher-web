@@ -1,7 +1,12 @@
 import { ResponseData } from '../../data-schema/common.type';
 import axios from '../../config/axios';
 import { AxiosResponse } from 'axios';
-import { RegisterForm, LoginForm, login } from '../../data-schema/auth.type';
+import {
+  RegisterForm,
+  LoginForm,
+  login,
+  LoginResponseData,
+} from '../../data-schema/auth.type';
 
 const AUTH_BASE_API_ENDPOINT = '/auth';
 const AUTH_API_ENDPOINTs = {
@@ -15,7 +20,9 @@ export const authApi = {
   register: (form: RegisterForm): Promise<AxiosResponse> =>
     axios.post(AUTH_API_ENDPOINTs.REGISTER, form),
 
-  login: (form: LoginForm): Promise<AxiosResponse<ResponseData<login>>> =>
+  login: (
+    form: LoginForm,
+  ): Promise<AxiosResponse<ResponseData<LoginResponseData>>> =>
     axios.post(AUTH_API_ENDPOINTs.LOGIN, form),
 
   refresh: (): Promise<AxiosResponse<login>> =>

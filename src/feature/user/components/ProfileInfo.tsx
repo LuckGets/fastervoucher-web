@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Pencil, Loader2 } from 'lucide-react';
 import useAccountStore, { Account } from '../../../stores/account-store';
-import useAuthStore from '../../../stores/auth-store';
 
 interface ProfileInfoProps {
   userInfo: {
@@ -14,7 +13,6 @@ interface ProfileInfoProps {
 const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
   const { info, label, field } = userInfo;
   const { accountInfo, actionEditInfo } = useAccountStore();
-  const { accessToken } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [newValue, setNewValue] = useState<string>(info ?? '');
   const [loading, setLoading] = useState(false);
@@ -35,7 +33,7 @@ const ProfileInfo = ({ userInfo }: ProfileInfoProps) => {
           [field]: newValue,
         };
 
-        await actionEditInfo(formData, accountId, accessToken as string);
+        await actionEditInfo(formData, accountId);
         setIsEditing(false);
       } catch (error) {
         console.error('Failed to save changes:', error);

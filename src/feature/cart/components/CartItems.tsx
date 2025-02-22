@@ -31,8 +31,10 @@ const CartItems = () => {
                 <div className="h-24 w-24 overflow-hidden rounded-lg border">
                   <img
                     src={
-                      Array.isArray(item?.img) && item.img.length > 0
-                        ? item.img[0]?.imgPath
+                      Array.isArray(item?.images) && item.images.length > 0
+                        ? item.images[0]?.imgPath.startsWith('http')
+                          ? item.images[0]?.imgPath
+                          : `https://${item.images[0]?.imgPath}`
                         : '/placeholder-image.png'
                     }
                     alt={item?.title}
@@ -47,7 +49,7 @@ const CartItems = () => {
                     {item?.category}
                   </h3>
                   <p className="mt-1 text-xs font-medium text-gray-800 md:text-sm">
-                    THB {item?.price} NET
+                    THB {item?.price.toLocaleString()} NET
                   </p>
                 </div>
                 <div className="flex flex-col items-center gap-4">

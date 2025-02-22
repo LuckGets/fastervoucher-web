@@ -1,7 +1,10 @@
 import { getCategories, getTag } from '../api/category/category';
 import { voucherApi } from '../api/voucher/voucher.api';
 import { Meal, Restaurant } from '../data-schema/restaurant.type';
-import { VoucherDataSchema } from '../data-schema/voucher.type';
+import {
+  CreateVoucherDataSchema,
+  VoucherDataSchema,
+} from '../data-schema/voucher.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -54,6 +57,7 @@ interface SettingState {
   actionGetVouchers: () => void;
   actionGetVoucherById: (voucherId: string) => void;
   actionGetCategoriesAndTags: () => void;
+  actionCreateVoucher: (data: CreateVoucherDataSchema) => void;
   setRestaurant: (restaurant: Restaurant[]) => void;
   setMeal: (meal: Restaurant[]) => void;
   setVoucher: (voucher: VoucherDataSchema[]) => void;
@@ -111,6 +115,16 @@ const useVoucherStore = create<SettingState>()(
           if (tagsData) {
             set({ meals: tagsData });
           }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
+        }
+      },
+      actionCreateVoucher: async (data) => {
+        try {
+          const result = await voucherApi.createVoucher(data);
+
+          console.log('result :>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
           console.error('Error fetching voucher by ID:', err?.message || err);
