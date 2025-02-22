@@ -7,6 +7,7 @@ import {
 import { paths } from '../config/path';
 import Loading from '../components/Loading';
 import ErrorBoundary from '../pages/error/ErrorBoundary';
+import ProtectRoute from './ProtectRoute';
 
 const GuestLayout = lazy(() => import('../layouts/GuestLayout'));
 const RedeemLayout = lazy(() => import('../layouts/RedeemLayout'));
@@ -81,7 +82,8 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <ErrorBoundary>
-          <AdminLayout />
+          {/* <AdminLayout /> */}
+          <ProtectRoute element={<AdminLayout />} allow={['ADMIN']} />
         </ErrorBoundary>
       </Suspense>
     ),

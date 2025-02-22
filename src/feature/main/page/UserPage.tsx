@@ -28,8 +28,6 @@ const UserPage = () => {
     fetchData();
   }, [accessToken, actionGetMe, navigate]);
 
-  console.log('accountInfo :>> ', accountInfo);
-
   if (!accessToken) {
     return null;
   }
