@@ -62,7 +62,8 @@ interface SettingState {
   setMeal: (meal: Restaurant[]) => void;
   setVoucher: (voucher: VoucherDataSchema[]) => void;
   addVoucher: (voucher: VoucherDataSchema) => void;
-  filteredVouchers: Voucher[];
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
 }
 
 const useVoucherStore = create<SettingState>()(
@@ -155,19 +156,8 @@ const useVoucherStore = create<SettingState>()(
 
       //     return { vouchers: [...state.vouchers, voucherWithId] };
       //   }),
-      filteredVouchers: [],
-      // filterVouchers: (searchTerm) => {
-      //   set((state) => {
-      //     const filtered = state.vouchers.filter(
-      //       (voucher: Voucher) =>
-      //         voucher.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      //         voucher.restaurant
-      //           .toLowerCase()
-      //           .includes(searchTerm.toLowerCase()),
-      //     );
-      //     return { filteredVouchers: filtered };
-      //   });
-      // },
+      searchTerm: '',
+      setSearchTerm: (searchTerm: string) => set({ searchTerm }),
     }),
     {
       name: 'voucher-storage',

@@ -27,7 +27,7 @@ export interface AccountState {
   setAccountInfo: (accountInfo: Account | null) => void;
   actionGetMe: () => Promise<Account | null>;
   actionEditInfo: (
-    formData: FormData,
+    formData: FormData | Record<string, string | number | null>,
     accountId: string | undefined,
   ) => Promise<void>;
   actionChangePassword: (
@@ -58,7 +58,7 @@ const useAccountStore = create<AccountState>()(
         }
       },
       actionEditInfo: async (
-        formData: FormData,
+        formData: FormData | Record<string, string | number | null>,
         accountId: string | undefined,
       ) => {
         try {

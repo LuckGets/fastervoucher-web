@@ -1,15 +1,16 @@
+import useVoucherStore from '../stores/voucher-store';
 import useCartStore from '../stores/cart-store';
 import useSettingStore from '../stores/setting-store';
 import { footerLinks } from '../utils/main/footerLinks';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const location = useLocation();
   const { logoImage } = useSettingStore();
   const { items } = useCartStore();
-  // const { filterVouchers } = useVoucherStore();
+  const { setSearchTerm } = useVoucherStore();
 
   const [search, setSearch] = useState('');
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
@@ -20,19 +21,26 @@ const Header: React.FC = () => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    const newSearch = e.target.value;
+    setSearch(newSearch);
 
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
 
     const timer = setTimeout(() => {
-      // filterVouchers(search);
-      console.log('search :>> ', search);
+      setSearchTerm(newSearch);
+      console.log('search :>> ', newSearch);
     }, 1000);
 
     setDebounceTimer(timer);
   };
+
+  useEffect(() => {
+    if (search === '') {
+      setSearchTerm('');
+    }
+  }, [search, setSearchTerm]);
 
   return (
     <>
@@ -116,7 +124,8 @@ const Header: React.FC = () => {
               <div>
                 <input
                   onChange={handleInputChange}
-                  className="w-full rounded-full bg-[#E1E1E1] p-2 pl-5 pr-10 text-sm focus:border-primary lg:w-[30rem] lg:text-base"
+                  value={search}
+                  className="w-full rounded-full bg-[#E1E1E1] p-2 pl-5 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary lg:w-[30rem] lg:text-base"
                   placeholder="Find your favorite menu"
                   type="text"
                 />

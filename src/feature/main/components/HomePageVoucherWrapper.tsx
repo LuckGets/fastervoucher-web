@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FC } from 'react';
+import { useState, useEffect, useRef, useMemo, FC } from 'react';
 import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 import { VoucherQueryFunc } from '../../../api/voucher/voucher-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ import {
 import ProductDetails from './ProductDetails';
 import { ProductDataSchema } from '../../../data-schema/product.type';
 import VoucherLoading from '../../../components/VoucherLoading';
+import useVoucherStore from '../../../stores/voucher-store';
 
 const DEFAULT_PRODUCT_LIMIT = 10;
 
@@ -30,6 +31,7 @@ const INIT_SELECTED_PRODUCT: {
 };
 
 const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
+  const { searchTerm } = useVoucherStore();
   // for infinite scroll
   const voucherBottomSentinelRef = useRef<HTMLDivElement>(null);
   const packageBottomSentinelRef = useRef<HTMLDivElement>(null);
@@ -37,7 +39,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   const [selectedProduct, setSelectedProduct] = useState<SelectedProductType>(
     INIT_SELECTED_PRODUCT,
   );
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let selectedVoucher: NullableType<VoucherDataSchema> = null;
 
@@ -54,8 +55,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     hasNextPage: hasNextVoucherPage,
   } = useInfiniteQuery(VoucherQueryFunc.getManyInifinite(queries));
 
-  // ---------------------------------
-
   // Fetching pagination package list.
   const {
     data: packagesAxiosData,
@@ -66,8 +65,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     fetchNextPage: fetchPackageNextPage,
     hasNextPage: hasNextPackagePage,
   } = useInfiniteQuery(PackageQueryFunc.getManyInfinite(queries));
-
-  // ---------------------------------
 
   const vouchers: VoucherDataSchema[] =
     vouchersAxiosData?.pages?.flatMap((page) => page.data.data) || [];
@@ -82,6 +79,20 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   ) {
     products.push(...vouchers);
   }
+
+  // Function to handle search and filter products
+  const filterVouchers = (searchTerm: string) => {
+    const filtered = products.filter((product) => {
+      const title = product.title ? product.title.toLowerCase() : '';
+      const restaurant = product.category ? product.category.toLowerCase() : '';
+      return (
+        title.includes(searchTerm.toLowerCase()) ||
+        restaurant.includes(searchTerm.toLowerCase())
+      );
+    });
+    return filtered;
+  };
+
   // Always call both hooks
   const voucherQuery = useQuery({
     ...VoucherQueryFunc.getById(selectedProduct.id),
@@ -110,8 +121,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
       selectedVoucher = data;
     }
   }
-
-  // --- Infinite scrolling part. --- //
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -154,8 +163,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     currentPage,
   ]);
 
-  // --- End of Infinite scrolling part. --- //
-
   const handleOnclick = (product: ProductDataSchema | PackageDataSchema) => {
     if (isProductPackageType(product)) {
       setSelectedProduct({ id: product.id, type: 'package' });
@@ -165,8 +172,12 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // setSelectedVoucher(null);
   };
+
+  // Memoize filteredVouchers to avoid unnecessary re-calculations
+  const filteredVouchers = useMemo(() => {
+    return filterVouchers(searchTerm);
+  }, [searchTerm, products]);
 
   if (isErrorVoucher || isErrorPackage) {
     throw new Error(errorVoucher?.message || errorPackage?.message);
@@ -175,14 +186,22 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   if (isPendingVoucher || isPendingPackage) return <VoucherLoading />;
 
   return (
-    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 md:px-12 lg:grid-cols-4">
-      {products.map((product) => (
-        <ProductItem
-          key={product.id}
-          product={product}
-          handleOnClick={handleOnclick}
-        />
-      ))}
+    <div className="mb-24 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 md:px-12 lg:grid-cols-4">
+      {filteredVouchers.length > 0
+        ? filteredVouchers.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              handleOnClick={handleOnclick}
+            />
+          ))
+        : products.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              handleOnClick={handleOnclick}
+            />
+          ))}
 
       {hasNextPackagePage && (
         <div ref={packageBottomSentinelRef} style={{ height: '1px' }}></div>
