@@ -68,32 +68,32 @@ const EditProfile = () => {
             <hr />
           </div>
           <div className="mt-4 flex justify-center">
-            <div>
+            <div className="relative">
               <h1>Profile</h1>
               <UserAvatar />
-            </div>
-            <div className="relative right-5 top-40">
-              {isUploading ? (
-                <div className="flex h-6 w-6 items-center justify-center">
-                  <Loader2 className="h-4 w-4 animate-spin text-basicGray" />
-                </div>
-              ) : (
-                <>
-                  <label
-                    htmlFor="upload-avatar"
-                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-basicGray"
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </label>
-                  <input
-                    id="upload-avatar"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                </>
-              )}
+              <div className="absolute bottom-0 right-0">
+                {isUploading ? (
+                  <div className="flex h-6 w-6 items-center justify-center">
+                    <Loader2 className="h-4 w-4 animate-spin text-basicGray" />
+                  </div>
+                ) : (
+                  <>
+                    <label
+                      htmlFor="upload-avatar"
+                      className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-[#c1c6bf] text-white active:bg-[#c1c6bf9f]"
+                    >
+                      <Pencil className="h-5 w-5" />
+                    </label>
+                    <input
+                      id="upload-avatar"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                  </>
+                )}
+              </div>
             </div>
           </div>
           <div className="mt-4 px-10">

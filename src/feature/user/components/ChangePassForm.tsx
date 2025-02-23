@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import SubmitButton from '../../../components/SubmitButton';
 import useAccountStore from '../../../stores/account-store';
 import {
@@ -7,6 +8,8 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { paths } from '@/config/path';
+import { useNavigate } from 'react-router-dom';
 
 interface Errors {
   oldPassword?: string;
@@ -22,6 +25,8 @@ const ChangePassForm = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const accountId = accountInfo?.id || '';
 
@@ -67,6 +72,8 @@ const ChangePassForm = () => {
             popup: 'small-popup',
             confirmButton: 'custom-confirm-button',
           },
+        }).then(() => {
+          navigate(paths.main.user.path);
         });
         console.log(
           'ChangePasswordData :>> ',
@@ -75,9 +82,13 @@ const ChangePassForm = () => {
           form.confirmNewPassword,
         );
       } catch (error) {
+        const err = error as AxiosError<{ message: string }>;
+        const errorMessage =
+          err.response?.data?.message ||
+          'Failed to change password. Please try again.';
         Swal.fire({
           title: 'Error!',
-          text: 'Failed to change password. Please try again.',
+          text: errorMessage,
           icon: 'error',
           width: '80%',
           padding: '20px',
@@ -108,7 +119,7 @@ const ChangePassForm = () => {
       <div className="relative w-[80%]">
         <input
           type={showPassword ? 'text' : 'password'}
-          className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.oldPassword ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 pl-8 pr-10 text-center md:p-4 md:text-xl ${errors.oldPassword ? 'border border-error' : ''}`}
           placeholder="Current Password"
           name="oldPassword"
           value={form.oldPassword || ''}
@@ -130,7 +141,7 @@ const ChangePassForm = () => {
       <div className="relative w-[80%]">
         <input
           type={showNewPassword ? 'text' : 'password'}
-          className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.newPassword ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 pl-8 pr-10 text-center md:p-4 md:text-xl ${errors.newPassword ? 'border border-error' : ''}`}
           placeholder="New Password"
           name="newPassword"
           value={form.newPassword || ''}
@@ -152,7 +163,7 @@ const ChangePassForm = () => {
       <div className="relative w-[80%]">
         <input
           type={showConfirmPassword ? 'text' : 'password'}
-          className={`w-full rounded-full bg-[#D9D9D9] p-2 pr-10 text-center md:p-4 md:text-xl ${errors.confirmNewPassword ? 'border border-error' : ''}`}
+          className={`w-full rounded-full bg-[#D9D9D9] p-2 pl-8 pr-10 text-center md:p-4 md:text-xl ${errors.confirmNewPassword ? 'border border-error' : ''}`}
           placeholder="Confirm Password"
           name="confirmNewPassword"
           value={form.confirmNewPassword || ''}
