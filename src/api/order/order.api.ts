@@ -1,5 +1,5 @@
-import { ResponseDataList } from '@/data-schema/common.type';
-import { OrderDataSchema } from '@/data-schema/order.type';
+import { ResponseDataList } from '../../data-schema/common.type';
+import { OrderDataSchema } from '../../data-schema/order.type';
 import { AxiosResponse } from 'axios';
 import axios from '../../config/axios';
 

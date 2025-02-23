@@ -1,4 +1,4 @@
-import { ProductStatusEnum } from '@/data-schema/product.type';
+import { ProductStatusEnum } from '../../data-schema/product.type';
 import ScrollTop from '../../components/ScrollTop';
 import { paths } from '../../config/path';
 import {

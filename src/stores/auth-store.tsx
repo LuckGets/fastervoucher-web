@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { authApi } from '../api/auth/auth.api';
 import { AxiosError } from 'axios';
 import { LoginForm, RegisterForm } from '../data-schema/auth.type';
-import { googleAuthApi } from '@/api/authGoogle/authGoogle';
+import { googleAuthApi } from '../api/authGoogle/authGoogle';
 import useAccountStore from './account-store';
 
 interface LoginResponse {

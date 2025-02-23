@@ -8,7 +8,7 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { paths } from '@/config/path';
+import { paths } from '../../../config/path';
 import { useNavigate } from 'react-router-dom';
 
 interface Errors {

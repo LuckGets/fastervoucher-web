@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, FC } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, FC } from 'react';
 import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 import { VoucherQueryFunc } from '../../../api/voucher/voucher-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
@@ -81,17 +81,22 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   }
 
   // Function to handle search and filter products
-  const filterVouchers = (searchTerm: string) => {
-    const filtered = products.filter((product) => {
-      const title = product.title ? product.title.toLowerCase() : '';
-      const restaurant = product.category ? product.category.toLowerCase() : '';
-      return (
-        title.includes(searchTerm.toLowerCase()) ||
-        restaurant.includes(searchTerm.toLowerCase())
-      );
-    });
-    return filtered;
-  };
+  const filterVouchers = useCallback(
+    (searchTerm: string) => {
+      const filtered = products.filter((product) => {
+        const title = product.title ? product.title.toLowerCase() : '';
+        const restaurant = product.category
+          ? product.category.toLowerCase()
+          : '';
+        return (
+          title.includes(searchTerm.toLowerCase()) ||
+          restaurant.includes(searchTerm.toLowerCase())
+        );
+      });
+      return filtered;
+    },
+    [products],
+  );
 
   // Always call both hooks
   const voucherQuery = useQuery({
@@ -177,7 +182,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   // Memoize filteredVouchers to avoid unnecessary re-calculations
   const filteredVouchers = useMemo(() => {
     return filterVouchers(searchTerm);
-  }, [searchTerm, products]);
+  }, [searchTerm, filterVouchers]);
 
   if (isErrorVoucher || isErrorPackage) {
     throw new Error(errorVoucher?.message || errorPackage?.message);

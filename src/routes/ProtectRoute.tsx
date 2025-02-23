@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import useAuthStore from '../stores/auth-store';
 import { Navigate } from 'react-router-dom';
-import { paths } from '@/config/path';
+import { paths } from '../config/path';
 
 interface JwtPayload {
   role: string;

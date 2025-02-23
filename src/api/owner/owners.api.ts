@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import axios from '../../config/axios';
-import { ResponseDataList } from '@/data-schema/common.type';
-import { OwnerDataSchema, password } from '@/data-schema/owner.type';
+import { ResponseDataList } from '../../data-schema/common.type';
+import { OwnerDataSchema, password } from '../../data-schema/owner.type';
 
 const OWNER_BASE_API_ENDPOINT = {
   BASE: '/owners',

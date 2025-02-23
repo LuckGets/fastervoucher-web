@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { accountApi } from '../../api/accounts/account';
 import Swal from 'sweetalert2';
@@ -10,7 +10,7 @@ const ConfirmChangePassword = () => {
 
   const navigate = useNavigate();
 
-  const confirmPassword = async () => {
+  const confirmPassword = useCallback(async () => {
     if (!hash) {
       Swal.fire({
         title: 'Error',
@@ -65,13 +65,13 @@ const ConfirmChangePassword = () => {
       });
       console.log('Password verification error:', err);
     }
-  };
+  }, [hash, navigate]);
 
   useEffect(() => {
     if (hash) {
       confirmPassword();
     }
-  }, [hash]);
+  }, [hash, confirmPassword]);
 
   return (
     <div className="flex min-h-screen justify-center">

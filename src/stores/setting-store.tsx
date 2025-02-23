@@ -1,5 +1,5 @@
-import { ownerApi } from '@/api/owner/owners.api';
-import { OwnerDataSchema } from '@/data-schema/owner.type';
+import { ownerApi } from '../api/owner/owners.api';
+import { OwnerDataSchema } from '../data-schema/owner.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';

@@ -1,4 +1,4 @@
-import { login } from '@/data-schema/auth.type';
+import { login } from '../../data-schema/auth.type';
 import axios from '../../config/axios';
 import { AxiosResponse } from 'axios';
 
