@@ -14,7 +14,7 @@ import type { LoginForm } from '../../../../data-schema/auth.type';
 
 const LoginForm = () => {
   const { actionLogin } = useAuthStore();
-  const { actionGetMe, accountInfo } = useAccountStore();
+  const { actionGetMe } = useAccountStore();
 
   const navigate = useNavigate();
 
@@ -58,9 +58,9 @@ const LoginForm = () => {
           },
         }).then(async () => {
           await actionGetMe();
-          if (accountInfo?.verifiedAt === null) {
-            // actionFirstVerify();
-          }
+          // if (accountInfo?.verifiedAt === null) {
+
+          // }
           navigate('/');
         });
       } catch (error) {

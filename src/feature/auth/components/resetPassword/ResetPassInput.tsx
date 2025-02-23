@@ -31,7 +31,7 @@ const ResetPassInput = () => {
     } else if (form.password.length < 6 && !(form.password.length > 20)) {
       newErrors.password = 'Password must be at least 6-20 characters';
     }
-    if (form.password !== form.confirmPassword) {
+    if (form.password !== form.confirmNewPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
     return newErrors;
@@ -80,8 +80,8 @@ const ResetPassInput = () => {
           type={showConfirmPassword ? 'text' : 'password'}
           className={`w-full rounded-full bg-[#D9D9D9] p-2 text-center md:p-4 md:text-xl ${errors.confirmPassword ? 'border-2 border-error' : ''}`}
           placeholder="Confirm Password"
-          name="confirmPassword"
-          value={form.confirmPassword}
+          name="confirmNewPassword"
+          value={form.confirmNewPassword}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button

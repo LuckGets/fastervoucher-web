@@ -60,6 +60,10 @@ export const paths = {
       label: 'Change Password',
       path: '/user/change-password',
     },
+    changePasswordVerify: {
+      label: 'Change Password Verify',
+      path: '/change-password',
+    },
   },
 
   redeem: {

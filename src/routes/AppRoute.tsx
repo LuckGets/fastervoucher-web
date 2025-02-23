@@ -22,6 +22,9 @@ const LoginGoogle = lazy(
   () => import('../feature/auth/components/login/GoogleCallBack'),
 );
 const VerifyEmail = lazy(() => import('../feature/auth/page/VerifyEmail'));
+const ConfirmChangPassword = lazy(
+  () => import('../pages/user/ConfirmChangPassword'),
+);
 const ForgetPassword = lazy(
   () => import('../feature/auth/page/ForgetPassword'),
 );
@@ -59,6 +62,10 @@ const router = createBrowserRouter([
       { path: paths.main.user.path, element: <UserPage /> },
       { path: paths.user.edit.path, element: <EditProfile /> },
       { path: paths.user.changePassword.path, element: <ChangePassword /> },
+      {
+        path: paths.user.changePasswordVerify.path,
+        element: <ConfirmChangPassword />,
+      },
       { path: paths.auth.register.path, element: <Register /> },
       { path: paths.auth.login.path, element: <Login /> },
       { path: paths.auth.loginGoogleSuccess.path, element: <LoginGoogle /> },

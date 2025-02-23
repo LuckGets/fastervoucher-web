@@ -1,10 +1,4 @@
-import {
-  changePassword,
-  editInfo,
-  firstVerify,
-  getMe,
-  getVerify,
-} from '../api/accounts/account';
+import { accountApi } from '../api/accounts/account';
 import { changePasswordFormdata } from '../api/accounts/types/changePassword.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
@@ -33,7 +27,6 @@ export interface AccountState {
   actionChangePassword: (
     body: changePasswordFormdata,
     accountId: string,
-    accessToken: string,
   ) => Promise<void>;
   actionFirstVerify: (token: string) => Promise<void>;
 }
@@ -45,7 +38,7 @@ const useAccountStore = create<AccountState>()(
       setAccountInfo: (accountInfo) => set({ accountInfo }),
       actionGetMe: async () => {
         try {
-          const result = await getMe();
+          const result = await accountApi.getMe();
           const data = result?.data?.data;
 
           if (data) {
@@ -62,7 +55,7 @@ const useAccountStore = create<AccountState>()(
         accountId: string | undefined,
       ) => {
         try {
-          const result = await editInfo(formData, accountId || '');
+          const result = await accountApi.editInfo(formData, accountId || '');
 
           set((state) => ({
             accountInfo: {
@@ -78,33 +71,34 @@ const useAccountStore = create<AccountState>()(
         }
       },
 
-      actionChangePassword: async (formData, accountId) => {
+      actionChangePassword: async (body, accountId) => {
         try {
-          const result = await changePassword(formData, accountId);
+          console.log('body :>> ', body);
+          const result = await accountApi.changePassword(body, accountId);
           console.log('result actionChangePassword:>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionChangePassword error:', err);
         }
       },
 
       actionGetVerify: async () => {
         try {
-          const result = await getVerify();
+          const result = await accountApi.getVerify();
           console.log('result :>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionGetVerify error:', err);
         }
       },
 
       actionFirstVerify: async (token: string) => {
         try {
-          const result = await firstVerify(token);
+          const result = await accountApi.firstVerify(token);
           console.log('result actionChangePassword:>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionFirstVerify error:', err);
         }
       },
     }),

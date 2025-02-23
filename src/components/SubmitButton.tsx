@@ -1,12 +1,19 @@
 import useSettingStore from '../stores/setting-store';
+import { Loader2 } from 'lucide-react';
 
 interface SubmitButtonProps {
   className?: string;
   text: string;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
-const SubmitButton = ({ className, text, disabled }: SubmitButtonProps) => {
+const SubmitButton = ({
+  className,
+  text,
+  disabled,
+  isLoading,
+}: SubmitButtonProps) => {
   const { color } = useSettingStore();
 
   const bgColor = disabled
@@ -21,10 +28,17 @@ const SubmitButton = ({ className, text, disabled }: SubmitButtonProps) => {
       style={bgColor}
       className={`${className} ${
         disabled ? 'cursor-not-allowed text-text' : ''
-      } capitalize`}
-      disabled={disabled}
+      } flex items-center justify-center gap-2 capitalize`}
+      disabled={disabled || isLoading}
     >
-      {text}
+      {isLoading ? (
+        <>
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span>Processing...</span>
+        </>
+      ) : (
+        text
+      )}
     </button>
   );
 };
