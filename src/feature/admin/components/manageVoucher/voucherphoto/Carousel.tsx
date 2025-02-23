@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import Sortable from './Sortable';
 import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import {
@@ -16,12 +16,12 @@ type ImageType = {
 
 const Carousel = () => {
   const { id } = useParams<{ id: string }>();
-  const vouchers = useVoucherStore((state) => state.vouchers);
-  const updateVoucher = useVoucherStore((state) => state.updateVoucher);
+  const { vouchers } = useVoucherStore();
+  // const updateVoucher = useVoucherStore((state) => state.updateVoucher);
 
-  const voucher = vouchers.find((v) => v.id === Number(id));
+  const voucher = vouchers.find((v) => v.id === id);
 
-  const images: ImageType[] = voucher?.carouselImages || [];
+  const images: ImageType[] = voucher?.images || [];
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -30,7 +30,8 @@ const Carousel = () => {
       const oldIndex = images.findIndex((image) => image.id === active.id);
       const newIndex = images.findIndex((image) => image.id === over.id);
       const updatedImages = arrayMove(images, oldIndex, newIndex);
-      updateVoucher(Number(id), { carouselImages: updatedImages });
+      console.log('updatedImages :>> ', updatedImages);
+      // updateVoucher(Number(id), { carouselImages: updatedImages });
     }
   };
 
@@ -41,9 +42,10 @@ const Carousel = () => {
       reader.onloadend = () => {
         if (reader.result) {
           const newImage = { id: Date.now(), src: reader.result as string };
-          updateVoucher(Number(id), {
-            carouselImages: [...images, newImage],
-          });
+          // updateVoucher(Number(id), {
+          //   carouselImages: [...images, newImage],
+          // });
+          console.log('newImage :>> ', newImage);
         }
       };
       reader.readAsDataURL(file);
@@ -62,7 +64,8 @@ const Carousel = () => {
           const updatedImages = images.map((img) =>
             img.id === imageId ? { ...img, src: reader.result as string } : img,
           );
-          updateVoucher(Number(id), { carouselImages: updatedImages });
+
+          console.log('updatedImages :>> ', updatedImages);
         }
       };
       reader.readAsDataURL(file);
@@ -72,7 +75,8 @@ const Carousel = () => {
   const handleDeleteImage = (imageId: number) => {
     if (id) {
       const updatedImages = images.filter((img) => img.id !== imageId);
-      updateVoucher(Number(id), { carouselImages: updatedImages });
+      console.log('updatedImages :>> ', updatedImages);
+      // updateVoucher(Number(id), { carouselImages: updatedImages });
     }
   };
 

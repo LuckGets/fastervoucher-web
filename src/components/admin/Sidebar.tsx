@@ -1,6 +1,6 @@
-import { sideBarList } from '@/utils/admin/sidebarList';
+import { sideBarList } from '../../utils/admin/sidebarList';
 import { useState, useEffect } from 'react';
-import { paths } from '@/config/path';
+import { paths } from '../../config/path';
 import Manage from './Manage';
 import Setting from './Setting';
 import { Link } from 'react-router-dom';

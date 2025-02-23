@@ -1,16 +1,14 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 const UseDate = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
-  const [useDate, setUseDate] = useState<string>(voucher?.useDateStart || '');
-  const [endDate, setEndDate] = useState<string>(voucher?.useDateEnd || '');
+  const [useDate, setUseDate] = useState<string>(voucherById?.usableAt || '');
+  const [endDate, setEndDate] = useState<string>(
+    voucherById?.usableExpiredAt || '',
+  );
   const [isEditing, setIsEditing] = useState(false);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,18 +23,18 @@ const UseDate = () => {
   };
 
   const handleSave = () => {
-    if (voucher) {
-      updateVoucher(voucherId, {
-        useDateStart: useDate || undefined,
-        useDateEnd: endDate || undefined,
-      });
+    if (voucherById) {
+      // updateVoucher(voucherId, {
+      //   useDateStart: useDate || undefined,
+      //   useDateEnd: endDate || undefined,
+      // });
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setUseDate(voucher?.useDateStart || '');
-    setEndDate(voucher?.useDateEnd || '');
+    setUseDate(voucherById?.usableAt || '');
+    setEndDate(voucherById?.usableExpiredAt || '');
     setIsEditing(false);
   };
 

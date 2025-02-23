@@ -1,7 +1,7 @@
 import SubManage from './SubManage';
-import { paths } from '@/config/path';
+import { paths } from '../../config/path';
 import { useNavigate } from 'react-router-dom';
-import { sideBarList } from '@/utils/admin/sidebarList';
+import { sideBarList } from '../../utils/admin/sidebarList';
 
 type ComponentProps = {
   manageOpen: boolean;

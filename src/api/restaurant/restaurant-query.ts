@@ -3,10 +3,10 @@ import { restaurantApi } from './restaurant.api';
 import {
   CreateRestaurantInput,
   Restaurant,
-} from '@/data-schema/restaurant.type';
+} from '../../data-schema/restaurant.type';
 import { AxiosResponse } from 'axios';
-import { ResponseData, ResponseDataList } from '@/data-schema/common.type';
-import { mutationOptions } from '@/config/react-query';
+import { ResponseData, ResponseDataList } from '../../data-schema/common.type';
+import { mutationOptions } from '../../config/react-query';
 
 const RESTAURANT_QUERY_KEY = {
   BASE: 'restaurant',

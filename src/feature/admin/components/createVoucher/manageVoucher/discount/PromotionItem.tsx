@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../../stores/voucher-store';
 
 interface Promotion {
   name: string;
@@ -13,7 +12,7 @@ interface Promotion {
 interface PromotionItemProps {
   promo: Promotion;
   index: number;
-  voucherId: number;
+  voucherId: string;
 }
 
 const PromotionItem: React.FC<PromotionItemProps> = ({
@@ -21,7 +20,7 @@ const PromotionItem: React.FC<PromotionItemProps> = ({
   index,
   voucherId,
 }) => {
-  const { updateVoucher, vouchers } = useVoucherStore();
+  const { vouchers } = useVoucherStore();
   const voucher = vouchers.find((v) => v.id === voucherId);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -33,24 +32,25 @@ const PromotionItem: React.FC<PromotionItemProps> = ({
 
   const handleSaveClick = () => {
     if (voucher) {
-      const updatedPromotions = [...(voucher?.promotion || [])];
-      updatedPromotions[index] = {
-        ...editedPromo,
-        startDate: editedPromo.startDate || '',
-        endDate: editedPromo.endDate || '',
-      };
-      updateVoucher(voucherId, { promotion: updatedPromotions });
+      // const updatedPromotions = [...(voucher?.promotion || [])];
+      // updatedPromotions[index] = {
+      //   ...editedPromo,
+      //   startDate: editedPromo.startDate || '',
+      //   endDate: editedPromo.endDate || '',
+      // };
+      // updateVoucher(voucherId, { promotion: updatedPromotions });
     }
     setIsEditing(false);
   };
 
   const handleDeleteClick = () => {
-    if (voucher) {
-      const filteredPromotions = (voucher?.promotion || []).filter(
-        (_, i) => i !== index,
-      );
-      updateVoucher(voucherId, { promotion: filteredPromotions });
-    }
+    console.log('index :>> ', index);
+    // if (voucher) {
+    //   const filteredPromotions = (voucher?.promotion || []).filter(
+    //     (_, i) => i !== index,
+    //   );
+    //   updateVoucher(voucherId, { promotion: filteredPromotions });
+    // }
   };
 
   return (

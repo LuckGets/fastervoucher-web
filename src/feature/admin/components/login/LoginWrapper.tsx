@@ -1,5 +1,5 @@
-import { paths } from '@/config/path';
-import LoginForm from '@/feature/auth/components/login/LoginForm';
+import { paths } from '../../../../config/path';
+import LoginForm from '../../../../feature/auth/components/login/LoginForm';
 import { Link } from 'react-router-dom';
 
 const LoginAdminWrapper = () => {

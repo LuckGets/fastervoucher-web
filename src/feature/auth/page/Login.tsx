@@ -1,4 +1,4 @@
-import LoginWrapper from '@/feature/auth/components/login/LoginWrapper';
+import LoginWrapper from '../../../feature/auth/components/login/LoginWrapper';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Login = () => {

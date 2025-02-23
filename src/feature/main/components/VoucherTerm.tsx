@@ -1,4 +1,4 @@
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -19,11 +19,10 @@ const VoucherTerm = ({ details, conditions }: VoucherTermProps) => {
     'indent',
   ];
 
-  // Move the useMemo hook outside of any condition
   const modules = useMemo(() => ({ toolbar: false }), []);
 
   return (
-    <div className="max-h-screen">
+    <div className="mb-[23rem] max-h-screen md:mb-5">
       <div className="mt-2">
         <h1 className="text-sm font-semibold">รายละเอียด</h1>
         <ReactQuill

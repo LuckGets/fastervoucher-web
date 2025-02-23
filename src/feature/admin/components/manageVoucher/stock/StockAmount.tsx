@@ -1,41 +1,37 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const StockAmount = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
   const [newValue, setNewValue] = useState<string>(
-    voucher?.stockAmount?.toString() || '',
+    voucherById?.stockAmount?.toString() || '',
   );
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (voucher) {
-      setNewValue(voucher.stockAmount?.toString() || '');
+    if (voucherById) {
+      setNewValue(voucherById.stockAmount?.toString() || '');
     }
-  }, [voucher]);
+  }, [voucherById]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    if (voucher && newValue !== '') {
+    if (voucherById && newValue !== '') {
       const updatedStockAmount = parseInt(newValue, 10);
       if (!isNaN(updatedStockAmount)) {
-        updateVoucher(voucherId, { stockAmount: updatedStockAmount });
+        // updateVoucher(voucherId, { stockAmount: updatedStockAmount });
       }
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setNewValue(voucher?.stockAmount?.toString() || '');
+    setNewValue(voucherById?.stockAmount?.toString() || '');
     setIsEditing(false);
   };
 

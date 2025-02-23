@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { ArrowDownUp } from 'lucide-react';
-import { promotion, PromotionType } from '@/utils/dashboard/promotion';
+import {
+  promotion,
+  PromotionType,
+} from '../../../../utils/dashboard/promotion';
 
 import ModalPromotion from './ModalPromotion';
 

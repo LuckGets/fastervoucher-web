@@ -1,4 +1,4 @@
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../stores/setting-store';
 import { CalendarDays, Clock3 } from 'lucide-react';
 
 const RedeemVoucher = () => {

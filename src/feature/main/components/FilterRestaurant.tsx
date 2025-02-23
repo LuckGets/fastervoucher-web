@@ -1,5 +1,5 @@
-import { Restaurant } from '@/data-schema/restaurant.type';
-import useSettingStore from '@/stores/setting-store';
+import { Restaurant } from '../../../data-schema/restaurant.type';
+import useSettingStore from '../../../stores/setting-store';
 
 interface FilterRestaurantProps {
   defaultRestaurant: Restaurant['name'];
@@ -29,7 +29,7 @@ const FilterRestaurant = ({
   };
 
   return (
-    <div className="my-4 flex flex-shrink flex-wrap items-center gap-2 px-6 text-xs lg:justify-start lg:gap-4 lg:px-10 lg:text-sm">
+    <div className="my-4 flex flex-shrink flex-wrap items-center gap-2 px-4 text-xs md:px-12 lg:justify-start lg:gap-4 lg:px-10 lg:text-sm">
       {/* Button for "All" */}
       <div
         className={`flex h-10 min-w-[60px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 lg:min-w-[80px] ${
@@ -46,7 +46,7 @@ const FilterRestaurant = ({
       </div>
 
       {/* Buttons for Restaurants */}
-      {restaurants.map((item, index) => (
+      {restaurants?.map((item, index) => (
         <div
           key={index}
           className={`flex h-10 min-w-[80px] items-center justify-center rounded-3xl bg-[#D9D9D9] px-4 ${

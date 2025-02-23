@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import UserAvatar from '@/feature/user/components/UserAvatar';
-import UserList from '@/feature/user/components/UserList';
-import useAuthStore from '@/stores/auth-store';
+import UserAvatar from '../../../feature/user/components/UserAvatar';
+import UserList from '../../../feature/user/components/UserList';
+import useAuthStore from '../../../stores/auth-store';
 import { motion, AnimatePresence } from 'framer-motion';
-import { paths } from '@/config/path';
+import { paths } from '../../../config/path';
 import { useNavigate } from 'react-router-dom';
-import useAccountStore from '@/stores/account-store';
+import useAccountStore from '../../../stores/account-store';
 
 const UserPage = () => {
   const { accountInfo, actionGetMe } = useAccountStore();
@@ -15,8 +15,7 @@ const UserPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await actionGetMe(accessToken as string);
-        console.log('accessToken', accessToken);
+        await actionGetMe();
       } catch (error) {
         console.log('error details :>> ', error);
       }
@@ -28,8 +27,6 @@ const UserPage = () => {
 
     fetchData();
   }, [accessToken, actionGetMe, navigate]);
-
-  console.log('accountInfo :>> ', accountInfo);
 
   if (!accessToken) {
     return null;

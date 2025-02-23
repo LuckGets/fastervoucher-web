@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { footerLinks } from '../../utils/main/footerLinks';
-import useCartStore from '@/stores/cart-store';
-import useSettingStore from '@/stores/setting-store';
+import useCartStore from '../../stores/cart-store';
+import useSettingStore from '../../stores/setting-store';
 
 type ComponentProps = {
   activePath?: string;

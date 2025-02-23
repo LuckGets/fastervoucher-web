@@ -1,5 +1,5 @@
 import axios from 'axios';
-import useAuthStore from '@/stores/auth-store';
+import useAuthStore from '../stores/auth-store';
 
 const PORT: number = 8080;
 

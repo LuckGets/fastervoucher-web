@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
-import SubmitButton from '@/components/SubmitButton';
-import useAuthStore from '@/stores/auth-store';
-import type { RegisterForm } from '@/api/auth/types/register-form.types';
+import {
+  Form,
+  handleInputChange,
+} from '../../../../utils/function/handleOnchange';
+import SubmitButton from '../../../../components/SubmitButton';
+import useAuthStore from '../../../../stores/auth-store';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { paths } from '@/config/path';
+import { paths } from '../../../../config/path';
+import type { RegisterForm } from '../../../../data-schema/auth.type';
 
 interface Errors {
   fullname?: string;

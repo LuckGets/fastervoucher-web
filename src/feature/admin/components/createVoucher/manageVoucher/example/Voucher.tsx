@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
-import { Voucher as Vouchers } from '@/stores/voucher-store';
+import { Voucher as Vouchers } from '../../../../../../stores/voucher-store';
 import { ShoppingCart } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherDetail from './VoucherDetail';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../../../stores/setting-store';
 
 interface VoucherProps {
   voucher: Vouchers;

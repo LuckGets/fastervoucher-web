@@ -1,17 +1,19 @@
-import { useState, useEffect, useRef, FC } from 'react';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { VoucherQueryFunc } from '@/api/voucher/voucher-query';
+import { useState, useEffect, useRef, useMemo, useCallback, FC } from 'react';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
+import { VoucherQueryFunc } from '../../../api/voucher/voucher-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import NullableType from '@/utils/types/nullable.type';
+import NullableType from '../../../utils/types/nullable.type';
 import { HomePageProductListProps } from './ProductWrapper';
 import ProductItem from './ProductItem';
-import { PackageQueryFunc } from '@/api/package/package-query';
+import { PackageQueryFunc } from '../../../api/package/package-query';
 import {
   isProductPackageType,
   PackageDataSchema,
-} from '@/data-schema/package.type';
+} from '../../../data-schema/package.type';
 import ProductDetails from './ProductDetails';
-import { ProductDataSchema } from '@/data-schema/product.type';
+import { ProductDataSchema } from '../../../data-schema/product.type';
+import VoucherLoading from '../../../components/VoucherLoading';
+import useVoucherStore from '../../../stores/voucher-store';
 
 const DEFAULT_PRODUCT_LIMIT = 10;
 
@@ -29,6 +31,7 @@ const INIT_SELECTED_PRODUCT: {
 };
 
 const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
+  const { searchTerm } = useVoucherStore();
   // for infinite scroll
   const voucherBottomSentinelRef = useRef<HTMLDivElement>(null);
   const packageBottomSentinelRef = useRef<HTMLDivElement>(null);
@@ -36,11 +39,10 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   const [selectedProduct, setSelectedProduct] = useState<SelectedProductType>(
     INIT_SELECTED_PRODUCT,
   );
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   let selectedVoucher: NullableType<VoucherDataSchema> = null;
 
-  let currentPage = 1;
+  const currentPage = 1;
 
   // Fetching pagination voucher list.
   const {
@@ -53,8 +55,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     hasNextPage: hasNextVoucherPage,
   } = useInfiniteQuery(VoucherQueryFunc.getManyInifinite(queries));
 
-  // ---------------------------------
-
   // Fetching pagination package list.
   const {
     data: packagesAxiosData,
@@ -65,8 +65,6 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     fetchNextPage: fetchPackageNextPage,
     hasNextPage: hasNextPackagePage,
   } = useInfiniteQuery(PackageQueryFunc.getManyInfinite(queries));
-
-  // ---------------------------------
 
   const vouchers: VoucherDataSchema[] =
     vouchersAxiosData?.pages?.flatMap((page) => page.data.data) || [];
@@ -81,6 +79,25 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   ) {
     products.push(...vouchers);
   }
+
+  // Function to handle search and filter products
+  const filterVouchers = useCallback(
+    (searchTerm: string) => {
+      const filtered = products.filter((product) => {
+        const title = product.title ? product.title.toLowerCase() : '';
+        const restaurant = product.category
+          ? product.category.toLowerCase()
+          : '';
+        return (
+          title.includes(searchTerm.toLowerCase()) ||
+          restaurant.includes(searchTerm.toLowerCase())
+        );
+      });
+      return filtered;
+    },
+    [products],
+  );
+
   // Always call both hooks
   const voucherQuery = useQuery({
     ...VoucherQueryFunc.getById(selectedProduct.id),
@@ -110,57 +127,46 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
     }
   }
 
-  // --- Infinite scrolling part. --- //
-
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
 
-        if (
-          entry.isIntersecting &&
-          hasNextVoucherPage &&
-          !isFetchingVoucherNextPage
-        ) {
-          fetchVoucherNextPage();
-          currentPage++;
-        }
+      if (
+        entry.isIntersecting &&
+        hasNextVoucherPage &&
+        !isFetchingVoucherNextPage
+      ) {
+        fetchVoucherNextPage();
+      }
 
-        if (
-          entry.isIntersecting &&
-          hasNextPackagePage &&
-          !isFetchingNextPackagePage
-        ) {
-          fetchPackageNextPage();
-          currentPage++;
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      },
-    );
-    if (voucherBottomSentinelRef.current) {
-      observer.observe(voucherBottomSentinelRef.current);
-    }
+      if (
+        entry.isIntersecting &&
+        hasNextPackagePage &&
+        !isFetchingNextPackagePage
+      ) {
+        fetchPackageNextPage();
+      }
+    });
 
-    if (packageBottomSentinelRef.current) {
-      observer.observe(packageBottomSentinelRef.current);
-    }
+    const voucherSentinel = voucherBottomSentinelRef.current;
+    const packageSentinel = packageBottomSentinelRef.current;
+
+    if (voucherSentinel) observer.observe(voucherSentinel);
+    if (packageSentinel) observer.observe(packageSentinel);
 
     return () => {
-      if (voucherBottomSentinelRef.current) {
-        observer.unobserve(voucherBottomSentinelRef.current);
-      }
-
-      if (packageBottomSentinelRef.current) {
-        observer.unobserve(packageBottomSentinelRef.current);
-      }
+      if (voucherSentinel) observer.unobserve(voucherSentinel);
+      if (packageSentinel) observer.unobserve(packageSentinel);
     };
-  }, [hasNextVoucherPage, hasNextPackagePage]);
-
-  // --- End of  Infinite scrolling part. --- //
+  }, [
+    hasNextVoucherPage,
+    hasNextPackagePage,
+    fetchVoucherNextPage,
+    fetchPackageNextPage,
+    isFetchingVoucherNextPage,
+    isFetchingNextPackagePage,
+    currentPage,
+  ]);
 
   const handleOnclick = (product: ProductDataSchema | PackageDataSchema) => {
     if (isProductPackageType(product)) {
@@ -171,24 +177,36 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // setSelectedVoucher(null);
   };
+
+  // Memoize filteredVouchers to avoid unnecessary re-calculations
+  const filteredVouchers = useMemo(() => {
+    return filterVouchers(searchTerm);
+  }, [searchTerm, filterVouchers]);
 
   if (isErrorVoucher || isErrorPackage) {
     throw new Error(errorVoucher?.message || errorPackage?.message);
   }
 
-  if (isPendingVoucher || isPendingPackage) return <div>Loading...</div>;
+  if (isPendingVoucher || isPendingPackage) return <VoucherLoading />;
 
   return (
-    <div className="mb-20 grid w-full grid-cols-2 gap-4 px-6 md:grid-cols-3 lg:grid-cols-5">
-      {products.map((product) => (
-        <ProductItem
-          key={product.id}
-          product={product}
-          handleOnClick={handleOnclick}
-        />
-      ))}
+    <div className="mb-24 grid w-full grid-cols-2 gap-4 px-4 md:grid-cols-3 md:px-12 lg:grid-cols-4">
+      {filteredVouchers.length > 0
+        ? filteredVouchers.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              handleOnClick={handleOnclick}
+            />
+          ))
+        : products.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              handleOnClick={handleOnclick}
+            />
+          ))}
 
       {hasNextPackagePage && (
         <div ref={packageBottomSentinelRef} style={{ height: '1px' }}></div>

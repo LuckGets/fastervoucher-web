@@ -1,5 +1,5 @@
-import AffiliateList from '@/feature/admin/components/affiliate/AffiliateList';
-import Chart from '@/feature/admin/components/affiliate/Chart';
+import AffiliateList from '../../feature/admin/components/affiliate/AffiliateList';
+import Chart from '../../feature/admin/components/affiliate/Chart';
 
 const Affiliate = () => {
   return (

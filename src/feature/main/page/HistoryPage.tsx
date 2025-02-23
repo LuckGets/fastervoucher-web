@@ -1,4 +1,4 @@
-import OderWrapper from '@/feature/history/components/OderWrapper';
+import OderWrapper from '../../../feature/history/components/OderWrapper';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const HistoryPage = () => {

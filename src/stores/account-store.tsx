@@ -1,11 +1,5 @@
-import {
-  changePassword,
-  editInfo,
-  firstVerify,
-  getMe,
-  getVerify,
-} from '@/api/accounts/account';
-import { changePasswordFormdata } from '@/api/accounts/types/changePassword.type';
+import { accountApi } from '../api/accounts/account';
+import { changePasswordFormdata } from '../api/accounts/types/changePassword.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -19,20 +13,20 @@ export interface Account {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+  verifiedAt: string | null;
 }
 
 export interface AccountState {
   accountInfo: Account | null;
-  actionGetMe: (accessToken: string) => Promise<Account | null>;
+  setAccountInfo: (accountInfo: Account | null) => void;
+  actionGetMe: () => Promise<Account | null>;
   actionEditInfo: (
-    formData: Record<string, string | number | null>,
+    formData: FormData | Record<string, string | number | null>,
     accountId: string | undefined,
-    accessToken: string | null,
   ) => Promise<void>;
   actionChangePassword: (
     body: changePasswordFormdata,
     accountId: string,
-    accessToken: string,
   ) => Promise<void>;
   actionFirstVerify: (token: string) => Promise<void>;
 }
@@ -41,9 +35,10 @@ const useAccountStore = create<AccountState>()(
   persist(
     (set) => ({
       accountInfo: null,
+      setAccountInfo: (accountInfo) => set({ accountInfo }),
       actionGetMe: async () => {
         try {
-          const result = await getMe();
+          const result = await accountApi.getMe();
           const data = result?.data?.data;
 
           if (data) {
@@ -56,11 +51,11 @@ const useAccountStore = create<AccountState>()(
         }
       },
       actionEditInfo: async (
-        formData: Record<string, string | number | null>,
+        formData: FormData | Record<string, string | number | null>,
         accountId: string | undefined,
       ) => {
         try {
-          const result = await editInfo(formData, accountId || '');
+          const result = await accountApi.editInfo(formData, accountId || '');
 
           set((state) => ({
             accountInfo: {
@@ -76,33 +71,34 @@ const useAccountStore = create<AccountState>()(
         }
       },
 
-      actionChangePassword: async (formData, accountId) => {
+      actionChangePassword: async (body, accountId) => {
         try {
-          const result = await changePassword(formData, accountId);
+          console.log('body :>> ', body);
+          const result = await accountApi.changePassword(body, accountId);
           console.log('result actionChangePassword:>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionChangePassword error:', err);
         }
       },
 
       actionGetVerify: async () => {
         try {
-          const result = await getVerify();
+          const result = await accountApi.getVerify();
           console.log('result :>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionGetVerify error:', err);
         }
       },
 
       actionFirstVerify: async (token: string) => {
         try {
-          const result = await firstVerify(token);
+          const result = await accountApi.firstVerify(token);
           console.log('result actionChangePassword:>> ', result);
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetMe error:', err);
+          console.log('actionFirstVerify error:', err);
         }
       },
     }),

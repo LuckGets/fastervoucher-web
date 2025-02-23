@@ -1,4 +1,4 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { PencilLine, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -62,7 +62,7 @@ const HotelRestaurant = () => {
 
   return (
     <div className="my-2 flex flex-col gap-3">
-      {restaurants.map((restaurantItem, index) => (
+      {restaurants?.map((restaurantItem, index) => (
         <div
           key={index}
           className="h-18 flex w-[90%] items-center justify-around rounded-xl bg-[#D9D9D9] px-5 hover:bg-[#a3a3a3a0]"

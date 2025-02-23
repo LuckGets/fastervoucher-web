@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import RegisterForm from './RegisterForm';
-import { paths } from '@/config/path';
+import { paths } from '../../../../config/path';
 
 const RegisterWrapper = () => {
   return (

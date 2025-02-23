@@ -1,4 +1,4 @@
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../stores/setting-store';
 import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

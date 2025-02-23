@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import Input from './Input';
 
@@ -22,7 +21,7 @@ const VoucherName: React.FC<VoucherNameProps> = ({
           info: name,
           label: 'Voucher Name',
         }}
-        onSave={(value) => onChange('name', value)}
+        onSave={(value) => onChange('title', value)}
       />
 
       <div className="flex items-center gap-2">

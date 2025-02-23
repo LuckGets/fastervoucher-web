@@ -7,7 +7,7 @@ import {
 } from '@dnd-kit/sortable';
 import { Plus } from 'lucide-react';
 import Sortable from './Sortable';
-import useSettingStore from '@/stores/setting-store';
+import useSettingStore from '../../../../../stores/setting-store';
 
 interface Image {
   id: number;

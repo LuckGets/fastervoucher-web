@@ -1,7 +1,6 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { ChevronDown, Plus, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const SelectRestaurant = ({
   isEditing,
@@ -16,31 +15,26 @@ const SelectRestaurant = ({
   isDropdownOpen: boolean;
   setIsDropdownOpen: (value: boolean) => void;
 }) => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher, restaurants, setRestaurant } =
-    useVoucherStore();
-
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById, restaurants } = useVoucherStore();
 
   const [newRestaurant, setNewRestaurant] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (voucher?.restaurant) {
-      setSelectedRestaurant(voucher.restaurant);
+    if (voucherById?.category) {
+      setSelectedRestaurant(voucherById.category);
     }
-  }, [voucher, setSelectedRestaurant]);
+  }, [voucherById, setSelectedRestaurant]);
 
   const handleAddRestaurant = () => {
     if (newRestaurant.trim() === '') return;
-    const updatedRestaurants = [...restaurants, { name: newRestaurant }];
-    setRestaurant(updatedRestaurants);
+    // const updatedRestaurants = [...restaurants, { name: newRestaurant }];
+    // setRestaurant(updatedRestaurants);
     setNewRestaurant('');
     setIsModalOpen(false);
 
-    if (voucher) {
-      updateVoucher(voucher.id, { restaurant: newRestaurant });
+    if (voucherById) {
+      // updateVoucher(voucher.id, { restaurant: newRestaurant });
     }
   };
 
@@ -48,8 +42,8 @@ const SelectRestaurant = ({
     setSelectedRestaurant(name);
     setIsDropdownOpen(false);
 
-    if (voucher) {
-      updateVoucher(voucher.id, { restaurant: name });
+    if (voucherById) {
+      // updateVoucher(voucher.id, { restaurant: name });
     }
   };
 

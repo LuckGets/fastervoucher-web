@@ -1,9 +1,9 @@
 import { ChevronDown, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '@/config/path';
-import { Restaurant } from '@/data-schema/restaurant.type';
+import { paths } from '../../../../config/path';
+import { Restaurant } from '../../../../data-schema/restaurant.type';
 
 interface SearchVoucherProps {
   selectedRestaurant?: string;
@@ -70,7 +70,7 @@ const SearchVoucher: React.FC<SearchVoucherProps> = ({
               <ChevronDown />
             </button>
             {isFilterDropdownOpen && (
-              <div className="absolute right-0 top-10 z-10 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
+              <div className="absolute right-0 top-10 z-20 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
                 <div className="p-2">
                   {restaurantsAndDefault.map((item) => (
                     <button

@@ -1,10 +1,11 @@
-import useAccountStore from '@/stores/account-store';
+import useAccountStore from '../../../stores/account-store';
 
 const UserAvatar = () => {
   const { accountInfo } = useAccountStore();
 
   const photoUrl = accountInfo?.photo
-    ? accountInfo.photo.startsWith('http')
+    ? accountInfo.photo.startsWith('http') ||
+      accountInfo.photo.startsWith('https')
       ? accountInfo.photo
       : `https://${accountInfo.photo}`
     : 'https://www.svgrepo.com/show/442075/avatar-default-symbolic.svg';

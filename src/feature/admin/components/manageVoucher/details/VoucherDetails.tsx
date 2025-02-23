@@ -1,20 +1,16 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Pencil } from 'lucide-react';
 
 const VoucherDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
-  const [details, setDetails] = useState(voucher?.details || '');
+  const [details, setDetails] = useState(voucherById?.description || '');
   const [isEditing, setIsEditing] = useState(false);
 
-  if (!voucher) {
+  if (!voucherById) {
     return <p>Voucher not found!</p>;
   }
 
@@ -23,12 +19,12 @@ const VoucherDetails = () => {
   };
 
   const handleSave = () => {
-    updateVoucher(voucherId, { details });
+    // updateVoucher(voucherId, { details });
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setDetails(voucher?.details || '');
+    setDetails(voucherById?.description || '');
     setIsEditing(false);
   };
 

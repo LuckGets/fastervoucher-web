@@ -1,5 +1,6 @@
 export interface Image {
   src: string;
+  children?: React.ReactNode;
 }
 
 export const carouselImages: Image[] = [

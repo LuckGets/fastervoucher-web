@@ -1,31 +1,31 @@
-import useVoucherStore from '@/stores/voucher-store';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const AddDiscount = () => {
   const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
+  const voucherId = id || '0';
 
   const [promotionName, setPromotionName] = useState<string>('');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [newValue, setNewValue] = useState<number>(0);
 
-  const { updateVoucher } = useVoucherStore();
+  // const { updateVoucher } = useVoucherStore();
 
   const handleAddPromotion = () => {
-    updateVoucher(voucherId, {
-      promotion: [
-        ...(useVoucherStore.getState().vouchers.find((v) => v.id === voucherId)
-          ?.promotion || []),
-        {
-          name: promotionName,
-          price: newValue,
-          startDate,
-          endDate,
-        },
-      ],
-    });
+    console.log('voucherId :>> ', voucherId);
+    // updateVoucher(voucherId, {
+    //   promotion: [
+    //     ...(useVoucherStore.getState().vouchers.find((v) => v.id === voucherId)
+    //       ?.promotion || []),
+    //     {
+    //       name: promotionName,
+    //       price: newValue,
+    //       startDate,
+    //       endDate,
+    //     },
+    //   ],
+    // });
 
     setPromotionName('');
     setStartDate('');

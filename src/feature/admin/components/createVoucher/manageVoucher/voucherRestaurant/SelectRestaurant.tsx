@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Plus, X, ChevronDown } from 'lucide-react';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../../stores/voucher-store';
 import { useParams } from 'react-router-dom';
 
 interface SelectRestaurantProps {
@@ -18,9 +18,8 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
   onSelectRestaurant,
 }) => {
   const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher, restaurants, setRestaurant } =
-    useVoucherStore();
+  const voucherId = id || '0';
+  const { vouchers, restaurants } = useVoucherStore();
 
   const voucher = vouchers.find((v) => v.id === voucherId);
 
@@ -36,12 +35,13 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
       setNewRestaurant((prev) => ({ ...prev, error: '' }));
     }
     const updatedRestaurants = [...restaurants, { name: newRestaurant }];
-    setRestaurant(updatedRestaurants);
-    setNewRestaurant('');
+    // setRestaurant(updatedRestaurants);
+    // setNewRestaurant('');
+    console.log('updatedRestaurants :>> ', updatedRestaurants);
     setIsModalOpen(false);
 
     if (voucher) {
-      updateVoucher(voucher.id, { restaurant: newRestaurant });
+      // updateVoucher(voucher.id, { restaurant: newRestaurant });
     }
   };
 

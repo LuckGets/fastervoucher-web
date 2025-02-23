@@ -1,17 +1,20 @@
 import { Key, LogOut, Pencil } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { paths } from '@/config/path';
-import useAuthStore from '@/stores/auth-store';
+import { paths } from '../../../config/path';
+import useAuthStore from '../../../stores/auth-store';
 import Swal from 'sweetalert2';
 import { AxiosError } from 'axios';
+import useCartStore from '../../../stores/cart-store';
 
 const UserList = () => {
   const { actionLogout } = useAuthStore();
+  const { clearCart } = useCartStore();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await actionLogout();
+      clearCart();
       Swal.fire({
         title: 'Logout Successful!',
         icon: 'success',

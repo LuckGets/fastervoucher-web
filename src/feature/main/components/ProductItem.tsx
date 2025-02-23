@@ -1,9 +1,9 @@
-import { PackageDataSchema } from '@/data-schema/package.type';
+import { PackageDataSchema } from '../../../data-schema/package.type';
 import {
   ProductDataSchema,
   ProductDiscountEnum,
-} from '@/data-schema/product.type';
-import { prependHttpsToString } from '@/utils/function/stringToUrl';
+} from '../../../data-schema/product.type';
+import { prependHttpsToString } from '../../../utils/function/stringToUrl';
 import { FC } from 'react';
 
 interface ProductItemProps {
@@ -19,30 +19,34 @@ const ProductItem: FC<ProductItemProps> = ({ product, handleOnClick }) => {
     <div
       key={product.id}
       onClick={() => handleOnClick(product)}
-      className="cursor-pointer rounded-xl p-2 active:bg-[#0000003a]"
+      className="cursor-pointer rounded-2xl active:bg-[#0000003a] md:flex md:flex-col md:items-center md:pt-2"
     >
       <img
         src={mainImg || '/placeholder-image.png'}
         alt={product.title}
-        className="h-[250px] w-[250px] rounded-2xl object-cover"
+        className="h-44 w-44 rounded-2xl object-cover md:h-48 md:w-48 lg:h-52 lg:w-52"
       />
-      <h1 className="mt-2 truncate text-sm md:text-lg">{product.title}</h1>
-      <div className="flex items-center">
-        {product.discount &&
-        product.discount.status === ProductDiscountEnum.ACTIVE ? (
-          <>
-            <h2 className="text-[11px] text-gray-500 line-through md:text-sm">
-              THB {product.price} ++
+      <div>
+        <h1 className="mt-1 truncate px-2 text-sm md:text-lg">
+          {product.title}
+        </h1>
+        <div className="flex items-center px-2">
+          {product.discount &&
+          product.discount.status === ProductDiscountEnum.ACTIVE ? (
+            <>
+              <h2 className="text-[11px] text-gray-500 line-through md:text-sm">
+                THB {product.price} ++
+              </h2>
+              <span className="ml-2 text-[11px] text-red-500 md:text-sm">
+                THB {product.discount.discountedPrice.toLocaleString()} NET
+              </span>
+            </>
+          ) : (
+            <h2 className="text-xs text-gray-500 md:text-sm">
+              THB {product.price.toLocaleString()} ++
             </h2>
-            <span className="ml-2 text-[11px] text-red-500 md:text-sm">
-              THB {product.discount.discountedPrice.toLocaleString()} NET
-            </span>
-          </>
-        ) : (
-          <h2 className="text-xs text-gray-500 md:text-sm">
-            THB {product.price.toLocaleString()} ++
-          </h2>
-        )}
+          )}
+        </div>
       </div>
       {product?.stockAmount !== undefined &&
         product?.stockAmount !== null &&

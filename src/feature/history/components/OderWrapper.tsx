@@ -1,5 +1,5 @@
 import { CalendarDays, Clock3 } from 'lucide-react';
-import { orderLists } from '@/utils/main/orderLists';
+import { orderLists } from '../../../utils/main/orderLists';
 import OrderDetails from './OderDetails';
 
 const OderWrapper = () => {

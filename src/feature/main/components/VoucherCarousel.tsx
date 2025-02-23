@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { ChevronRight } from 'lucide-react';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
-import { prependHttpsToString } from '@/utils/function/stringToUrl';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
+import { prependHttpsToString } from '../../../utils/function/stringToUrl';
 
 const variants = {
   enter: (direction: number) => ({
@@ -48,10 +48,10 @@ const VoucherCarousel = ({
   }
 
   return (
-    <div className="relative w-full md:h-[15rem] md:w-[30rem]">
+    <div className="relative w-full md:h-[15rem] md:w-[32rem]">
       <AnimatePresence initial={false} custom={direction}>
         <div
-          className="relative w-full overflow-hidden"
+          className="relative w-full overflow-hidden rounded-xl"
           style={{ paddingTop: '56.25%' }}
         >
           <motion.img

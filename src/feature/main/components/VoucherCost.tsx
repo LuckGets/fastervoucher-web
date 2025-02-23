@@ -1,5 +1,5 @@
 import VoucherCarousel from './VoucherCarousel';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../data-schema/voucher.type';
 
 interface VoucherCostProps {
   price: VoucherDataSchema['price'];
@@ -20,7 +20,7 @@ const VoucherCost = ({
         <h1 className="text-lg font-bold text-gray-800">{title}</h1>
         <h2 className="mt-1 text-sm text-gray-500">{restaurant}</h2>
         <h1 className="mb-4 mt-4 text-sm font-semibold">THB {price} NET</h1>
-        <div className="relative w-full overflow-hidden rounded-lg">
+        <div className="relative w-full overflow-hidden rounded-xl">
           <VoucherCarousel images={images || []} />
         </div>
       </div>

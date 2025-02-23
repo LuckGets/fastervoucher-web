@@ -1,14 +1,14 @@
 import {
   getManyProductQueriesOptionMapper,
   IGetManyProductQueriesOptions,
-} from '@/data-schema/product.type';
+} from '../../data-schema/product.type';
 import {
   infiniteQueryOptions,
   keepPreviousData,
   queryOptions,
 } from '@tanstack/react-query';
 import { packageApi } from './package.api';
-import { PackageDataSchema } from '@/data-schema/package.type';
+import { PackageDataSchema } from '../../data-schema/package.type';
 
 const PACKAGE_QUERY_KEY = 'package';
 
@@ -31,9 +31,14 @@ function getByIdPackageQuery(id: string) {
 
 function getManyPackageQuery(options: IGetManyProductQueriesOptions) {
   const queriesArr = getManyProductQueriesOptionMapper(options);
-  const queries = `?${queriesArr.join('&')}`;
+
+  const validQueriesArr = queriesArr.filter(
+    (query) => query !== 'undefined' && query !== undefined,
+  );
+  const queries = `?${validQueriesArr.join('&')}`;
+
   return queryOptions({
-    queryKey: [PACKAGE_QUERY_KEY, ...queriesArr],
+    queryKey: [PACKAGE_QUERY_KEY, ...validQueriesArr],
     queryFn: () => {
       return packageApi.getMany(queries);
     },

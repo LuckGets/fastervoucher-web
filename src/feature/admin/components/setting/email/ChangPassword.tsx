@@ -1,4 +1,4 @@
-import ChangePassForm from '@/feature/user/components/ChangePassForm';
+import ChangePassForm from '../../../../../feature/user/components/ChangePassForm';
 import { X } from 'lucide-react';
 
 interface ChangPasswordProps {

@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
-import SearchVoucher from '@/feature/admin/components/manageVoucher/SearchVoucher';
-import useVoucherStore from '@/stores/voucher-store';
+import SearchVoucher from '../../feature/admin/components/manageVoucher/SearchVoucher';
+import useVoucherStore from '../../stores/voucher-store';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { RestaurantQueryFunc } from '@/api/restaurant/restaurant-query';
+import { RestaurantQueryFunc } from '../../api/restaurant/restaurant-query';
+import { VoucherQueryFunc } from '../../api/voucher/voucher-query';
+import VoucherList from '../../feature/admin/components/manageVoucher/VoucherList';
 import {
-  IGetManyVoucherQueryOption,
-  VoucherQueryFunc,
-  VoucherSellDateQueryEnum,
-} from '@/api/voucher/voucher-query';
-import VoucherList from '@/feature/admin/components/manageVoucher/VoucherList';
+  IGetManyProductQueriesOptions,
+  ProductSellDateQueryEnum,
+} from '../../data-schema/product.type';
 
 const defaultPage = 1;
 
-type TVouchersQueriesState = IGetManyVoucherQueryOption & {
+type TVouchersQueriesState = IGetManyProductQueriesOptions & {
   restaurant: string;
 };
 
 const VOUCHER_QUERIES: TVouchersQueriesState = {
   meal: '',
   restaurantId: '',
-  sellDate: VoucherSellDateQueryEnum.ALL,
+  sellDate: ProductSellDateQueryEnum.ALL,
   restaurant: '',
 };
 
@@ -52,7 +52,7 @@ const ManageVoucher = () => {
       setVoucher(vouchersList.data);
       setVoucherPage(vouchersList.page);
     }
-  }, [restaurantsList, vouchersList]);
+  }, [restaurantsList, vouchersList, setRestaurant, setVoucher]);
 
   const setRestaurantQueries = (
     restaurantId: string,

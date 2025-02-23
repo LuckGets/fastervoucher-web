@@ -1,6 +1,9 @@
-import { ResponseDataList } from '@/data-schema/common.type';
+import { ResponseDataList } from '../../data-schema/common.type';
 import axios from '../../config/axios';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import {
+  CreateVoucherDataSchema,
+  VoucherDataSchema,
+} from '../../data-schema/voucher.type';
 import { AxiosResponse } from 'axios';
 
 const VOUCHER_BASE_API_ENDPOINT = {
@@ -30,6 +33,8 @@ export const voucherApi = {
     id: VoucherDataSchema['id'],
   ): Promise<AxiosResponse<ResponseDataList<VoucherDataSchema>>> =>
     axios.get(`${VOUCHER_API_ENDPOINTs.GET_BY_ID(id)}`),
+  createVoucher: (
+    data: CreateVoucherDataSchema,
+  ): Promise<AxiosResponse<ResponseDataList<VoucherDataSchema>>> =>
+    axios.post(`${VOUCHER_API_ENDPOINTs.CREATE}`, data),
 };
-
-// export const getVouchers = () => axios.get(`${VOUCHER_API_ENDPOINTs.GET_MANY}`);

@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
-import SubmitButton from '@/components/SubmitButton';
-import useAuthStore from '@/stores/auth-store';
-import type { LoginForm } from '@/api/auth/types/login-form.types';
+import {
+  Form,
+  handleInputChange,
+} from '../../../../utils/function/handleOnchange';
+import SubmitButton from '../../../../components/SubmitButton';
+import useAuthStore from '../../../../stores/auth-store';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import useAccountStore from '../../../../stores/account-store';
+import type { LoginForm } from '../../../../data-schema/auth.type';
 
 const LoginForm = () => {
-  const { actionLogin, actionRefreshToken } = useAuthStore();
+  const { actionLogin } = useAuthStore();
+  const { actionGetMe } = useAccountStore();
 
   const navigate = useNavigate();
 
@@ -52,14 +57,15 @@ const LoginForm = () => {
             confirmButton: 'custom-confirm-button',
           },
         }).then(async () => {
-          await actionRefreshToken();
+          await actionGetMe();
+          // if (accountInfo?.verifiedAt === null) {
+
+          // }
           navigate('/');
         });
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
-        const errorMessage =
-          err.response?.data?.message ||
-          'An error occurred while Login. Please try again.';
+        const errorMessage = 'Password incorrect';
         Swal.fire({
           title: 'Login Failed!',
           text: errorMessage,

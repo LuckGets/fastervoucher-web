@@ -1,5 +1,5 @@
-import { paths } from '@/config/path';
-import { sideBarList } from '@/utils/admin/sidebarList';
+import { paths } from '../../config/path';
+import { sideBarList } from '../../utils/admin/sidebarList';
 import { useNavigate } from 'react-router-dom';
 import SubSetting from './SubSetting';
 

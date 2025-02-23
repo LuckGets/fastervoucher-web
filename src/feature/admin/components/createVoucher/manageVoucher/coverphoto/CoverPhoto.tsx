@@ -1,15 +1,14 @@
-/* eslint-disable react/prop-types */
 import { Pencil, Plus } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 interface CoverPhotoProps {
-  src: string | null | undefined;
+  src: File | null | undefined;
   onChange: (field: string, value: string | null) => void;
 }
 
 const CoverPhoto: React.FC<CoverPhotoProps> = ({ src, onChange }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [previewSrc, setPreviewSrc] = useState<string | null>(src || null);
+  const [previewSrc, setPreviewSrc] = useState<File | null>(src || null);
   const [tempSrc, setTempSrc] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 

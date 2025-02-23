@@ -2,11 +2,11 @@ import {
   CreateRestaurantInput,
   Meal,
   Restaurant,
-} from '@/data-schema/restaurant.type';
+} from '../../data-schema/restaurant.type';
 import axios from '../../config/axios';
 import { AxiosResponse } from 'axios';
-import { ResponseData, ResponseDataList } from '@/data-schema/common.type';
-import NullableType from '@/utils/types/nullable.type';
+import { ResponseData, ResponseDataList } from '../../data-schema/common.type';
+import NullableType from '../../utils/types/nullable.type';
 
 const RESTAURANT_BASE_API_ENDPOINT = {
   BASE: '/categories',

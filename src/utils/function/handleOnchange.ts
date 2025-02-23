@@ -7,7 +7,7 @@ export interface Form {
   password?: string;
   oldPassword?: string;
   newPassword?: string;
-  confirmPassword?: string;
+  confirmNewPassword?: string;
 }
 
 export const handleInputChange = (

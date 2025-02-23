@@ -16,6 +16,8 @@ export type CreateVoucherDataSchema = {
   tagId: Meal['id'];
   discountedPrice?: Discount['discountedPrice'];
   mainImg: File | null;
+  status: VoucherDataSchema['status'];
+  packageImg: File | null;
 };
 
 export enum VoucherStatusEnum {

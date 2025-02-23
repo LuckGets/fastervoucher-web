@@ -1,6 +1,10 @@
-import { voucherApi } from '@/api/voucher/voucher.api';
-import { Meal, Restaurant } from '@/data-schema/restaurant.type';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { getCategories, getTag } from '../api/category/category';
+import { voucherApi } from '../api/voucher/voucher.api';
+import { Meal, Restaurant } from '../data-schema/restaurant.type';
+import {
+  CreateVoucherDataSchema,
+  VoucherDataSchema,
+} from '../data-schema/voucher.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -11,7 +15,7 @@ interface Image {
   mainImg: boolean;
 }
 
-enum DiscountStatusEnum {
+export enum DiscountStatusEnum {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'inactive',
 }
@@ -26,6 +30,7 @@ export interface Voucher {
   id: number;
   title: string;
   price: number;
+  promotionPrice?: number;
   voucherType: 'single' | 'package';
   discount?: Discount;
   stockAmount: number;
@@ -36,109 +41,94 @@ export interface Voucher {
   restaurant: string;
   meal: string;
   passcode?: string;
-  src?: string;
-  carouselImages?: Image[];
+  images?: Image | null;
+  carouselImages?: Image[] | null;
   details?: string;
-  conditions?: string;
+  termAndCond: string;
   package?: { id: number; name: string; quantity: number }[];
   freeVoucher?: { id: number; name: string; quantity: number }[];
 }
 
 interface SettingState {
+  voucherById: VoucherDataSchema | null;
   vouchers: VoucherDataSchema[];
   restaurants: Restaurant[];
   meals: Meal[];
   actionGetVouchers: () => void;
+  actionGetVoucherById: (voucherId: string) => void;
+  actionGetCategoriesAndTags: () => void;
+  actionCreateVoucher: (data: CreateVoucherDataSchema) => void;
   setRestaurant: (restaurant: Restaurant[]) => void;
   setMeal: (meal: Restaurant[]) => void;
   setVoucher: (voucher: VoucherDataSchema[]) => void;
   addVoucher: (voucher: VoucherDataSchema) => void;
-  filteredVouchers: Voucher[];
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
 }
 
 const useVoucherStore = create<SettingState>()(
   persist(
     (set) => ({
-      vouchers: [
-        // {
-        //   id: 1,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 1000,
-        //   restaurant: 'Coffee Shop',
-        //   meal: 'dinner',
-        //   passcode: 'UsePass',
-        //   src: 'https://i.imgur.com/41ygasy.png',
-        //   carouselImages: [
-        //     {
-        //       id: 1,
-        //       src: 'https://d24lh18o04muiz.cloudfront.net/66db2a49e8085191a7af970f/images/797a056c-c0e1-70ab-0a05-20391f0c3b39/1728443022-d7ygVEBB.jpg',
-        //     },
-        //     {
-        //       id: 2,
-        //       src: 'https://i.imgur.com/UelGops.jpeg',
-        //     },
-        //     {
-        //       id: 3,
-        //       src: 'https://i.imgur.com/hw3L8oP.jpeg',
-        //     },
-        //   ],
-        //   details:
-        //     'อาหารเช้า ซิกเนเจอร์ เคมปินสกี้ รวมเครื่องดื่มสปาร์คกลิ้งไวน์อย่างไม่จำกัด สำหรับ 2 ท่าน (วันจันทร์ – วันพฤหัสบดี) ราคาปกติ 2,942.50 บาทสุทธิ',
-        // },
-        // {
-        //   id: 2,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 1000,
-        //   restaurant: 'Coffee Shop',
-        //   meal: 'dinner',
-        //   src: 'https://i.imgur.com/41ygasy.png',
-        // },
-        // {
-        //   id: 3,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   price: 1800,
-        //   stockAmount: 10,
-        //   restaurant: 'Yok Chinese Restaurant',
-        //   meal: 'dinner',
-        //   passcode: 'saddxc',
-        //   src: 'https://i.imgur.com/K6t4Xue.png',
-        // },
-        // {
-        //   id: 4,
-        //   name: 'Premium Sushi & Seafood Buffet Dinner',
-        //   voucherType: 'single',
-        //   promotionPrice: 1299,
-        //   stockAmount: 9,
-        //   price: 1800,
-        //   restaurant: 'Yok Chinese Restaurant',
-        //   meal: 'dinner',
-        //   src: 'https://i.imgur.com/DmSDV96.png',
-        // },
-      ],
+      voucherById: null,
+      vouchers: [],
       restaurants: [],
-      meals: [
-        // { name: 'lunch' }, { name: 'dinner' }, { name: 'brunch' }
-      ],
+      meals: [],
       actionGetVouchers: async () => {
         try {
           const result = await voucherApi.getVouchers();
           const data = result?.data?.data;
 
-          if (data) {
+          if (data && Array.isArray(data)) {
             set({ vouchers: data });
           } else {
-            console.log('ไม่สามารถดึงข้อมูลได้ ใช้ข้อมูลเดิม');
+            console.log('Voucher information not correct');
             set({ vouchers: useVoucherStore.getState().vouchers });
           }
         } catch (error) {
           const err = error as AxiosError<{ message: string }>;
-          console.log('actionGetVouchers error:', err);
+          console.error('Error fetching voucher data:', err?.message || err);
           set({ vouchers: useVoucherStore.getState().vouchers });
+        }
+      },
+      actionGetVoucherById: async (voucherId: string) => {
+        try {
+          const result = await voucherApi.getVoucherById(voucherId);
+          const data = result?.data?.data;
+
+          if (data) {
+            set({ voucherById: data });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
+        }
+      },
+      actionGetCategoriesAndTags: async () => {
+        try {
+          const categories = await getCategories();
+          const tags = await getTag();
+
+          const categoriesData = categories?.data?.data;
+          if (categoriesData) {
+            set({ restaurants: categoriesData });
+          }
+          const tagsData = tags?.data?.data;
+          if (tagsData) {
+            set({ meals: tagsData });
+          }
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
+        }
+      },
+      actionCreateVoucher: async (data) => {
+        try {
+          const result = await voucherApi.createVoucher(data);
+
+          console.log('result :>> ', result);
+        } catch (error) {
+          const err = error as AxiosError<{ message: string }>;
+          console.error('Error fetching voucher by ID:', err?.message || err);
         }
       },
       setVoucher: (vouchers: VoucherDataSchema[]) => set({ vouchers }),
@@ -166,21 +156,9 @@ const useVoucherStore = create<SettingState>()(
 
       //     return { vouchers: [...state.vouchers, voucherWithId] };
       //   }),
-      filteredVouchers: [],
-      // filterVouchers: (searchTerm) => {
-      //   set((state) => {
-      //     const filtered = state.vouchers.filter(
-      //       (voucher: Voucher) =>
-      //         voucher.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      //         voucher.restaurant
-      //           .toLowerCase()
-      //           .includes(searchTerm.toLowerCase()),
-      //     );
-      //     return { filteredVouchers: filtered };
-      //   });
-      // },
+      searchTerm: '',
+      setSearchTerm: (searchTerm: string) => set({ searchTerm }),
     }),
-
     {
       name: 'voucher-storage',
       storage: createJSONStorage(() => localStorage),

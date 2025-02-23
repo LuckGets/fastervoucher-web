@@ -1,5 +1,5 @@
-import useSettingStore from '@/stores/setting-store';
-import { footerLinks } from '@/utils/main/footerLinks';
+import useSettingStore from '../../../../../stores/setting-store';
+import { footerLinks } from '../../../../../utils/main/footerLinks';
 
 const Footer = () => {
   const { color } = useSettingStore();

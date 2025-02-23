@@ -1,47 +1,43 @@
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 import { Pencil } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 const VoucherPrice = () => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = parseInt(id || '0');
-  const { vouchers, updateVoucher } = useVoucherStore();
-  const voucher = vouchers.find((v) => v.id === voucherId);
+  const { voucherById } = useVoucherStore();
 
-  const [newValue, setNewValue] = useState(voucher?.price || 0);
+  const [newValue, setNewValue] = useState(voucherById?.price || 0);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (voucher?.price) {
-      setNewValue(voucher.price);
+    if (voucherById?.price) {
+      setNewValue(voucherById.price);
     }
-  }, [voucher?.price]);
+  }, [voucherById?.price]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    if (voucher) {
-      updateVoucher(voucherId, { price: newValue });
+    if (voucherById) {
+      // updateVoucher(voucherId, { price: newValue });
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setNewValue(voucher?.price || 0);
+    setNewValue(voucherById?.price || 0);
     setIsEditing(false);
   };
 
-  if (!voucher) {
+  if (!voucherById) {
     return <div>Voucher not found</div>;
   }
 
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h1 className="front-semi">Normal Price</h1>
+        <h1 className="font-semibold">Normal Price</h1>
         {!isEditing && (
           <button
             onClick={handleEdit}
@@ -87,7 +83,7 @@ const VoucherPrice = () => {
           </button>
         </div>
       ) : (
-        <h2>THB {voucher.price.toLocaleString()} NET</h2>
+        <h2>THB {voucherById.price.toLocaleString()} NET</h2>
       )}
     </div>
   );

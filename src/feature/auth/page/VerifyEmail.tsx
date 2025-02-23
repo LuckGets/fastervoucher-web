@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useAccountStore from '@/stores/account-store';
+import useAccountStore from '../../../stores/account-store';
 
 const VerifyEmail = () => {
   const { actionFirstVerify } = useAccountStore();
@@ -31,7 +31,7 @@ const VerifyEmail = () => {
     };
 
     verifyEmail();
-  }, []);
+  }, [actionFirstVerify]);
 
   const renderContent = () => {
     switch (verificationStatus) {

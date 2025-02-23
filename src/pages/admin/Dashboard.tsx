@@ -1,7 +1,7 @@
-import AccountUser from '@/feature/admin/components/dashboard/AccountUser';
-import DashboardChart from '@/feature/admin/components/dashboard/DashboardChart';
-import OutletSales from '@/feature/admin/components/dashboard/OutletSales';
-import Promotion from '@/feature/admin/components/dashboard/Promotion';
+import AccountUser from '../../feature/admin/components/dashboard/AccountUser';
+import DashboardChart from '../../feature/admin/components/dashboard/DashboardChart';
+import OutletSales from '../../feature/admin/components/dashboard/OutletSales';
+import Promotion from '../../feature/admin/components/dashboard/Promotion';
 
 const Dashboard = () => {
   return (

@@ -3,7 +3,7 @@ import { screen, render, cleanup } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import LoginForm from '../LoginForm';
-import { QueryElement, ScreenQuery } from '@/testing/test-util';
+import { QueryElement, ScreenQuery } from '../../../../../testing/test-util';
 
 // constant data
 const identifierPlaceholderText = 'Email or phone';

@@ -1,5 +1,5 @@
-import { ResponseDataList } from '@/data-schema/common.type';
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { ResponseDataList } from '../../data-schema/common.type';
+import { VoucherDataSchema } from '../../data-schema/voucher.type';
 import {
   infiniteQueryOptions,
   keepPreviousData,
@@ -7,11 +7,11 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { voucherApi } from './voucher.api';
-import NullableType from '@/utils/types/nullable.type';
+import NullableType from '../../utils/types/nullable.type';
 import {
   getManyProductQueriesOptionMapper,
   IGetManyProductQueriesOptions,
-} from '@/data-schema/product.type';
+} from '../../data-schema/product.type';
 
 const VOUCHER_QUERY_KEY = 'voucher';
 

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import axios from '../../config/axios';
-import { ResponseData, ResponseDataList } from '@/data-schema/common.type';
-import { PackageDataSchema } from '@/data-schema/package.type';
+import { ResponseData, ResponseDataList } from '../../data-schema/common.type';
+import { PackageDataSchema } from '../../data-schema/package.type';
 
 const PACKAGE_BASE_API_ENDPOINT = {
   BASE: '/packages',

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import LoginGoogle from './LoginGoogle';
-import { paths } from '@/config/path';
+import { paths } from '../../../../config/path';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const LoginWrapper = () => {

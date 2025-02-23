@@ -1,4 +1,4 @@
-import { VoucherDataSchema } from '@/data-schema/voucher.type';
+import { VoucherDataSchema } from '../../../../data-schema/voucher.type';
 import { useNavigate } from 'react-router-dom';
 import VoucherItem from './VoucherItem';
 
@@ -9,7 +9,7 @@ interface VoucherListProps {
 const VoucherList: React.FC<VoucherListProps> = ({ vouchers }) => {
   const navigate = useNavigate();
 
-  const handleVoucherClick = (id: number) => {
+  const handleVoucherClick = (id: string) => {
     navigate(`${id}`);
   };
 

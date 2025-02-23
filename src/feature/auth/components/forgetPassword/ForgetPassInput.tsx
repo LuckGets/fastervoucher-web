@@ -1,6 +1,9 @@
-import { paths } from '@/config/path';
-import useSettingStore from '@/stores/setting-store';
-import { Form, handleInputChange } from '@/utils/function/handleOnchange';
+import { paths } from '../../../../config/path';
+import useSettingStore from '../../../../stores/setting-store';
+import {
+  Form,
+  handleInputChange,
+} from '../../../../utils/function/handleOnchange';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';

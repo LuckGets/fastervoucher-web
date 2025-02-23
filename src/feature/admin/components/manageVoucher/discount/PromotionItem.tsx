@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import useVoucherStore from '@/stores/voucher-store';
+import useVoucherStore from '../../../../../stores/voucher-store';
 
 interface Promotion {
   name: string;
@@ -13,7 +12,7 @@ interface Promotion {
 interface PromotionItemProps {
   promo: Promotion;
   index: number;
-  voucherId: number;
+  voucherId: string;
 }
 
 const PromotionItem: React.FC<PromotionItemProps> = ({
@@ -21,7 +20,7 @@ const PromotionItem: React.FC<PromotionItemProps> = ({
   index,
   voucherId,
 }) => {
-  const { updateVoucher, vouchers } = useVoucherStore();
+  const { vouchers } = useVoucherStore();
   const voucher = vouchers.find((v) => v.id === voucherId);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -33,13 +32,13 @@ const PromotionItem: React.FC<PromotionItemProps> = ({
 
   const handleSaveClick = () => {
     if (voucher) {
-      const updatedPromotions = [...(voucher?.promotion || [])];
+      const updatedPromotions = [...(voucher?.discount?.discountedPrice || 0)];
       updatedPromotions[index] = {
         ...editedPromo,
         startDate: editedPromo.startDate || '',
         endDate: editedPromo.endDate || '',
       };
-      updateVoucher(voucherId, { promotion: updatedPromotions });
+      // updateVoucher(voucherId, { promotion: updatedPromotions });
     }
     setIsEditing(false);
   };

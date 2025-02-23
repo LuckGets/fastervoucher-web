@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { Voucher as Vouchers } from '@/stores/voucher-store';
+import { Voucher as Vouchers } from '../../../../../../stores/voucher-store';
 import Voucher from './Voucher';
 
 interface VoucherExampleProps {

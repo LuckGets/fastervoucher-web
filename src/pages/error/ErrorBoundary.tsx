@@ -1,4 +1,4 @@
-import { paths } from '@/config/path';
+import { paths } from '../../config/path';
 import { Component } from 'react';
 
 interface ErrorBoundaryProps {

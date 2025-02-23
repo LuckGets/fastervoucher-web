@@ -1,4 +1,5 @@
-import useSettingStore from '@/stores/setting-store';
+import useVoucherStore from '../../../../stores/voucher-store';
+import useSettingStore from '../../../../stores/setting-store';
 import { ChevronDown, Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -7,7 +8,7 @@ const SearchBar = ({
 }: {
   onSearch: (searchTerm: string) => void;
 }) => {
-  const restaurant = useSettingStore((state) => state.restaurant);
+  const { restaurants } = useVoucherStore();
   const color = useSettingStore((state) => state.color);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRestaurant, setSelectedRestaurant] = useState('');
@@ -62,7 +63,7 @@ const SearchBar = ({
           {isFilterDropdownOpen && (
             <div className="absolute right-0 top-10 z-10 mt-2 w-60 rounded-lg border bg-[#E1E1E1] shadow-lg">
               <div className="p-2">
-                {restaurant.map((item) => (
+                {restaurants.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => {

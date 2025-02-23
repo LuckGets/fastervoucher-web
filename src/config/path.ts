@@ -18,6 +18,11 @@ export const paths = {
     },
   },
 
+  payment: {
+    label: 'Payment',
+    path: '/cart/payment',
+  },
+
   auth: {
     login: {
       label: 'Login',
@@ -29,7 +34,7 @@ export const paths = {
     },
     verifyEmail: {
       label: 'Verify Email',
-      path: '/confirm-email',
+      path: '/auth/verify-email',
     },
     forgetPassword: {
       label: 'Forget Password',
@@ -38,6 +43,10 @@ export const paths = {
     resetPassword: {
       label: 'Reset Password',
       path: '/auth/reset-password',
+    },
+    loginGoogleSuccess: {
+      label: 'Login Google Success',
+      path: '/google-success',
     },
   },
 
@@ -51,11 +60,16 @@ export const paths = {
       label: 'Change Password',
       path: '/user/change-password',
     },
+    changePasswordVerify: {
+      label: 'Change Password Verify',
+      path: '/change-password',
+    },
   },
 
   redeem: {
     path: '/redeem',
   },
+
   admin: {
     path: '/admin',
     dashboard: {

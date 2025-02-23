@@ -1,5 +1,5 @@
-import { paths } from '@/config/path';
-import useSettingStore from '@/stores/setting-store';
+import { paths } from '../../config/path';
+import useSettingStore from '../../stores/setting-store';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
