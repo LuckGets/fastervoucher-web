@@ -1,4 +1,9 @@
-import { queryOptions } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { restaurantApi } from './restaurant.api';
 import {
   CreateRestaurantInput,
@@ -6,29 +11,42 @@ import {
 } from '../../data-schema/restaurant.type';
 import { AxiosResponse } from 'axios';
 import { ResponseData, ResponseDataList } from '../../data-schema/common.type';
-import { mutationOptions } from '../../config/react-query';
 
-const RESTAURANT_QUERY_KEY = {
+export const RESTAURANT_QUERY_KEY = {
   BASE: 'restaurant',
   CREATE: 'create',
 };
 
 export const RestaurantQueryFunc = {
-  getMany: (page: number) => getManyRestaurantQuery(page),
-  create: (data: CreateRestaurantInput) => createRestaurantMutation(data),
+  getMany: () => getManyRestaurantQuery(),
 };
 
-function getManyRestaurantQuery(page: number = 1) {
+function getManyRestaurantQuery() {
   return queryOptions<AxiosResponse<ResponseDataList<Restaurant[]>>>({
-    queryKey: [RESTAURANT_QUERY_KEY, page],
+    queryKey: [RESTAURANT_QUERY_KEY.BASE],
     queryFn: restaurantApi.getMany,
   });
 }
 
-function createRestaurantMutation(data: CreateRestaurantInput) {
-  return mutationOptions<AxiosResponse<ResponseData<Restaurant>>>({
+export function useCreateRestaurant() {
+  const queryClient = useQueryClient();
+  return useMutation({
     mutationKey: [RESTAURANT_QUERY_KEY.BASE, RESTAURANT_QUERY_KEY.CREATE],
-    // The mutationFn should be a function that returns a Promise.
-    mutationFn: () => restaurantApi.create(data),
+    mutationFn: (
+      data: CreateRestaurantInput,
+    ): Promise<AxiosResponse<ResponseData<Restaurant>>> =>
+      restaurantApi.create(data),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [RESTAURANT_QUERY_KEY.BASE],
+      }),
+  });
+}
+
+export function useFetchRestaurantFromId(restaurantId: Restaurant['id']) {
+  return useQuery({
+    queryKey: [RESTAURANT_QUERY_KEY.BASE, restaurantId],
+    queryFn: () => restaurantApi.getById(restaurantId),
+    enabled: !!restaurantId,
   });
 }

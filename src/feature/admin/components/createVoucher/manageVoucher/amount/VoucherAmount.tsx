@@ -5,14 +5,14 @@ const VoucherAmount = ({
   onChange,
 }: {
   stockAmount: number | undefined;
-  onChange: (field: string, value: number) => void;
+  onChange: (value: number) => void;
 }) => {
   const [amount, setAmount] = useState(stockAmount || 0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     setAmount(value);
-    onChange('stockAmount', value);
+    onChange(value);
   };
 
   return (

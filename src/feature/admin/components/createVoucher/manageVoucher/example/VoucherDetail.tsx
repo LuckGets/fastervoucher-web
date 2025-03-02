@@ -1,7 +1,7 @@
-import { Voucher } from '../../../../../../stores/voucher-store';
+import { CreateVoucherData } from '@/stores/voucher-store';
 
 interface VoucherDetailProps {
-  voucher: Voucher | undefined;
+  voucher: CreateVoucherData;
 }
 
 const VoucherDetail: React.FC<VoucherDetailProps> = ({ voucher }) => {
@@ -16,7 +16,7 @@ const VoucherDetail: React.FC<VoucherDetailProps> = ({ voucher }) => {
         <div
           className="border-0 text-xs md:text-sm"
           dangerouslySetInnerHTML={{
-            __html: voucher.details || '<p>No information</p>',
+            __html: voucher.description || '<p>No information</p>',
           }}
         />
       </div>
@@ -25,7 +25,7 @@ const VoucherDetail: React.FC<VoucherDetailProps> = ({ voucher }) => {
         <div
           className="mt-2 border-0 text-xs md:text-sm"
           dangerouslySetInnerHTML={{
-            __html: voucher.termAndCond || '<p>No information</p>',
+            __html: voucher.termAndCondition || '<p>No information</p>',
           }}
         />
       </div>

@@ -1,5 +1,5 @@
+import { Meal } from './meal.type';
 import { Discount, ProductDataSchema } from './product.type';
-import { Meal } from './restaurant.type';
 
 export type VoucherDataSchema = ProductDataSchema;
 
@@ -7,7 +7,7 @@ export type CreateVoucherDataSchema = {
   title: VoucherDataSchema['title'];
   description: VoucherDataSchema['description'];
   price: VoucherDataSchema['price'];
-  termAndCond: VoucherDataSchema['termAndCondition'];
+  termAndCondition: VoucherDataSchema['termAndCondition'];
   stockAmount: VoucherDataSchema['stockAmount'];
   usableAt: VoucherDataSchema['usableAt'];
   usableExpiredAt: VoucherDataSchema['usableExpiredAt'];
@@ -17,7 +17,7 @@ export type CreateVoucherDataSchema = {
   discountedPrice?: Discount['discountedPrice'];
   mainImg: File | null;
   status: VoucherDataSchema['status'];
-  packageImg: File | null;
+  voucherImg?: File[];
 };
 
 export enum VoucherStatusEnum {

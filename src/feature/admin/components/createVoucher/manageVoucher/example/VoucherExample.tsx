@@ -1,8 +1,8 @@
-import { Voucher as Vouchers } from '../../../../../../stores/voucher-store';
+import { CreateVoucherData } from '@/stores/voucher-store';
 import Voucher from './Voucher';
 
 interface VoucherExampleProps {
-  voucher: Vouchers;
+  voucher: CreateVoucherData;
 }
 
 const VoucherExample: React.FC<VoucherExampleProps> = ({ voucher }) => {

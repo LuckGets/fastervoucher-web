@@ -1,14 +1,28 @@
-import { Voucher } from '../../../../../../stores/voucher-store';
+import { ObjectHelper } from '@/utils/object-helper/object-helper';
 import VoucherCarousel from './VoucherCarousel';
+import {
+  CreateVoucherData,
+  ImageWithPreviewSrcType,
+} from '@/stores/voucher-store';
 
 interface VoucherCostProps {
-  voucher: Voucher;
+  voucher: CreateVoucherData;
 }
 
 const VoucherCost: React.FC<VoucherCostProps> = ({ voucher }) => {
-  const { title, price, discount, images, restaurant } = voucher;
+  const { title, price, restaurantName, discountedPrice, mainImg, otherImgs } =
+    voucher;
 
-  const image = images?.filter((item) => item.mainImg)[0];
+  const previewImages: ImageWithPreviewSrcType[] = [];
+
+  if (
+    !ObjectHelper.isObjectEmpty(mainImg) &&
+    mainImg.srcFile instanceof File &&
+    mainImg.srcStr
+  )
+    previewImages.push(mainImg);
+
+  if (otherImgs && otherImgs.length > 0) previewImages.push(...otherImgs);
 
   return (
     <div className="flex gap-4">
@@ -17,11 +31,11 @@ const VoucherCost: React.FC<VoucherCostProps> = ({ voucher }) => {
           {title || 'No Information'}
         </h1>
         <h2 className="mt-1 text-sm text-gray-500">
-          {restaurant || 'No Information'}
+          {restaurantName || 'No Information'}
         </h2>
-        {discount && discount?.discountedPrice > 0 ? (
+        {discountedPrice && discountedPrice > 0 ? (
           <h1 className="mb-4 mt-4 text-sm font-semibold">
-            THB {discount?.discountedPrice.toLocaleString()} NET
+            THB {discountedPrice.toLocaleString()} NET
           </h1>
         ) : price !== undefined ? (
           <h1 className="mb-4 mt-4 text-sm font-semibold">
@@ -31,7 +45,7 @@ const VoucherCost: React.FC<VoucherCostProps> = ({ voucher }) => {
           <h1 className="mb-4 mt-4 text-sm font-semibold">No Information</h1>
         )}
         <div className="relative w-full overflow-hidden rounded-lg">
-          <VoucherCarousel images={image || []} />
+          <VoucherCarousel images={previewImages} />
         </div>
       </div>
     </div>

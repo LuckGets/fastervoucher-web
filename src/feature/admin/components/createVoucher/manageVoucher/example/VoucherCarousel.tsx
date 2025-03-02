@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wrap } from 'popmotion';
 import { ChevronRight } from 'lucide-react';
+import { ImageWithPreviewSrcType } from '@/stores/voucher-store';
 
 const variants = {
   enter: (direction: number) => ({
@@ -25,11 +26,7 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-const VoucherCarousel = ({
-  images,
-}: {
-  images: { id: number; src: string }[];
-}) => {
+const VoucherCarousel = ({ images }: { images: ImageWithPreviewSrcType[] }) => {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.length, page);
 
@@ -45,7 +42,7 @@ const VoucherCarousel = ({
     );
   }
 
-  return (
+  return images[imageIndex].srcStr ? (
     <div className="relative w-full md:h-[15rem] md:w-[30rem]">
       <AnimatePresence initial={false} custom={direction}>
         <div
@@ -54,7 +51,7 @@ const VoucherCarousel = ({
         >
           <motion.img
             key={page}
-            src={images[imageIndex].src}
+            src={images[imageIndex].srcStr || ''}
             custom={direction}
             variants={variants}
             initial="enter"
@@ -93,6 +90,8 @@ const VoucherCarousel = ({
         <ChevronRight className="text-[#D9D9D9]" />
       </div>
     </div>
+  ) : (
+    <p>No preview images available.</p>
   );
 };
 

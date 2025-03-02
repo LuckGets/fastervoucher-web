@@ -1,11 +1,11 @@
-/* eslint-disable react/prop-types */
+import { CreateVoucherDataSchema } from '@/data-schema/voucher.type';
 import { useCallback, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 interface VoucherTermProps {
   conditions: string | undefined;
-  onChange: (value: string) => void;
+  onChange: (value: CreateVoucherDataSchema['termAndCond']) => void;
 }
 
 const VoucherTerm: React.FC<VoucherTermProps> = ({ conditions, onChange }) => {

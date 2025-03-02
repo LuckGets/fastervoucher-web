@@ -1,3 +1,4 @@
+import { CreateVoucherData } from '@/stores/voucher-store';
 import SaleDate from './SaleDate';
 import UseDate from './UseDate';
 
@@ -12,7 +13,7 @@ const VoucherDate = ({
   endDate: string | undefined;
   useDateStart: string | undefined;
   useDateEnd: string | undefined;
-  onChange: (field: string, value: string | undefined) => void;
+  onChange: (field: keyof CreateVoucherData, value: string | undefined) => void;
 }) => {
   return (
     <div className="flex w-[90%] flex-col gap-6 rounded-2xl border border-[#888888] p-6 px-8">

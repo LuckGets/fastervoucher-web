@@ -1,18 +1,13 @@
-import { useState } from 'react';
+import { CreateVoucherData } from '@/stores/voucher-store';
 import Input from './Input';
 
 interface VoucherNameProps {
-  name: string;
-  passcode?: string;
-  onChange: (field: string, value: string) => void;
+  name: CreateVoucherData['title'];
+  onChange: (value: string) => void;
 }
 
-const VoucherName: React.FC<VoucherNameProps> = ({
-  name,
-  passcode,
-  onChange,
-}) => {
-  const [hasPasscode, setHasPasscode] = useState(!!passcode);
+const VoucherName: React.FC<VoucherNameProps> = ({ name, onChange }) => {
+  // const [hasPasscode, setHasPasscode] = useState(!!passcode);
 
   return (
     <div className="flex w-[90%] flex-col gap-6 rounded-2xl border border-[#888888] p-6 px-8">
@@ -21,10 +16,10 @@ const VoucherName: React.FC<VoucherNameProps> = ({
           info: name,
           label: 'Voucher Name',
         }}
-        onSave={(value) => onChange('title', value)}
+        onSave={(value) => onChange(value)}
       />
 
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <input
           type="checkbox"
           checked={hasPasscode}
@@ -48,7 +43,7 @@ const VoucherName: React.FC<VoucherNameProps> = ({
           }}
           onSave={(value) => onChange('passcode', value)}
         />
-      )}
+      )} */}
     </div>
   );
 };

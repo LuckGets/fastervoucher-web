@@ -1,14 +1,22 @@
+import { CreateVoucherDataSchema } from '@/data-schema/voucher.type';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const VoucherPrice = ({
+interface VoucherPriceProps {
+  price: number;
+  promotionPrice: number | undefined;
+  onChange: (
+    field: keyof Pick<CreateVoucherDataSchema, 'price' | 'discountedPrice'>,
+    value: number,
+  ) => void;
+  onDeletePromotionField: () => void;
+}
+
+const VoucherPrice: React.FC<VoucherPriceProps> = ({
   price,
   promotionPrice,
   onChange,
-}: {
-  price: number;
-  promotionPrice: number | undefined;
-  onChange: (field: string, value: number) => void;
+  onDeletePromotionField,
 }) => {
   const [newValue, setNewValue] = useState(price || 0);
   const [promoValue, setPromoValue] = useState(promotionPrice || 0);
@@ -35,7 +43,7 @@ const VoucherPrice = ({
 
   const handlePromoChange = () => {
     if (promoValue > 0 && promoValue < newValue) {
-      onChange('promotionPrice', promoValue);
+      onChange('discountedPrice', promoValue);
       Swal.fire({
         icon: 'success',
         title: 'Promotion Price Updated!',
@@ -46,7 +54,10 @@ const VoucherPrice = ({
       Swal.fire({
         icon: 'error',
         title: 'Invalid Promotion Price',
-        text: 'Promotion price must be lower than the normal price',
+        text:
+          promoValue > 0
+            ? 'Promotion price must be lower than the normal price'
+            : 'Promotion price should not be zero.',
         confirmButtonColor: '#d33',
       });
     }
@@ -78,7 +89,7 @@ const VoucherPrice = ({
             setHasPromotion(e.target.checked);
             if (!e.target.checked) {
               setPromoValue(0);
-              onChange('promotionPrice', 0);
+              onDeletePromotionField();
             }
           }}
           className="flex h-5 w-5 appearance-none items-center justify-center rounded-md border-2 border-gray-400 text-center before:text-sm before:text-white before:opacity-0 before:content-['✔'] checked:border-[#006838] checked:bg-[#006838] checked:before:opacity-100"

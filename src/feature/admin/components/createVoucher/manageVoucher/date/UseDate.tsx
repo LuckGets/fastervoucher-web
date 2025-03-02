@@ -1,3 +1,5 @@
+import { CreateVoucherData } from '@/stores/voucher-store';
+
 const UseDate = ({
   useDateStart,
   useDateEnd,
@@ -5,7 +7,7 @@ const UseDate = ({
 }: {
   useDateStart: string | undefined;
   useDateEnd: string | undefined;
-  onChange: (field: string, value: string | undefined) => void;
+  onChange: (field: keyof CreateVoucherData, value: string | undefined) => void;
 }) => {
   const handleUseDateStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange('usableAt', e.target.value || undefined);

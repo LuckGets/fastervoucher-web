@@ -1,9 +1,6 @@
 import { ResponseDataList } from '../../data-schema/common.type';
 import axios from '../../config/axios';
-import {
-  CreateVoucherDataSchema,
-  VoucherDataSchema,
-} from '../../data-schema/voucher.type';
+import { VoucherDataSchema } from '../../data-schema/voucher.type';
 import { AxiosResponse } from 'axios';
 
 const VOUCHER_BASE_API_ENDPOINT = {
@@ -27,14 +24,16 @@ const VOUCHER_API_ENDPOINTs = {
 export const voucherApi = {
   getVouchers: (
     queryOptions: string = '',
-  ): Promise<AxiosResponse<ResponseDataList<VoucherDataSchema[]>>> =>
-    axios.get(`${VOUCHER_API_ENDPOINTs.GET_MANY}${queryOptions}`),
+  ): Promise<ResponseDataList<VoucherDataSchema[]>> =>
+    axios
+      .get(`${VOUCHER_API_ENDPOINTs.GET_MANY}${queryOptions}`)
+      .then((resp) => resp.data),
   getVoucherById: (
     id: VoucherDataSchema['id'],
   ): Promise<AxiosResponse<ResponseDataList<VoucherDataSchema>>> =>
     axios.get(`${VOUCHER_API_ENDPOINTs.GET_BY_ID(id)}`),
   createVoucher: (
-    data: CreateVoucherDataSchema,
+    data: FormData,
   ): Promise<AxiosResponse<ResponseDataList<VoucherDataSchema>>> =>
     axios.post(`${VOUCHER_API_ENDPOINTs.CREATE}`, data),
 };

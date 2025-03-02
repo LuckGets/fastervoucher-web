@@ -1,12 +1,12 @@
-import { VoucherDataSchema } from '../../../../data-schema/voucher.type';
 import { useNavigate } from 'react-router-dom';
 import VoucherItem from './VoucherItem';
+import { ProductDataSchema } from '@/data-schema/product.type';
 
-interface VoucherListProps {
-  vouchers: VoucherDataSchema[];
+interface ProductListProps {
+  products: ProductDataSchema[];
 }
 
-const VoucherList: React.FC<VoucherListProps> = ({ vouchers }) => {
+const VoucherList: React.FC<ProductListProps> = ({ products }) => {
   const navigate = useNavigate();
 
   const handleVoucherClick = (id: string) => {
@@ -15,11 +15,11 @@ const VoucherList: React.FC<VoucherListProps> = ({ vouchers }) => {
 
   return (
     <div className="grid w-full grid-cols-4 gap-4 px-6">
-      {vouchers.map((voucher) => (
+      {products.map((product) => (
         <VoucherItem
-          key={voucher.id}
+          key={product.id}
           handleVoucherClick={handleVoucherClick}
-          voucher={voucher}
+          voucher={product}
         />
       ))}
     </div>

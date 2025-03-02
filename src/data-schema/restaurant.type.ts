@@ -1,3 +1,5 @@
+import { Meal } from './meal.type';
+
 export const ALL_RESTAURNT = 'All';
 
 export type Restaurant = {
@@ -8,10 +10,4 @@ export type Restaurant = {
 
 export type CreateRestaurantInput = {
   name: string;
-};
-
-export type Meal = {
-  id: string;
-  name: string;
-  categoryId?: string;
 };

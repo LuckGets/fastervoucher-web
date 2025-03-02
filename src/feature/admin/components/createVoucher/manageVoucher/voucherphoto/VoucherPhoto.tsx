@@ -1,13 +1,9 @@
+import { CreateVoucherData } from '@/stores/voucher-store';
 import Carousel from './Carousel';
 
 interface VoucherPhotoProps {
-  carouselImages?: Image[];
-  onChange: (field: string, value: Image[]) => void;
-}
-
-interface Image {
-  id: number;
-  src: File | null | undefined;
+  carouselImages?: CreateVoucherData['otherImgs'];
+  onChange: (value: CreateVoucherData['otherImgs']) => void;
 }
 
 const VoucherPhoto: React.FC<VoucherPhotoProps> = ({
@@ -19,9 +15,7 @@ const VoucherPhoto: React.FC<VoucherPhotoProps> = ({
       <h1>Voucher images</h1>
       <Carousel
         images={carouselImages || []}
-        onUpdateImages={(updatedImages) =>
-          onChange('carouselImages', updatedImages)
-        }
+        onUpdateImages={(updatedImages) => onChange(updatedImages)}
       />
       <div className="text-xs text-basicGray">
         <h1>

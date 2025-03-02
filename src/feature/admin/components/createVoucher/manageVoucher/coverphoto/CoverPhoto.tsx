@@ -1,15 +1,26 @@
+import {
+  CreateVoucherData,
+  ImageWithPreviewSrcType,
+} from '@/stores/voucher-store';
+import NullableType from '@/utils/types/nullable.type';
 import { Pencil, Plus } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 interface CoverPhotoProps {
-  src: File | null | undefined;
-  onChange: (field: string, value: string | null) => void;
+  src: NullableType<string | File>;
+  onChange: (value: CreateVoucherData['mainImg']) => void;
 }
 
 const CoverPhoto: React.FC<CoverPhotoProps> = ({ src, onChange }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [previewSrc, setPreviewSrc] = useState<File | null>(src || null);
-  const [tempSrc, setTempSrc] = useState<string | null>(null);
+  const [previewSrc, setPreviewSrc] = useState<ImageWithPreviewSrcType>({
+    srcStr: src as string,
+    srcFile: null,
+  });
+  const [tempSrc, setTempSrc] = useState<ImageWithPreviewSrcType>({
+    srcStr: src as string,
+    srcFile: null,
+  });
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +29,7 @@ const CoverPhoto: React.FC<CoverPhotoProps> = ({ src, onChange }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (reader.result) {
-          setTempSrc(reader.result as string);
+          setTempSrc({ srcStr: reader.result as string, srcFile: file });
         }
       };
       reader.readAsDataURL(file);
@@ -30,14 +41,14 @@ const CoverPhoto: React.FC<CoverPhotoProps> = ({ src, onChange }) => {
   const handleSave = () => {
     if (tempSrc) {
       setPreviewSrc(tempSrc);
-      onChange('src', tempSrc);
-      setTempSrc(null);
+      onChange(tempSrc);
+      setTempSrc({ srcStr: null, srcFile: null });
       setIsEditing(false);
     }
   };
 
   const handleCancel = () => {
-    setTempSrc(null);
+    setTempSrc({ srcStr: null, srcFile: null });
     setIsEditing(false);
   };
 
@@ -50,7 +61,7 @@ const CoverPhoto: React.FC<CoverPhotoProps> = ({ src, onChange }) => {
     triggerFileUpload();
   };
 
-  const displaySrc = tempSrc || previewSrc || '';
+  const displaySrc = tempSrc.srcStr || previewSrc.srcStr || '';
 
   return (
     <div className="flex w-[90%] flex-col gap-6 rounded-2xl border border-[#888888] p-6 px-8">

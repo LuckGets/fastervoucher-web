@@ -1,59 +1,50 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SearchVoucher from '../../feature/admin/components/manageVoucher/SearchVoucher';
-import useVoucherStore from '../../stores/voucher-store';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { RestaurantQueryFunc } from '../../api/restaurant/restaurant-query';
-import { VoucherQueryFunc } from '../../api/voucher/voucher-query';
-import VoucherList from '../../feature/admin/components/manageVoucher/VoucherList';
 import {
   IGetManyProductQueriesOptions,
   ProductSellDateQueryEnum,
 } from '../../data-schema/product.type';
+import FilterLoading from '@/components/FilterLoading';
+import VoucherLoading from '@/components/VoucherLoading';
+import { PaginationWithElipsis } from '@/components/PaginationWithElipsis';
+import VoucherList from '../../feature/admin/components/manageVoucher/VoucherList';
+import { useGetManyInfiniteProductQuery } from '@/api/products/product-query';
 
 const defaultPage = 1;
 
-type TVouchersQueriesState = IGetManyProductQueriesOptions & {
+type VouchersQueriesStateType = IGetManyProductQueriesOptions & {
   restaurant: string;
 };
 
-const VOUCHER_QUERIES: TVouchersQueriesState = {
+const VOUCHER_QUERIES: VouchersQueriesStateType = {
   meal: '',
   restaurantId: '',
   sellDate: ProductSellDateQueryEnum.ALL,
   restaurant: '',
+  page: defaultPage,
 };
 
 const ManageVoucher = () => {
   const [voucherQueries, setVoucherQueries] =
-    useState<TVouchersQueriesState>(VOUCHER_QUERIES);
-  const [voucherPage, setVoucherPage] = useState<number>(defaultPage);
-  const [restaurantPage, setRestaurantPage] = useState<number>(defaultPage);
-  const { setRestaurant, setVoucher, vouchers } = useVoucherStore();
+    useState<VouchersQueriesStateType>(VOUCHER_QUERIES);
 
-  const [{ data: restaurantsAxiosData }, { data: vouchersAxiosData }] =
-    useSuspenseQueries({
-      queries: [
-        RestaurantQueryFunc.getMany(restaurantPage),
-        VoucherQueryFunc.getMany(voucherQueries),
-      ],
-    });
+  const { data: restaurantsAxiosData } = useSuspenseQuery(
+    RestaurantQueryFunc.getMany(),
+  );
+
+  const {
+    data: vouchersListData,
+    isPending,
+    isError,
+    error,
+  } = useGetManyInfiniteProductQuery(voucherQueries);
 
   const { data: restaurantsList } = restaurantsAxiosData;
 
-  const { data: vouchersList } = vouchersAxiosData;
-
-  useEffect(() => {
-    if (restaurantsList) {
-      setRestaurant(restaurantsList.data);
-      setRestaurantPage(restaurantsList.page);
-    }
-
-    if (vouchersList) {
-      setVoucher(vouchersList.data);
-      setVoucherPage(vouchersList.page);
-    }
-  }, [restaurantsList, vouchersList, setRestaurant, setVoucher]);
-
+  const vouchers = vouchersListData?.pages?.flatMap((page) => page.data) || [];
+  const totalPages = vouchersListData?.pages[0]?.totalPages;
   const setRestaurantQueries = (
     restaurantId: string,
     restaurantName: string,
@@ -65,14 +56,35 @@ const ManageVoucher = () => {
     }));
   };
 
+  if (isPending) {
+    return (
+      <div className="mt-5">
+        <FilterLoading />
+        <VoucherLoading />
+      </div>
+    );
+  }
+
+  if (isError) {
+    throw new Error(error?.message);
+  }
+
   return (
     <div className="w-full">
       <SearchVoucher
+        restaurants={restaurantsList.data}
         selectedRestaurant={voucherQueries.restaurant}
         setSelectedRestaurant={setRestaurantQueries}
       />
-      {voucherPage}
-      <VoucherList vouchers={vouchers} />
+      <VoucherList products={vouchers} />
+      {totalPages && (
+        <PaginationWithElipsis
+          totalPages={totalPages}
+          onPageChanges={(page: number) =>
+            setVoucherQueries((prev) => ({ ...prev, page }))
+          }
+        />
+      )}
     </div>
   );
 };

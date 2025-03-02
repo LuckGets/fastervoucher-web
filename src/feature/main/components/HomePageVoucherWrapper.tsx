@@ -67,7 +67,7 @@ const HomePageProductList: FC<HomePageProductListProps> = ({ queries }) => {
   } = useInfiniteQuery(PackageQueryFunc.getManyInfinite(queries));
 
   const vouchers: VoucherDataSchema[] =
-    vouchersAxiosData?.pages?.flatMap((page) => page.data.data) || [];
+    vouchersAxiosData?.pages?.flatMap((page) => page.data) || [];
   const packages: PackageDataSchema[] =
     packagesAxiosData?.pages?.flatMap((page) => page.data.data) || [];
 

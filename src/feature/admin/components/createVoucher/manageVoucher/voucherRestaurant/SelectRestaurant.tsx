@@ -1,53 +1,25 @@
 import { useState } from 'react';
-import { Plus, X, ChevronDown } from 'lucide-react';
-import useVoucherStore from '../../../../../../stores/voucher-store';
-import { useParams } from 'react-router-dom';
+import { Plus, ChevronDown } from 'lucide-react';
+import AddRestaurantModal from './AddRestaurant';
+import { Restaurant } from '@/data-schema/restaurant.type';
+import useVoucherStore from '@/stores/voucher-store';
 
 interface SelectRestaurantProps {
-  restaurant: string;
-  onSelectRestaurant: (field: string, value: string) => void;
+  restaurants: Restaurant[];
 }
 
-const INIT_ADD_RESTAURANT = {
-  name: '',
-  error: '',
-};
+const SelectRestaurant: React.FC<SelectRestaurantProps> = ({ restaurants }) => {
+  const { updateCreateVoucherData, createVoucherData } = useVoucherStore();
 
-const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
-  restaurant,
-  onSelectRestaurant,
-}) => {
-  const { id } = useParams<{ id: string }>();
-  const voucherId = id || '0';
-  const { vouchers, restaurants } = useVoucherStore();
-
-  const voucher = vouchers.find((v) => v.id === voucherId);
-
-  const [newRestaurant, setNewRestaurant] = useState(INIT_ADD_RESTAURANT);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedRestaurant, setSelectedRestaurant] = useState<string | null>(
-    restaurant || null,
-  );
 
-  const handleAddRestaurant = () => {
-    if (newRestaurant.name.trim() === '') {
-      setNewRestaurant((prev) => ({ ...prev, error: '' }));
-    }
-    const updatedRestaurants = [...restaurants, { name: newRestaurant }];
-    // setRestaurant(updatedRestaurants);
-    // setNewRestaurant('');
-    console.log('updatedRestaurants :>> ', updatedRestaurants);
-    setIsModalOpen(false);
-
-    if (voucher) {
-      // updateVoucher(voucher.id, { restaurant: newRestaurant });
-    }
-  };
-
-  const handleSelectRestaurant = (name: string) => {
-    setSelectedRestaurant(name);
-    onSelectRestaurant('restaurant', name);
+  const handleSelectRestaurant = (
+    id: Restaurant['id'],
+    name: Restaurant['name'],
+  ) => {
+    updateCreateVoucherData('restaurantId', id);
+    updateCreateVoucherData('restaurantName', name);
     setIsDropdownOpen(false);
   };
 
@@ -57,7 +29,7 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
         onClick={() => setIsDropdownOpen((prev) => !prev)}
         className="relative z-40 flex w-full items-center justify-between rounded-full bg-[#E1E1E1] p-2 px-5"
       >
-        {selectedRestaurant || 'Select a restaurant'}
+        {createVoucherData.restaurantName || 'Select a restaurant'}
         <ChevronDown />
       </button>
 
@@ -66,7 +38,7 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
           {restaurants.map((item, index) => (
             <div
               key={index}
-              onClick={() => handleSelectRestaurant(item.name)}
+              onClick={() => handleSelectRestaurant(item.id, item.name)}
               className="cursor-pointer p-2 px-5 hover:bg-[#EEEEEE]"
             >
               {item.name}
@@ -86,33 +58,7 @@ const SelectRestaurant: React.FC<SelectRestaurantProps> = ({
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative flex w-[30%] flex-col items-center gap-3 rounded-lg bg-[#F7F3ED] px-10 py-14 shadow-lg">
-            <button
-              className="absolute right-2 top-2 text-gray-400 hover:text-black"
-              onClick={() => setIsModalOpen(false)}
-            >
-              <X />
-            </button>
-            <h2 className="mb-4 text-center text-xl font-semibold">
-              Add restaurant
-            </h2>
-            <input
-              type="text"
-              value={newRestaurant}
-              onChange={(e) => setNewRestaurant(e.target.value)}
-              className="w-full rounded-full border bg-[#E1E1E1] p-2"
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={handleAddRestaurant}
-                className="rounded-full bg-[#2BB673] px-8 py-2 text-white"
-              >
-                Add restaurant
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddRestaurantModal handleCloseBtn={() => setIsModalOpen(false)} />
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { commonQueryOptionsMapper, IPaginationOption } from './common.type';
-import { Meal, Restaurant } from './restaurant.type';
+import { Meal } from './meal.type';
+import { Restaurant } from './restaurant.type';
 
 export enum ProductStatusQueryEnum {
   ALL = 'ALL',

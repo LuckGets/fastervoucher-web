@@ -1,4 +1,5 @@
 export interface ResponseDataList<T> {
+  totalPages: number;
   page: number;
   cursor: string;
   data: T;
@@ -10,6 +11,11 @@ export interface ResponseData<T> {
   data: T;
   message: string;
   HTTPStatusCode: number;
+}
+
+export interface ErrorResponse {
+  message: string;
+  timestamp: string;
 }
 
 export interface IPaginationOption {

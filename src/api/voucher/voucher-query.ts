@@ -1,9 +1,13 @@
-import { ResponseDataList } from '../../data-schema/common.type';
+import { ResponseData, ResponseDataList } from '../../data-schema/common.type';
 import { VoucherDataSchema } from '../../data-schema/voucher.type';
 import {
   infiniteQueryOptions,
   keepPreviousData,
   queryOptions,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { voucherApi } from './voucher.api';
@@ -13,9 +17,12 @@ import {
   IGetManyProductQueriesOptions,
 } from '../../data-schema/product.type';
 
-const VOUCHER_QUERY_KEY = 'voucher';
+const VOUCHER_QUERY_KEY = {
+  BASE: 'voucher',
+  CREATE: 'create',
+  INFINITE: 'infinite',
+};
 
-const VOUCHER_INFINITE_QUERY_KEY = 'infinite';
 export const VoucherQueryFunc = {
   getMany: (options?: IGetManyProductQueriesOptions) =>
     getManyVouchersQuery(options),
@@ -30,7 +37,7 @@ function getManyVouchersQuery(
   const queriesArr = getManyProductQueriesOptionMapper(options);
   const queries = `?${queriesArr.join('&')}`;
   return queryOptions({
-    queryKey: [VOUCHER_QUERY_KEY, ...queriesArr],
+    queryKey: [VOUCHER_QUERY_KEY.BASE, ...queriesArr],
     queryFn: () => {
       return voucherApi.getVouchers(queries);
     },
@@ -39,12 +46,10 @@ function getManyVouchersQuery(
 }
 
 function getManyVouchersInfiniteQuery(options: IGetManyProductQueriesOptions) {
-  return infiniteQueryOptions<
-    AxiosResponse<ResponseDataList<VoucherDataSchema[]>>
-  >({
+  return infiniteQueryOptions({
     queryKey: [
-      VOUCHER_QUERY_KEY,
-      VOUCHER_INFINITE_QUERY_KEY,
+      VOUCHER_QUERY_KEY.BASE,
+      VOUCHER_QUERY_KEY.INFINITE,
       ...getManyProductQueriesOptionMapper(options),
     ],
     queryFn: async ({ pageParam = '' }) => {
@@ -63,7 +68,7 @@ function getManyVouchersInfiniteQuery(options: IGetManyProductQueriesOptions) {
     },
     getNextPageParam: (lastPage) => {
       // 3. Return the next cursor from the latest response
-      return lastPage?.data?.cursor || undefined;
+      return lastPage?.cursor || undefined;
     },
     initialPageParam: '',
     placeholderData: keepPreviousData,
@@ -77,4 +82,37 @@ function getVoucherByIdQuery(id: VoucherDataSchema['id']) {
     queryKey: [VOUCHER_QUERY_KEY, id],
     queryFn: () => voucherApi.getVoucherById(id),
   });
+}
+
+export function useCreateVoucher() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [VOUCHER_QUERY_KEY.CREATE],
+    mutationFn: (
+      data: FormData,
+    ): Promise<AxiosResponse<ResponseData<VoucherDataSchema>>> =>
+      voucherApi.createVoucher(data),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [VOUCHER_QUERY_KEY.BASE],
+      }),
+  });
+}
+
+export function useFetchedVouchers<T>(
+  options: IGetManyProductQueriesOptions,
+  enableAttr: T,
+) {
+  const queryOption = { ...getManyVouchersQuery(options) };
+  if (enableAttr) queryOption.enabled = !!enableAttr;
+  return useQuery(queryOption);
+}
+
+export function useFetchedInfiniteVouchers<T>(
+  options: IGetManyProductQueriesOptions,
+  enableAttr: T,
+) {
+  const queryOption = { ...getManyVouchersInfiniteQuery(options) };
+  if (enableAttr) queryOption.enabled = !!enableAttr;
+  return useInfiniteQuery(queryOption);
 }

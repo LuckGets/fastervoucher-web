@@ -1,10 +1,6 @@
-import { ProductStatusEnum } from '../../data-schema/product.type';
 import ScrollTop from '../../components/ScrollTop';
 import { paths } from '../../config/path';
-import {
-  CreateVoucherDataSchema,
-  // VoucherDataSchema,
-} from '../../data-schema/voucher.type';
+import { CreateVoucherDataSchema } from '../../data-schema/voucher.type';
 import VoucherAmount from '../../feature/admin/components/createVoucher/manageVoucher/amount/VoucherAmount';
 import CoverPhoto from '../../feature/admin/components/createVoucher/manageVoucher/coverphoto/CoverPhoto';
 import VoucherDate from '../../feature/admin/components/createVoucher/manageVoucher/date/VoucherDate';
@@ -17,164 +13,166 @@ import VoucherName from '../../feature/admin/components/createVoucher/manageVouc
 import VoucherPhoto from '../../feature/admin/components/createVoucher/manageVoucher/voucherphoto/VoucherPhoto';
 import VoucherRestaurant from '../../feature/admin/components/createVoucher/manageVoucher/voucherRestaurant/VoucherRestaurant';
 import VoucherTypes from '../../feature/admin/components/createVoucher/manageVoucher/voucherType/VoucherTypes';
-import useVoucherStore from '../../stores/voucher-store';
-import { useState } from 'react';
+import useVoucherStore, { CreateVoucherData } from '../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { AxiosError } from 'axios';
+import ErrorNotification from '../error/ErrorNotification';
+import handleApiError from '@/utils/error/handleApiError';
+import SuccessNotification from '@/components/notifications/SuccessNotification';
+import { useCreateVoucher } from '@/api/voucher/voucher-query';
 
-const initialVoucherData: CreateVoucherDataSchema = {
-  title: '',
-  tagId: '',
-  price: 0,
-  stockAmount: 0,
-  sellStartedAt: '',
-  sellExpiredAt: '',
-  usableAt: '',
-  usableExpiredAt: '',
-  termAndCond: '',
-  description: '',
-  mainImg: null,
-  packageImg: null,
-  status: ProductStatusEnum.ACTIVE,
-  discountedPrice: 0,
+const createVoucherFieldsUIMapper: Partial<
+  Record<keyof CreateVoucherDataSchema, string>
+> & { restaurantName: string } = {
+  title: 'Voucher Name',
+  description: 'Voucher details',
+  termAndCondition: 'Voucher terms and conditions',
+  restaurantName: 'Restaurant',
+  tagId: 'Meal',
+  price: 'Normal Price',
+  discountedPrice: 'Promotion Price',
+  stockAmount: 'Stock Amount',
+  sellStartedAt: 'Sale Start Date',
+  sellExpiredAt: 'Sale End Date',
+  usableAt: 'Use Date Start',
+  usableExpiredAt: 'Use Date End',
+  mainImg: 'Voucher Cover Photo',
 };
 
 const CreateVoucher = () => {
-  const { actionCreateVoucher } = useVoucherStore();
+  const {
+    createVoucherData,
+    updateCreateVoucherData,
+    resetCreateVoucherData,
+    sanitizeCreateVoucherDataBeforeCreate,
+    removeCreateVoucherDataField,
+  } = useVoucherStore();
   const navigate = useNavigate();
 
-  const [voucherData, setVoucherData] = useState(initialVoucherData);
-  const [selectedVoucher, setSelectedVoucher] = useState<{
-    id: number;
-    quantity: number;
-  } | null>(null);
+  // For creating voucher API.
+  const createVoucherMutation = useCreateVoucher();
 
-  const [voucherType, setVoucherType] = useState<'single' | 'package'>(
-    'single',
-  );
-  console.log('selectedVoucher :>> ', selectedVoucher);
+  const handleSubmitCreateVoucher = async () => {
+    const { data, missingFields } =
+      sanitizeCreateVoucherDataBeforeCreate(createVoucherData);
 
-  const [freeVoucher, setFreeVoucher] = useState<{
-    id: number;
-    quantity: number;
-  } | null>(null);
-
-  console.log('freeVoucher :>> ', freeVoucher);
-
-  const updateVoucherData = (
-    field: string,
-    value: string | number | unknown | Date | undefined | string[],
-  ) => {
-    setVoucherData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  // const getVoucherName = (id: string) => {
-  //   const voucher = vouchers.find((voucher) => voucher.id === id);
-  //   return voucher ? voucher.title : 'Unknown Voucher';
-  // };
-  const handleCreateVoucher = async () => {
-    if (!voucherData.title.trim()) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Voucher name is required',
-      });
-      return;
+    // If the form is still not completed,
+    // return the notification.
+    if (missingFields.length > 0) {
+      const fields = missingFields.map(
+        (item: keyof CreateVoucherDataSchema) =>
+          createVoucherFieldsUIMapper[item],
+      );
+      const text = `These required fields have no value: ${fields.join(', ')}. Please input the information before proceed.`;
+      const title = 'Voucher form not complete';
+      return ErrorNotification({ text, title });
     }
 
     try {
-      if (voucherType === 'single') {
-        console.log('voucherData :>> ', voucherData);
-        const result = await actionCreateVoucher(voucherData);
-        console.log('result :>> ', result);
-        console.log('setVoucherType :>> ', setVoucherType);
-      }
-      Swal.fire({
-        icon: 'success',
-        title: 'Voucher created successfully!',
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => navigate(paths.admin.voucher.path));
+      const resp = await createVoucherMutation.mutateAsync(data);
 
-      setVoucherData(initialVoucherData);
-    } catch (error) {
-      const err = error as AxiosError<{ message: string }>;
-      Swal.fire({ icon: 'error', title: 'Error', text: err?.message });
+      if (!resp || !resp.data) {
+        throw new Error('Voucher creation failed: missing data');
+      }
+
+      const { data: newVoucherData } = resp.data;
+      resetCreateVoucherData();
+      SuccessNotification({
+        title: `Create voucher success!`,
+        text: `Create voucher name: ${newVoucherData.title} success!`,
+        navigateLink: {
+          pageName: 'Manage voucher',
+          link: paths.admin.voucher.path,
+          navigateFunc: navigate,
+        },
+      });
+    } catch (err) {
+      handleApiError(err);
     }
   };
+
+  const displayImg =
+    createVoucherData.mainImg.srcFile instanceof File
+      ? createVoucherData.mainImg.srcStr
+      : null;
 
   return (
     <div>
       <div className="mb-12 flex w-full justify-between">
         <div className="flex w-1/2 flex-col gap-4">
           <VoucherName
-            name={voucherData.title}
-            passcode={voucherData.passcode}
-            onChange={updateVoucherData}
+            name={createVoucherData.title}
+            onChange={(value) => updateCreateVoucherData('title', value)}
           />
-          <VoucherRestaurant
-            restaurant={voucherData.category}
-            onChange={updateVoucherData}
-          />
-          <VoucherMeal meal={voucherData.tagId} onChange={updateVoucherData} />
+          <VoucherRestaurant />
+          <VoucherMeal />
 
           <VoucherTypes
-            voucherType={voucherType}
-            onChange={(value) => updateVoucherData('voucherType', value)}
-            onPackageChange={(data) => {
-              if (data.package) setSelectedVoucher(data.package[0]);
-              if (data.freeVoucher) setFreeVoucher(data.freeVoucher[0]);
-            }}
+            voucherType={createVoucherData.voucherType}
+            onChange={(value: CreateVoucherData['voucherType']) =>
+              updateCreateVoucherData<'voucherType'>('voucherType', value)
+            }
           />
-
           <VoucherPrice
-            price={voucherData.price}
-            promotionPrice={voucherData.discountedPrice}
-            onChange={updateVoucherData}
+            onDeletePromotionField={() =>
+              removeCreateVoucherDataField('discountedPrice')
+            }
+            price={createVoucherData.price}
+            promotionPrice={createVoucherData.discountedPrice}
+            onChange={updateCreateVoucherData}
           />
           <VoucherDate
-            startDate={voucherData.sellStartedAt}
-            endDate={voucherData.sellExpiredAt}
-            useDateStart={voucherData.usableAt}
-            useDateEnd={voucherData.usableExpiredAt}
-            onChange={updateVoucherData}
+            startDate={createVoucherData.sellStartedAt}
+            endDate={createVoucherData.sellExpiredAt}
+            useDateStart={createVoucherData.usableAt}
+            useDateEnd={createVoucherData.usableExpiredAt}
+            onChange={updateCreateVoucherData}
           />
           <VoucherAmount
-            stockAmount={voucherData.stockAmount}
-            onChange={updateVoucherData}
+            stockAmount={createVoucherData.stockAmount}
+            onChange={(value) => updateCreateVoucherData('stockAmount', value)}
           />
           <CoverPhoto
-            src={voucherData.mainImg ?? null}
-            onChange={updateVoucherData}
+            src={displayImg}
+            onChange={(value: CreateVoucherData['mainImg']) =>
+              updateCreateVoucherData('mainImg', value)
+            }
           />
           <VoucherPhoto
-            carouselImages={voucherData.packageImg}
-            onChange={updateVoucherData}
+            carouselImages={createVoucherData.otherImgs}
+            onChange={(value: CreateVoucherData['otherImgs']) =>
+              updateCreateVoucherData('otherImgs', value)
+            }
           />
           <VoucherDetails
-            details={voucherData.description}
-            onChange={(value: string) => updateVoucherData('details', value)}
+            details={createVoucherData.description}
+            onChange={(value: CreateVoucherDataSchema['description']) =>
+              updateCreateVoucherData('description', value)
+            }
           />
           <VoucherTerm
-            conditions={voucherData.termAndCond}
-            onChange={(value: string) => updateVoucherData('conditions', value)}
+            conditions={createVoucherData.termAndCondition}
+            onChange={(value: CreateVoucherDataSchema['termAndCondition']) =>
+              updateCreateVoucherData('termAndCondition', value)
+            }
           />
         </div>
         <div className="flex w-1/2 flex-grow items-center justify-center">
-          <VoucherExample voucher={voucherData} />
+          <VoucherExample voucher={createVoucherData} />
         </div>
       </div>
       <div className="mb-16 flex justify-center">
         <button
           className="mt-4 w-[40%] rounded-full bg-[#2BB673] px-4 py-2 text-white"
-          onClick={handleCreateVoucher}
+          onClick={handleSubmitCreateVoucher}
         >
           Create Voucher
+        </button>
+        <button
+          className="mt-4 w-[40%] rounded-full bg-gray-500 px-4 py-2 text-white"
+          onClick={resetCreateVoucherData}
+        >
+          Reset
         </button>
       </div>
       <ScrollTop />

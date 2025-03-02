@@ -1,11 +1,11 @@
-import { Voucher as Vouchers } from '../../../../../../stores/voucher-store';
 import { ShoppingCart } from 'lucide-react';
 import VoucherCost from './VoucherCost';
 import VoucherDetail from './VoucherDetail';
 import useSettingStore from '../../../../../../stores/setting-store';
+import { CreateVoucherData } from '@/stores/voucher-store';
 
 interface VoucherProps {
-  voucher: Vouchers;
+  voucher: CreateVoucherData;
 }
 
 const Voucher: React.FC<VoucherProps> = ({ voucher }) => {

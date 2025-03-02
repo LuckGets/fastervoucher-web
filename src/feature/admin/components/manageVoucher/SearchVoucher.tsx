@@ -1,11 +1,11 @@
 import { ChevronDown, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
-import useVoucherStore from '../../../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../../../config/path';
 import { Restaurant } from '../../../../data-schema/restaurant.type';
 
 interface SearchVoucherProps {
+  restaurants: Restaurant[];
   selectedRestaurant?: string;
   setSelectedRestaurant: (restaurantId: string, restaurantName: string) => void;
 }
@@ -16,11 +16,11 @@ const defaultSelectedRestaurantObj: Pick<Restaurant, 'id' | 'name'> = {
 };
 
 const SearchVoucher: React.FC<SearchVoucherProps> = ({
+  restaurants,
   selectedRestaurant,
   setSelectedRestaurant,
 }) => {
   const navigate = useNavigate();
-  const { restaurants } = useVoucherStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const restaurantsAndDefault: Pick<Restaurant, 'id' | 'name'>[] = [

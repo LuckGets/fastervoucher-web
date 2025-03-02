@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 import { GripVertical, PencilLine, Trash2 } from 'lucide-react';
@@ -24,12 +23,23 @@ const Sortable: React.FC<SortableProps> = ({
     transition,
   };
 
+  function handleStopPropagation<E extends React.SyntheticEvent>(
+    e: E,
+    handlerFunc: ((e: E) => void) | (() => void),
+  ): void {
+    e.stopPropagation();
+    if (handlerFunc.length > 0) {
+      (handlerFunc as (e: E) => void)(e);
+    } else {
+      (handlerFunc as () => void)();
+    }
+  }
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
+      // {...listeners}
       className="flex h-24 w-[90%] items-center justify-around rounded-xl bg-[#D9D9D9] hover:bg-[#a3a3a3a0]"
     >
       <div className="h-14 w-28 overflow-hidden rounded-xl">
@@ -38,13 +48,19 @@ const Sortable: React.FC<SortableProps> = ({
       <div className="flex gap-6 text-basicGray">
         <label className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#888888] hover:text-textWhite">
           <PencilLine />
-          <input type="file" onChange={onEditImage} className="hidden" />
+          <input
+            type="file"
+            onChange={(e) => handleStopPropagation(e, onEditImage)}
+            className="hidden"
+          />
         </label>
         <label className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#888888] hover:text-textWhite">
-          <Trash2 className="cursor-pointer" onClick={onDeleteImage} />
+          <div onClick={(e) => handleStopPropagation(e, onDeleteImage)}>
+            <Trash2 className="cursor-pointer" />
+          </div>
         </label>
       </div>
-      <div className="text-basicGray">
+      <div className="text-basicGray" {...listeners}>
         <GripVertical />
       </div>
     </div>
