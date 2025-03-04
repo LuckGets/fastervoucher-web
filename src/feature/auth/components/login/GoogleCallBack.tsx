@@ -58,7 +58,7 @@ const GoogleCallback = () => {
         navigate(`${paths.auth.login.path}`);
       });
     }
-  }, [navigate, setTokens]);
+  }, [navigate, setTokens, actionGetMe]);
 
   return (
     <div>

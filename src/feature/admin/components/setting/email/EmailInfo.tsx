@@ -3,7 +3,7 @@ import { Pencil } from 'lucide-react';
 import useSettingStore, {
   SettingState,
 } from '../../../../../stores/setting-store';
-import { OwnerDataSchema } from '@/data-schema/owner.type';
+import { OwnerDataSchema } from '../../../../../data-schema/owner.type';
 import Swal from 'sweetalert2';
 interface ProfileInfoProps {
   userInfo: {

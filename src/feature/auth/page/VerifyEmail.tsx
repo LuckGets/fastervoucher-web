@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { accountApi } from '@/api/accounts/account';
+import { accountApi } from '../../../api/accounts/account';
 import Swal from 'sweetalert2';
 import { AxiosError } from 'axios';
 

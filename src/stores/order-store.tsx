@@ -1,5 +1,5 @@
-import { orderApi } from '@/api/order/order.api';
-import { OrderDataSchema } from '@/data-schema/order.type';
+import { orderApi } from '../api/order/order.api';
+import { OrderDataSchema } from '../data-schema/order.type';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
