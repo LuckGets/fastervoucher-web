@@ -2,11 +2,11 @@ import useSettingStore from '../../../../stores/setting-store';
 import { useState } from 'react';
 
 const Verify = () => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   const handleChange = (element: HTMLInputElement, index: number) => {

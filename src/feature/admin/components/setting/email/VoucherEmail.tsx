@@ -6,7 +6,7 @@ import ChangePassword from './ChangPassword';
 
 const VoucherEmail = () => {
   const [changeOpen, setChangeOpen] = useState(false);
-  const { emailForSend } = useSettingStore();
+  const { emailForSendNotification } = useSettingStore();
 
   const handleOnClick = () => {
     setChangeOpen(!changeOpen);
@@ -19,9 +19,9 @@ const VoucherEmail = () => {
     >
       <EmailInfo
         userInfo={{
-          info: emailForSend,
+          info: emailForSendNotification,
           label: 'Email ที่ใช้ส่งให้ลูกค้า',
-          key: 'emailForSend',
+          key: 'emailForSendNotification',
         }}
       />
       <h1

@@ -14,12 +14,12 @@ const SubmitButton = ({
   disabled,
   isLoading,
 }: SubmitButtonProps) => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
 
   const bgColor = disabled
     ? { backgroundColor: '#D9D9D9' }
-    : color
-      ? { backgroundColor: color }
+    : colorCode
+      ? { backgroundColor: colorCode }
       : { backgroundColor: '#D1D5DB' };
 
   return (

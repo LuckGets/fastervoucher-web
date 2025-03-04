@@ -12,13 +12,14 @@ const ORDER_API_ENDPOINTs = {
   GET_BY_ID: function (orderId: string): string {
     return `${ORDER_BASE_API_ENDPOINT.BASE}/${orderId}`;
   },
+  GET_MY_ORDER: `${ORDER_BASE_API_ENDPOINT.BASE}/me`,
   CREATE: `${ORDER_BASE_API_ENDPOINT.BASE}`,
   UPDATE: function (orderId: string): string {
     return `${ORDER_BASE_API_ENDPOINT.BASE}/${orderId}`;
   },
 };
 
-export const voucherApi = {
+export const orderApi = {
   getOrders: (
     queryOptions: string = '',
   ): Promise<AxiosResponse<ResponseDataList<OrderDataSchema[]>>> =>
@@ -27,6 +28,8 @@ export const voucherApi = {
     id: OrderDataSchema['id'],
   ): Promise<AxiosResponse<ResponseDataList<OrderDataSchema>>> =>
     axios.get(`${ORDER_API_ENDPOINTs.GET_BY_ID(id)}`),
+  getMyOrder: (): Promise<AxiosResponse<ResponseDataList<OrderDataSchema>>> =>
+    axios.get(`${ORDER_API_ENDPOINTs.GET_MY_ORDER}`),
   createOrder: (
     data: OrderDataSchema,
   ): Promise<AxiosResponse<ResponseDataList<OrderDataSchema>>> =>

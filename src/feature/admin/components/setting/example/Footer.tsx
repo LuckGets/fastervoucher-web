@@ -2,10 +2,10 @@ import useSettingStore from '../../../../../stores/setting-store';
 import { footerLinks } from '../../../../../utils/main/footerLinks';
 
 const Footer = () => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   return (

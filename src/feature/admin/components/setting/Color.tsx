@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
+import Swal from 'sweetalert2';
 import useSettingStore from '../../../../stores/setting-store';
 
 const Color = () => {
-  const initialColor = '#006838';
+  const { colorCode, actionGetShopInfo, actionEditShopInfo } =
+    useSettingStore();
+  const [color, setColor] = useState<string>(colorCode);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const color = useSettingStore((state) => state.color);
-  const setColor = useSettingStore((state) => state.setColor);
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -17,19 +17,56 @@ const Color = () => {
   const handleTextInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const value = event.target.value;
-    if (/^#?[0-9A-Fa-f]{6}$/.test(value)) {
-      setColor(`#${value.replace(/^#/, '')}`);
+    let value = event.target.value;
+    if (!value.startsWith('#')) {
+      value = `#${value}`;
+    }
+    setColor(value);
+  };
+
+  const handleSave = async () => {
+    try {
+      await setIsEditing(false);
+      actionEditShopInfo({ colorCode: color });
+      Swal.fire({
+        icon: 'success',
+        title: 'Color saved!',
+        text: `New color: ${color}`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+      await actionGetShopInfo();
+    } catch (error) {
+      console.error('Error saving color:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Save failed!',
+        text: 'There was an issue saving the color.',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
     }
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-  };
-
   const handleCancel = () => {
-    setColor(initialColor);
+    setColor(colorCode);
     setIsEditing(false);
+    Swal.fire({
+      icon: 'info',
+      title: 'Changes discarded!',
+      text: 'Color changes have been canceled.',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+    });
   };
 
   return (
@@ -55,7 +92,7 @@ const Color = () => {
             />
             <input
               type="text"
-              value={color.replace('#', '')}
+              value={color}
               onChange={handleTextInputChange}
               className="w-24 rounded border border-gray-300 p-1"
               placeholder="Enter HEX"

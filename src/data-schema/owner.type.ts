@@ -7,11 +7,11 @@ export interface ImageData {
 }
 
 export interface OwnerDataSchema {
-  id: string;
-  emailForSendNotification: string;
-  colorCode: string;
-  name: string;
-  img: ImageData[];
+  id?: string;
+  emailForSendNotification?: string;
+  colorCode?: string;
+  name?: string;
+  img?: ImageData[];
 }
 
 export type password = {

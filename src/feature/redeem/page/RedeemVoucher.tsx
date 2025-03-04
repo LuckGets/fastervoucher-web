@@ -2,9 +2,9 @@ import useSettingStore from '../../../stores/setting-store';
 import { CalendarDays, Clock3 } from 'lucide-react';
 
 const RedeemVoucher = () => {
-  const { color } = useSettingStore();
-  const bgColor = color
-    ? { backgroundColor: color }
+  const { colorCode } = useSettingStore();
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   return (

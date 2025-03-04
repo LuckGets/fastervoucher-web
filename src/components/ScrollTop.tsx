@@ -3,11 +3,11 @@ import { ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ScrollTop = () => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const [isVisible, setIsVisible] = useState(false);
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   useEffect(() => {

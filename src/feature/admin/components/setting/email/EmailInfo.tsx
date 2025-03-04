@@ -3,7 +3,8 @@ import { Pencil } from 'lucide-react';
 import useSettingStore, {
   SettingState,
 } from '../../../../../stores/setting-store';
-
+import { OwnerDataSchema } from '@/data-schema/owner.type';
+import Swal from 'sweetalert2';
 interface ProfileInfoProps {
   userInfo: {
     info: string;
@@ -14,7 +15,7 @@ interface ProfileInfoProps {
 
 const EmailInfo = ({ userInfo }: ProfileInfoProps) => {
   const { label, info, key } = userInfo;
-  const settingStore = useSettingStore();
+  const { actionGetShopInfo, actionEditShopInfo } = useSettingStore();
   const [isEditing, setIsEditing] = useState(false);
   const [newValue, setNewValue] = useState<string>(info);
 
@@ -26,9 +27,34 @@ const EmailInfo = ({ userInfo }: ProfileInfoProps) => {
     setIsEditing(false);
     if (newValue !== info) {
       try {
-        settingStore.updateField(key, newValue);
+        const updatedData: Partial<OwnerDataSchema> = {
+          [key]: newValue,
+        };
+
+        actionEditShopInfo(updatedData);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Saved!',
+          text: `Updated ${label} to ${newValue} successfully`,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 4000,
+          toast: true,
+        });
+        actionGetShopInfo();
         console.log(`Updated ${key}:`, newValue);
       } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: `Failed to update ${label}`,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 4000,
+          toast: true,
+        });
+
         console.error(`Error updating ${key}:`, error);
       }
     }

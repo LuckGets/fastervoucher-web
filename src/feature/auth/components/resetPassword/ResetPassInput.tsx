@@ -14,14 +14,14 @@ interface Errors {
 }
 
 const ResetPassInput = () => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [form, setForm] = useState<Partial<Form>>({});
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   const validateForm = () => {
