@@ -7,12 +7,12 @@ import useSettingStore from '../../../../../stores/setting-store';
 
 const Voucher = () => {
   const { id } = useParams<{ id: string }>();
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const { vouchers } = useVoucherStore();
   const voucher = vouchers.find((v) => v.id === id);
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   if (!voucher) {

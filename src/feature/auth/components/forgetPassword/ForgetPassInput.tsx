@@ -9,13 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const ForgetPassInput = () => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const [form, setForm] = useState<Partial<Form>>({});
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   const handleSubmit = async () => {

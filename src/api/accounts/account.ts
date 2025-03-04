@@ -18,7 +18,7 @@ export const accountApi = {
   getVerify: () => axios.get(ACCOUNT_API_ENDPOINTs.GET_VERIFY),
 
   firstVerify: (token: string) =>
-    axios.patch(ACCOUNT_API_ENDPOINTs.FIRST_VERIFY, token),
+    axios.patch(ACCOUNT_API_ENDPOINTs.FIRST_VERIFY, { token }),
 
   editInfo: (
     formData: Record<string, string | number | null> | FormData,

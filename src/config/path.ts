@@ -34,7 +34,7 @@ export const paths = {
     },
     verifyEmail: {
       label: 'Verify Email',
-      path: '/auth/verify-email',
+      path: '/confirm-email',
     },
     forgetPassword: {
       label: 'Forget Password',

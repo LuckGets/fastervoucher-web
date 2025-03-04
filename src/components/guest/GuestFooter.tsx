@@ -8,14 +8,14 @@ type ComponentProps = {
 };
 
 const GuestFooter = ({ activePath }: ComponentProps) => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const { items } = useCartStore();
 
   const cartHasItems = items.length > 0;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   return (

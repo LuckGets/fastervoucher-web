@@ -18,12 +18,12 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product, onClose }: ProductDetailsProps) => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   const handleAddToCart = () => {

@@ -50,7 +50,7 @@ const RegisterForm = () => {
     } else if (form.password.length < 6 || form.password.length > 20) {
       newErrors.password = 'Password must be at least 6-20 characters';
     }
-    if (form.password !== form.confirmPassword)
+    if (form.password !== form.confirmNewPassword)
       newErrors.confirmPassword = 'Passwords do not match';
     return newErrors;
   };
@@ -162,8 +162,8 @@ const RegisterForm = () => {
           type={showConfirmPassword ? 'text' : 'password'}
           className={`w-full rounded-full p-2 pl-10 pr-10 text-center md:p-4 md:text-xl ${errors.confirmPassword ? 'border border-error' : ''}`}
           placeholder="Confirm Password"
-          name="confirmPassword"
-          value={form.confirmPassword}
+          name="confirmNewPassword"
+          value={form.confirmNewPassword}
           onChange={(e) => handleInputChange(e, setForm, form)}
         />
         <button

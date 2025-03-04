@@ -9,10 +9,10 @@ interface VoucherProps {
 }
 
 const Voucher: React.FC<VoucherProps> = ({ voucher }) => {
-  const { color } = useSettingStore();
+  const { colorCode } = useSettingStore();
 
-  const bgColor = color
-    ? { backgroundColor: color }
+  const bgColor = colorCode
+    ? { backgroundColor: colorCode }
     : { backgroundColor: '#D1D5DB' };
 
   return (

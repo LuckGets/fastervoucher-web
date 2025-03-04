@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import EmailInfo from './EmailInfo';
 import { subSetting } from '../../../../../utils/admin/subsetting';
-import useSettingStore from '../../../../../stores/setting-store';
 import ChangePassword from './ChangPassword';
+import useAccountStore from '../../../../../stores/account-store';
 
 const Email = () => {
   const [changeOpen, setChangeOpen] = useState(false);
-  const { emailForLogin } = useSettingStore();
+  const { accountInfo } = useAccountStore();
 
   const handleOnClick = () => {
     setChangeOpen(!changeOpen);
@@ -19,7 +19,7 @@ const Email = () => {
     >
       <EmailInfo
         userInfo={{
-          info: emailForLogin,
+          info: accountInfo?.email || '',
           label: 'Email ที่ใช้เข้าสู่ระบบ',
           key: 'emailForLogin',
         }}

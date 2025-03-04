@@ -20,7 +20,7 @@ const FilterRestaurant = ({
   setSelectedRestaurant,
   restaurants,
 }: FilterRestaurantProps) => {
-  const color = useSettingStore((state) => state.color);
+  const { colorCode: color } = useSettingStore();
 
   const bgColor = color ? color : '#D1D5DB';
 

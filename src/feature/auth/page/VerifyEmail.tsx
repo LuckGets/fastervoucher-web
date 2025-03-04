@@ -1,37 +1,81 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useAccountStore from '../../../stores/account-store';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { accountApi } from '../../../api/accounts/account';
+import Swal from 'sweetalert2';
+import { AxiosError } from 'axios';
 
 const VerifyEmail = () => {
-  const { actionFirstVerify } = useAccountStore();
-  const [verificationStatus, setVerificationStatus] = useState('loading');
+  const [searchParams] = useSearchParams();
+  const hash = searchParams.get('hash');
+  const [verificationStatus, setVerificationStatus] = useState<
+    'loading' | 'success' | 'error'
+  >('loading');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const verifyEmail = useCallback(async () => {
+    if (!hash) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Invalid confirmation link',
+        icon: 'error',
+        width: '80%',
+        padding: '20px',
+        confirmButtonText: 'Ok',
+        buttonsStyling: false,
+        customClass: {
+          popup: 'small-popup',
+          confirmButton: 'custom-confirm-button',
+        },
+      });
+      setVerificationStatus('error');
+      return;
+    }
+
+    try {
+      const response = await accountApi.firstVerify(hash);
+      Swal.fire({
+        title: 'Email verification Successful!',
+        icon: 'success',
+        width: '80%',
+        padding: '20px',
+        confirmButtonText: 'Ok',
+        buttonsStyling: false,
+        customClass: {
+          popup: 'small-popup',
+          confirmButton: 'custom-confirm-button',
+        },
+      }).then(() => navigate('/'));
+      setVerificationStatus('success');
+      setEmail(response?.data?.email);
+    } catch (error) {
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage =
+        err.response?.data?.message ||
+        'An error occurred while confirming email. Please try again.';
+      Swal.fire({
+        title: 'Email verification Failed!',
+        text: errorMessage,
+        icon: 'error',
+        width: '80%',
+        padding: '20px',
+        confirmButtonText: 'Ok',
+        buttonsStyling: false,
+        customClass: {
+          popup: 'small-popup',
+          confirmButton: 'custom-confirm-button',
+        },
+      });
+      setVerificationStatus('error');
+    }
+  }, [hash, navigate]);
 
   useEffect(() => {
-    const verifyEmail = async () => {
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get('token');
-
-      if (token) {
-        try {
-          const response = await actionFirstVerify(token);
-          if (response?.status === 200) {
-            setVerificationStatus('success');
-            setEmail(response?.data?.data?.email);
-          } else {
-            setVerificationStatus('error');
-          }
-        } catch (error) {
-          console.error('Verification failed:', error);
-          setVerificationStatus('error');
-        }
-      } else {
-        setVerificationStatus('error');
-      }
-    };
-
-    verifyEmail();
-  }, [actionFirstVerify]);
+    if (hash) {
+      verifyEmail();
+    }
+  }, [hash, verifyEmail]);
 
   const renderContent = () => {
     switch (verificationStatus) {

@@ -16,7 +16,7 @@ const SearchVoucher: React.FC<SearchVoucherProps> = ({
 }) => {
   const navigate = useNavigate();
   const { restaurants } = useVoucherStore();
-  const color = useSettingStore((state) => state.color);
+  const { colorCode: color } = useSettingStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
