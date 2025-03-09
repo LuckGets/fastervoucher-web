@@ -8,14 +8,14 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ handleCloseBtn, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative flex w-[30%] flex-col items-center gap-3 rounded-lg bg-[#F7F3ED] px-10 py-14 shadow-lg">
+      <div className="relative flex max-h-[80vh] w-full max-w-[80vw] flex-col gap-3 overflow-x-auto rounded-lg bg-[#F7F3ED] p-6 shadow-lg">
         <button
           className="absolute right-2 top-2 text-gray-400 hover:text-black"
           onClick={handleCloseBtn}
         >
           <X />
-          {children}
         </button>
+        {children}
       </div>
     </div>
   );

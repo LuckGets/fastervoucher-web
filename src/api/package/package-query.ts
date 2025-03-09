@@ -6,11 +6,19 @@ import {
   infiniteQueryOptions,
   keepPreviousData,
   queryOptions,
+  useMutation,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { packageApi } from './package.api';
 import { PackageDataSchema } from '../../data-schema/package.type';
+import { AxiosResponse } from 'axios';
+import { ResponseData } from '@/data-schema/common.type';
+import { PRODUCT_INFINITE_QUERY_KEY } from '../products/product-query';
 
-const PACKAGE_QUERY_KEY = 'package';
+const PACKAGE_QUERY_KEY = {
+  BASE: 'package',
+  CREATE: 'create-package',
+};
 
 const PACKAGE_INFINITE_QUERY_KEY = 'infinite';
 
@@ -24,7 +32,7 @@ export const PackageQueryFunc = {
 
 function getByIdPackageQuery(id: string) {
   return queryOptions({
-    queryKey: [PACKAGE_QUERY_KEY, id],
+    queryKey: [PACKAGE_QUERY_KEY.BASE, id],
     queryFn: () => packageApi.getById(id),
   });
 }
@@ -38,7 +46,7 @@ function getManyPackageQuery(options: IGetManyProductQueriesOptions) {
   const queries = `?${validQueriesArr.join('&')}`;
 
   return queryOptions({
-    queryKey: [PACKAGE_QUERY_KEY, ...validQueriesArr],
+    queryKey: [PACKAGE_QUERY_KEY.BASE, ...validQueriesArr],
     queryFn: () => {
       return packageApi.getMany(queries);
     },
@@ -49,7 +57,7 @@ function getManyPackageQuery(options: IGetManyProductQueriesOptions) {
 function getManyPackageInfiniteQuery(options: IGetManyProductQueriesOptions) {
   return infiniteQueryOptions({
     queryKey: [
-      PACKAGE_QUERY_KEY,
+      PACKAGE_QUERY_KEY.BASE,
       PACKAGE_INFINITE_QUERY_KEY,
       ...getManyProductQueriesOptionMapper(options),
     ],
@@ -63,5 +71,18 @@ function getManyPackageInfiniteQuery(options: IGetManyProductQueriesOptions) {
     initialPageParam: '',
     placeholderData: keepPreviousData,
     getNextPageParam: (lastPage) => lastPage.data.cursor ?? undefined,
+  });
+}
+
+export function useCreatePackageVoucher() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [PACKAGE_QUERY_KEY.CREATE],
+    mutationFn: (
+      data: FormData,
+    ): Promise<AxiosResponse<ResponseData<PackageDataSchema>>> =>
+      packageApi.create(data),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [PRODUCT_INFINITE_QUERY_KEY] }),
   });
 }

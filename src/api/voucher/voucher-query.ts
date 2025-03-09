@@ -19,7 +19,7 @@ import {
 
 const VOUCHER_QUERY_KEY = {
   BASE: 'voucher',
-  CREATE: 'create',
+  CREATE: `create-voucher`,
   INFINITE: 'infinite',
 };
 

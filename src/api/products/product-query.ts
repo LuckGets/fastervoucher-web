@@ -11,9 +11,9 @@ import {
 } from '@tanstack/react-query';
 import { productApi } from './product.api';
 
-const PRODUCT_QUERY_KEY = 'products';
+export const PRODUCT_QUERY_KEY = 'products';
 
-const PRODUCT_INFINITE_QUERY_KEY = 'infinity';
+export const PRODUCT_INFINITE_QUERY_KEY = 'products-infinity';
 
 function getManyProductQuery(options: IGetManyProductQueriesOptions) {
   const queriesArr = getManyProductQueriesOptionMapper(options);
@@ -31,7 +31,7 @@ function getManyProductQuery(options: IGetManyProductQueriesOptions) {
 function getManyProductInfiniteQuery(options: IGetManyProductQueriesOptions) {
   const queriesArr = getManyProductQueriesOptionMapper(options);
   return infiniteQueryOptions({
-    queryKey: [PRODUCT_QUERY_KEY, PRODUCT_INFINITE_QUERY_KEY, ...queriesArr],
+    queryKey: [PRODUCT_INFINITE_QUERY_KEY, ...queriesArr],
     queryFn: async ({ pageParam = 1 }) => {
       if (pageParam > 1) queriesArr.push(`p=${pageParam}`);
       const queries = `?${queriesArr.join('&')}`;

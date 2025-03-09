@@ -13,16 +13,24 @@ import VoucherName from '../../feature/admin/components/createVoucher/manageVouc
 import VoucherPhoto from '../../feature/admin/components/createVoucher/manageVoucher/voucherphoto/VoucherPhoto';
 import VoucherRestaurant from '../../feature/admin/components/createVoucher/manageVoucher/voucherRestaurant/VoucherRestaurant';
 import VoucherTypes from '../../feature/admin/components/createVoucher/manageVoucher/voucherType/VoucherTypes';
-import useVoucherStore, { CreateVoucherData } from '../../stores/voucher-store';
+import useVoucherStore, {
+  CreateVoucherData,
+  VoucherTypeEnum,
+} from '../../stores/voucher-store';
 import { useNavigate } from 'react-router-dom';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import ErrorNotification from '../error/ErrorNotification';
 import handleApiError from '@/utils/error/handleApiError';
 import SuccessNotification from '@/components/notifications/SuccessNotification';
 import { useCreateVoucher } from '@/api/voucher/voucher-query';
+import { CreatePackageDataSchema } from '@/data-schema/package.type';
+import { useCreatePackageVoucher } from '@/api/package/package-query';
+import { ProductDataSchema } from '@/data-schema/product.type';
+import { AxiosResponse } from 'axios';
+import { ResponseData } from '@/data-schema/common.type';
 
 const createVoucherFieldsUIMapper: Partial<
-  Record<keyof CreateVoucherDataSchema, string>
+  Record<keyof CreatePackageDataSchema, string>
 > & { restaurantName: string } = {
   title: 'Voucher Name',
   description: 'Voucher details',
@@ -37,39 +45,62 @@ const createVoucherFieldsUIMapper: Partial<
   usableAt: 'Use Date Start',
   usableExpiredAt: 'Use Date End',
   mainImg: 'Voucher Cover Photo',
+  quotaVouchers: '',
+  rewardVouchers: '',
 };
+
+function mapDataSchemaToUIFields(
+  fields: (keyof CreateVoucherDataSchema)[] | (keyof CreatePackageDataSchema)[],
+): string[] {
+  const filterFields = fields.filter((item) => item !== 'voucherImg');
+  return filterFields.map((item) => createVoucherFieldsUIMapper[item]!);
+}
 
 const CreateVoucher = () => {
   const {
     createVoucherData,
     updateCreateVoucherData,
     resetCreateVoucherData,
-    sanitizeCreateVoucherDataBeforeCreate,
+    sanitizeProductDataBeforeCreate,
     removeCreateVoucherDataField,
   } = useVoucherStore();
   const navigate = useNavigate();
 
+  console.log('Create data', createVoucherData);
+
   // For creating voucher API.
   const createVoucherMutation = useCreateVoucher();
 
+  // For creating package API.
+  const createPackageMutation = useCreatePackageVoucher();
+
   const handleSubmitCreateVoucher = async () => {
     const { data, missingFields } =
-      sanitizeCreateVoucherDataBeforeCreate(createVoucherData);
+      sanitizeProductDataBeforeCreate(createVoucherData);
+
+    console.log('Sanitized data', data);
 
     // If the form is still not completed,
     // return the notification.
     if (missingFields.length > 0) {
-      const fields = missingFields.map(
-        (item: keyof CreateVoucherDataSchema) =>
-          createVoucherFieldsUIMapper[item],
-      );
+      const fields = mapDataSchemaToUIFields(missingFields);
       const text = `These required fields have no value: ${fields.join(', ')}. Please input the information before proceed.`;
       const title = 'Voucher form not complete';
       return ErrorNotification({ text, title });
     }
 
     try {
-      const resp = await createVoucherMutation.mutateAsync(data);
+      let resp: AxiosResponse<ResponseData<ProductDataSchema>>;
+      switch (createVoucherData.voucherType) {
+        case VoucherTypeEnum.Single:
+          resp = await createVoucherMutation.mutateAsync(data);
+          break;
+        case VoucherTypeEnum.Package:
+          resp = await createPackageMutation.mutateAsync(data);
+          break;
+      }
+
+      console.log('Create product Response:', resp);
 
       if (!resp || !resp.data) {
         throw new Error('Voucher creation failed: missing data');

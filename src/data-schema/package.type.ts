@@ -35,14 +35,8 @@ export type CreatePackageDataSchema = {
   tagId: Meal['id'];
   discountedPrice?: Discount['discountedPrice'];
   mainImg: NullableType<File>;
-  packageImg: File[];
+  packageImg?: File[];
   status: PackageDataSchema['status'];
-  rewardImgs: CreatePackageRewardImgs[];
-};
-
-type CreatePackageRewardImgs = {
-  voucherId: PackageRewardVoucher['voucherId'];
-  file: File;
 };
 
 export function isProductPackageType(

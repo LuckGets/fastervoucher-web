@@ -17,6 +17,8 @@ import { Meal } from '@/data-schema/meal.type';
 import { ObjectHelper } from '@/utils/object-helper/object-helper';
 import makeFormData from '@/utils/formData';
 import { CreatePackageDataSchema } from '@/data-schema/package.type';
+import { prepareCreateRewardVouchersImage } from '@/utils/apiDataUtils/rewardVoucher-helper';
+import { sanitizeVoucherImagesFromCreateData } from '@/utils/apiDataUtils/productHelper';
 
 interface SettingState {
   voucherById: VoucherDataSchema | null;
@@ -39,10 +41,19 @@ interface SettingState {
     value: CreateVoucherData[T],
   ): void;
   removeCreateVoucherDataField: (field: 'discountedPrice') => void;
-  sanitizeCreateVoucherDataBeforeCreate: (data: CreateVoucherData) => {
-    missingFields: (keyof CreateVoucherDataSchema)[];
-    data: FormData;
-  };
+  sanitizeProductDataBeforeCreate(
+    data: CreateVoucherData,
+  ):
+    | SanitizedCreateData<CreateVoucherDataSchema>
+    | SanitizedCreateData<CreatePackageDataSchema>;
+  sanitizeCreateVoucherDataBeforeCreate: (
+    data: CreateVoucherData,
+    missingfieldsarr: (keyof CreateVoucherDataSchema)[],
+  ) => SanitizedCreateData<CreateVoucherDataSchema>;
+  sanitizeCreatePackageVoucherData: (
+    data: CreateVoucherData,
+    missingfieldsarr: (keyof CreateVoucherDataSchema)[],
+  ) => SanitizedCreateData<CreatePackageDataSchema>;
   resetCreateVoucherData: () => void;
 }
 
@@ -56,14 +67,11 @@ export enum VoucherTypeEnum {
   Package = 'package',
 }
 
-export type CreatePackageQuotaVoucherData =
+export type CreatePackageSelectedVoucherData =
   CreatePackageDataSchema['quotaVouchers'][number] & {
     title: ProductDataSchema['title'];
-  };
-
-export type CreatePackageRewardVoucherData =
-  CreatePackageDataSchema['rewardVouchers'][number] & {
-    title: ProductDataSchema['title'];
+    img: ProductDataSchema['images'][number]['imgPath'];
+    previewImg?: ImageWithPreviewSrcType;
   };
 
 export type CreateVoucherData = Omit<
@@ -76,8 +84,16 @@ export type CreateVoucherData = Omit<
   restaurantId: Restaurant['id'];
   mealName: Meal['name'];
   voucherType: VoucherTypeEnum;
-  quotaVouchers: CreatePackageQuotaVoucherData[];
-  rewardVouchers: CreatePackageRewardVoucherData[];
+  quotaVouchers: CreatePackageSelectedVoucherData[];
+  rewardVouchers: CreatePackageSelectedVoucherData[];
+};
+
+export type SanitizedCreateData<
+  T extends CreatePackageDataSchema | CreateVoucherDataSchema,
+> = {
+  missingFields: (keyof T)[];
+  data: FormData;
+  type: VoucherTypeEnum;
 };
 
 const initialVoucherData: CreateVoucherData = {
@@ -103,7 +119,7 @@ const initialVoucherData: CreateVoucherData = {
 
 const useVoucherStore = create<SettingState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       voucherById: null,
       vouchers: [],
       createVoucherData: initialVoucherData,
@@ -157,41 +173,11 @@ const useVoucherStore = create<SettingState>()(
           console.error('Error fetching voucher by ID:', err?.message || err);
         }
       },
-      // actionCreateVoucher: async (data) => {
-      //   // const createVoucherMutation = useCreateVoucher();
-      //   // const result = await createVoucherMutation.mutateAsync(data);
-      //   // console.log('result :>> ', result);
-      //   // if (!result || !result.data) {
-      //   //   throw new Error('Voucher creation failed: missing data');
-      //   // }
-      //   // const body = result.data;
-      //   return;
-      // },
       setVoucher: (vouchers: VoucherDataSchema[]) => set({ vouchers }),
       setRestaurant: (restaurants: Restaurant[]) => set({ restaurants }),
       setMeal: (meals: Restaurant[]) => set({ meals }),
       addVoucher: (voucher: VoucherDataSchema) =>
         set((state) => ({ vouchers: [...state.vouchers, voucher] })),
-      // updateVoucher: (id: number, updatedVoucher: Partial<Voucher>) =>
-      //   set((state) => ({
-      //     vouchers: state.vouchers.map((v) => {
-      //       if (v.id === id) {
-      //         return {
-      //           ...v,
-      //           ...updatedVoucher,
-      //         };
-      //       }
-      //       return v;
-      //     }),
-      //   })),
-
-      // createVoucher: (newVoucher: Omit<Voucher, 'id'>) =>
-      //   set((state) => {
-      //     const newId = Math.max(0, ...state.vouchers.map((v) => v.id)) + 1;
-      //     const voucherWithId = { id: newId, ...newVoucher };
-
-      //     return { vouchers: [...state.vouchers, voucherWithId] };
-      //   }),
       searchTerm: '',
       setSearchTerm: (searchTerm: string) => set({ searchTerm }),
       setCreateVoucherData: (data) => set({ createVoucherData: data }),
@@ -208,7 +194,7 @@ const useVoucherStore = create<SettingState>()(
         }),
       resetCreateVoucherData: () =>
         set({ createVoucherData: initialVoucherData }),
-      sanitizeCreateVoucherDataBeforeCreate(data: CreateVoucherData) {
+      sanitizeProductDataBeforeCreate(data: CreateVoucherData) {
         const missingFields: (keyof CreateVoucherDataSchema)[] = [];
         const requiredFields: (keyof CreateVoucherDataSchema)[] = [
           'description',
@@ -222,45 +208,117 @@ const useVoucherStore = create<SettingState>()(
           'usableAt',
           'usableExpiredAt',
         ];
-
-        if (
-          ObjectHelper.isObjectEmpty(data.mainImg) ||
-          !(data.mainImg.srcFile && data.mainImg.srcFile instanceof File) ||
-          !data.mainImg.srcStr
-        )
-          missingFields.push('mainImg');
-
-        const dataToCheck: CreateVoucherDataSchema = {
-          ...data,
-          mainImg: data.mainImg.srcFile,
-        };
-        if (data.otherImgs && data.otherImgs.length > 0) {
-          dataToCheck.voucherImg = data.otherImgs
-            .filter(
-              (item): item is ImageWithPreviewSrcType & { srcFile: File } =>
-                !!item && !!item.srcFile,
-            )
-            .map(({ srcFile }) => srcFile);
-        }
-
         missingFields.push(
           ...ObjectHelper.checkAndReturnEmptyFields<CreateVoucherDataSchema>(
             requiredFields,
-            dataToCheck,
+            { ...data, mainImg: data.mainImg.srcFile },
           ),
         );
 
-        if (data.otherImgs && data.otherImgs.length > 0) {
-          dataToCheck.voucherImg = data.otherImgs
-            .filter(
-              (item): item is ImageWithPreviewSrcType & { srcFile: File } =>
-                !!item && !!item.srcFile,
-            )
-            .map(({ srcFile }) => srcFile);
+        if (
+          !ObjectHelper.isObjectEmpty(data.mainImg) &&
+          data.mainImg.srcFile &&
+          data.mainImg.srcFile instanceof File &&
+          data.mainImg.srcStr
+        ) {
+          switch (data.voucherType) {
+            case VoucherTypeEnum.Single:
+              return get().sanitizeCreateVoucherDataBeforeCreate(
+                data,
+                missingFields,
+              );
+            case VoucherTypeEnum.Package:
+              return get().sanitizeCreatePackageVoucherData(
+                data,
+                missingFields,
+              );
+          }
         }
 
-        const reqFormData = makeFormData<CreateVoucherDataSchema>(dataToCheck);
-        return { data: reqFormData, missingFields };
+        missingFields.push('mainImg');
+
+        return {
+          missingFields,
+          data: new FormData(),
+          type: data.voucherType,
+        };
+      },
+      sanitizeCreateVoucherDataBeforeCreate(
+        data: CreateVoucherData,
+        missingFields: (keyof CreateVoucherDataSchema)[],
+      ) {
+        const { mainImg, voucherImg } =
+          sanitizeVoucherImagesFromCreateData(data);
+
+        const createData: CreateVoucherDataSchema = { ...data, mainImg };
+
+        if (voucherImg && voucherImg.length > 0)
+          createData.voucherImg = voucherImg;
+
+        const reqFormData = makeFormData<CreateVoucherDataSchema>(createData);
+        return {
+          data: reqFormData,
+          missingFields,
+          type: VoucherTypeEnum.Single,
+        };
+      },
+      sanitizeCreatePackageVoucherData: (
+        data: CreateVoucherData,
+        missingFieldsArr,
+      ): SanitizedCreateData<CreatePackageDataSchema> => {
+        const type = VoucherTypeEnum.Package;
+        const { quotaVouchers, rewardVouchers } = data;
+        const missingFields: (keyof CreatePackageDataSchema)[] =
+          missingFieldsArr.filter((item) => {
+            return item !== 'voucherImg';
+          });
+
+        const defaultData = {
+          missingFields,
+          data: new FormData(),
+          type,
+        };
+
+        if (quotaVouchers.length === 0) {
+          missingFields.push('quotaVouchers');
+          return {
+            ...defaultData,
+            missingFields,
+          };
+        }
+
+        // Check if reward vouchers provided
+        // if not, then we return null as the data is not ready.
+        if (rewardVouchers.length === 0) {
+          missingFields.push('rewardVouchers');
+          return {
+            ...defaultData,
+            missingFields,
+          };
+        }
+
+        const { mainImg, voucherImg } =
+          sanitizeVoucherImagesFromCreateData(data);
+
+        const createRewardVoucherImgsArr =
+          prepareCreateRewardVouchersImage(rewardVouchers);
+
+        const createData: CreatePackageDataSchema = {
+          ...data,
+          mainImg,
+          ...createRewardVoucherImgsArr,
+        };
+
+        if (voucherImg && voucherImg.length > 0)
+          createData.packageImg = voucherImg;
+
+        const reqFormData = makeFormData(createData);
+
+        return {
+          ...defaultData,
+          missingFields,
+          data: reqFormData,
+        };
       },
     }),
     {

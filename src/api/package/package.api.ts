@@ -10,6 +10,7 @@ const PACKAGE_BASE_API_ENDPOINT = {
 const PACKAGE_API_ENDPOINTS = {
   GET_MANY: `${PACKAGE_BASE_API_ENDPOINT.BASE}`,
   GET_BY_ID: (id: string) => `${PACKAGE_BASE_API_ENDPOINT.BASE}/${id}`,
+  CREATE: `${PACKAGE_BASE_API_ENDPOINT.BASE}`,
 };
 
 export const packageApi = {
@@ -20,4 +21,8 @@ export const packageApi = {
     queryOptions: string = '',
   ): Promise<AxiosResponse<ResponseDataList<PackageDataSchema[]>>> =>
     axios.get(`${PACKAGE_API_ENDPOINTS.GET_MANY}${queryOptions}`),
+  create: (
+    data: FormData,
+  ): Promise<AxiosResponse<ResponseData<PackageDataSchema>>> =>
+    axios.post(PACKAGE_API_ENDPOINTS.CREATE, data),
 };
