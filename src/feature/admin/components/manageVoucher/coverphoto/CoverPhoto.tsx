@@ -4,14 +4,12 @@ import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 interface CoverPhotoProps {
-  voucher: VoucherDataSchema;
   mainImg: VoucherDataSchema['images'][number];
 }
 
-const CoverPhoto: React.FC<CoverPhotoProps> = ({ voucher, mainImg }) => {
+const CoverPhoto: React.FC<CoverPhotoProps> = ({ mainImg }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { id } = useParams();
-  console.log(voucher);
 
   const [previewSrc, setPreviewSrc] = useState<string | null>(
     mainImg.imgPath || null,

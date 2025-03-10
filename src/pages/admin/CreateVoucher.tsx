@@ -100,8 +100,6 @@ const CreateVoucher = () => {
           break;
       }
 
-      console.log('Create product Response:', resp);
-
       if (!resp || !resp.data) {
         throw new Error('Voucher creation failed: missing data');
       }
