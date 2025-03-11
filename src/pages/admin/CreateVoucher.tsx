@@ -45,7 +45,7 @@ const createVoucherFieldsUIMapper: Partial<
   usableAt: 'Use Date Start',
   usableExpiredAt: 'Use Date End',
   mainImg: 'Voucher Cover Photo',
-  quotaVouchers: '',
+  quotaVouchers: 'Voucher in package',
   rewardVouchers: '',
 };
 
@@ -66,8 +66,6 @@ const CreateVoucher = () => {
   } = useVoucherStore();
   const navigate = useNavigate();
 
-  console.log('Create data', createVoucherData);
-
   // For creating voucher API.
   const createVoucherMutation = useCreateVoucher();
 
@@ -77,8 +75,6 @@ const CreateVoucher = () => {
   const handleSubmitCreateVoucher = async () => {
     const { data, missingFields } =
       sanitizeProductDataBeforeCreate(createVoucherData);
-
-    console.log('Sanitized data', data);
 
     // If the form is still not completed,
     // return the notification.
